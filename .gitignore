@@ -1,0 +1,9 @@
+node_modules/
+temp_data.json
+temp_review.json
+*backup.js
+*backup.png
+scratch/*backup*
+scratch/temp_*
+.DS_Store
+Thumbs.db

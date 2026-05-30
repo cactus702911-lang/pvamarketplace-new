@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#avatarGrad)" />
+  
+  <!-- Stylized initials "RV" -->
+  <text x="50%" y="52%" font-family="'Outfit', 'Inter', sans-serif" font-weight="800" font-size="88" fill="url(#accentGrad)" text-anchor="middle" dominant-baseline="middle" letter-spacing="-2">RV</text>
+  
+  <!-- Subtitle/role visual helper -->
+  <text x="50%" y="78%" font-family="'Inter', sans-serif" font-weight="600" font-size="13" fill="#64748b" text-anchor="middle" letter-spacing="4">KYC LEAD</text>
+  
+  <!-- Decorative tech circle -->
+  <circle cx="150" cy="150" r="120" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="8, 6" opacity="0.6" />
+</svg>

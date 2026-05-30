@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin.html
+Disallow: /admin
+Disallow: /scratch/
+Allow: /
+
+Sitemap: https://pvamarketplace.com/sitemap.xml

@@ -1,0 +1,1972 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS Admin Dashboard | PVA Marketplace</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <style>
+    [x-cloak] { display: none !important; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+    .font-sans { font-family: 'Inter', sans-serif; }
+    .font-serif { font-family: 'Outfit', sans-serif; }
+    
+    /* Glassmorphic Background Blur Circles */
+    .bg-circle-glow {
+      filter: blur(120px);
+      opacity: 0.15;
+      animation: float-glowing 10s ease-in-out infinite alternate;
+    }
+    @keyframes float-glowing {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, -40px) scale(1.1); }
+    }
+    
+    /* Shake animation for wrong password */
+    .shake-error {
+      animation: shake 0.4s ease-in-out;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f4f8f5',
+              100: '#e5eedf',
+              500: '#2c5e3b',
+              600: '#224d2e',
+              900: '#142c1b',
+            },
+            accent: {
+              orange: '#e07a5f',
+              yellow: '#f4a261',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 min-h-screen" x-data="cmsDashboard()">
+
+  <!-- Login Screen Overlay -->
+  <div x-show="!isAuthenticated" 
+       class="fixed inset-0 z-50 bg-gradient-to-br from-slate-100 via-white to-slate-200 flex items-center justify-center p-4 overflow-hidden" 
+       x-cloak>
+       
+    <!-- Glowing background blobs for premium aesthetic -->
+    <div class="absolute -top-48 -left-48 w-96 h-96 bg-amber-400 rounded-full bg-circle-glow" style="opacity: 0.25;"></div>
+    <div class="absolute -bottom-48 -right-48 w-96 h-96 bg-brand-500 rounded-full bg-circle-glow" style="animation-delay: -5s; opacity: 0.25;"></div>
+    
+    <!-- Login Card -->
+    <div :class="{ 'shake-error': shakeCard }" 
+         class="relative bg-white/70 backdrop-blur-xl p-8 sm:p-10 rounded-3xl border border-slate-200/60 shadow-2xl max-w-md w-full text-center space-y-6 transition-all duration-300">
+      
+      <!-- Logo Container -->
+      <div class="space-y-3 flex flex-col items-center">
+        <div class="relative group">
+          <div class="absolute inset-0 bg-amber-500/15 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
+          <img :src="data.settings.logoImage ? data.settings.logoImage : 'images/logo/logo.webp'" 
+               alt="Logo" 
+               class="relative w-20 h-20 object-contain rounded-2xl bg-transparent group-hover:scale-105 transition-transform duration-300">
+        </div>
+        <h2 class="text-3xl font-extrabold font-serif text-black tracking-tight" 
+            x-text="(data.settings.siteName || 'PVA Marketplace') + ' CMS'"></h2>
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-black/5 border border-black/5 rounded-full text-[10px] text-black font-semibold tracking-wider uppercase">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+          Administrative Lock
+        </div>
+      </div>
+
+      <!-- Password Input Form -->
+      <div class="space-y-4 pt-4">
+        <div class="space-y-1.5 text-left">
+          <label for="admin-pass" class="block text-[10px] font-bold text-black uppercase tracking-wider font-sans ml-1">🔒 Password</label>
+          <div class="relative">
+            <input :type="showPassword ? 'text' : 'password'" 
+                   id="admin-pass" 
+                   x-model="enteredPassword" 
+                   @keydown.enter="login()" 
+                   placeholder="••••••••••••" 
+                   class="w-full text-sm bg-white/80 border border-slate-200 text-black placeholder-slate-400 rounded-xl pl-4 pr-11 py-3 focus:ring-1 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all">
+            
+            <!-- Show/Hide Toggle -->
+            <button @click="showPassword = !showPassword" 
+                    class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-black transition-colors cursor-pointer" 
+                    type="button">
+              <!-- Eye open icon -->
+              <svg x-show="!showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <!-- Eye closed icon -->
+              <svg x-show="showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5" x-cloak>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Error Message -->
+        <div x-show="authError" class="text-xs text-black font-semibold text-left flex items-center gap-1.5 bg-rose-50 border border-rose-250 px-3.5 py-2.5 rounded-xl" x-cloak>
+          <span>⚠️</span> <span x-text="authError"></span>
+        </div>
+        
+        <!-- Unlock Button -->
+        <button @click="login()" 
+                class="w-full bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-300 hover:to-orange-300 text-black py-3.5 rounded-xl text-xs font-bold shadow-lg hover:shadow-orange-500/10 hover:scale-[1.01] active:scale-98 transition-all cursor-pointer">
+          Unlock Dashboard
+        </button>
+      </div>
+
+      <div class="pt-4 border-t border-slate-200">
+        <p class="text-[10px] text-black font-sans">Default administrative password applies.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar & Layout -->
+  <div class="flex min-h-screen">
+    
+    <!-- Sidebar mobile backdrop overlay -->
+    <div x-show="mobileSidebarOpen" 
+         @click="mobileSidebarOpen = false" 
+         class="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-xs md:hidden" 
+         x-cloak 
+         x-transition:enter="transition ease-out duration-300" 
+         x-transition:enter-start="opacity-0" 
+         x-transition:enter-end="opacity-100" 
+         x-transition:leave="transition ease-in duration-200" 
+         x-transition:leave-start="opacity-100" 
+         x-transition:leave-end="opacity-0"></div>
+    
+    <!-- Sidebar -->
+    <aside :class="mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
+           class="fixed inset-y-0 left-0 w-64 bg-brand-900 text-brand-100 flex-shrink-0 flex flex-col border-r border-brand-950 z-50 transform transition-transform duration-300 ease-in-out md:static md:translate-x-0">
+      <!-- Title & Close Button -->
+      <div class="p-6 border-b border-brand-950/50 flex items-center justify-between">
+        <h1 class="text-lg font-bold font-serif text-white flex items-center gap-2">
+          <img :src="data.settings.logoImage ? data.settings.logoImage : 'images/logo/logo.webp'" alt="Logo" class="w-6 h-6 object-contain bg-transparent flex-shrink-0">
+          <span x-text="data.settings.siteName || 'PVA Marketplace'"></span>
+        </h1>
+        <button @click="mobileSidebarOpen = false" class="md:hidden text-brand-300 hover:text-white p-1 rounded-lg focus:outline-none" aria-label="Close sidebar">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="flex-1 p-4 space-y-1.5">
+        <button @click="activeTab = 'dashboard'; mobileSidebarOpen = false" 
+                :class="activeTab === 'dashboard' ? 'bg-brand-600 text-white font-semibold' : 'hover:bg-brand-600/30'" 
+                class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all text-left">
+          <span>📊</span> Dashboard & Settings
+        </button>
+        <button @click="activeTab = 'products'; mobileSidebarOpen = false" 
+                :class="activeTab === 'products' ? 'bg-brand-600 text-white font-semibold' : 'hover:bg-brand-600/30'" 
+                class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all text-left">
+          <span>📦</span> Manage Products
+        </button>
+        <button @click="activeTab = 'blogs'; mobileSidebarOpen = false" 
+                :class="activeTab === 'blogs' ? 'bg-brand-600 text-white font-semibold' : 'hover:bg-brand-600/30'" 
+                class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all text-left">
+          <span>📰</span> Manage Blogs
+        </button>
+        <button @click="activeTab = 'categories'; mobileSidebarOpen = false" 
+                :class="activeTab === 'categories' ? 'bg-brand-600 text-white font-semibold' : 'hover:bg-brand-600/30'" 
+                class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all text-left">
+          <span>📂</span> Manage Categories
+        </button>
+        <button @click="activeTab = 'reviews'; mobileSidebarOpen = false" 
+                :class="activeTab === 'reviews' ? 'bg-brand-600 text-white font-semibold' : 'hover:bg-brand-600/30'" 
+                class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all text-left">
+          <span>💬</span> Manage Testimonials
+        </button>
+        <button @click="activeTab = 'product-reviews'; mobileSidebarOpen = false" 
+                :class="activeTab === 'product-reviews' ? 'bg-brand-600 text-white font-semibold' : 'hover:bg-brand-600/30'" 
+                class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all text-left">
+          <span>⭐</span> Product Reviews
+        </button>
+        <button @click="activeTab = 'coupons'; mobileSidebarOpen = false" 
+                :class="activeTab === 'coupons' ? 'bg-brand-600 text-white font-semibold' : 'hover:bg-brand-600/30'" 
+                class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all text-left">
+          <span>🎫</span> Manage Coupons
+        </button>
+        
+        <button @click="logout(); mobileSidebarOpen = false" 
+                class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all text-left text-rose-300 hover:bg-rose-950/30 hover:text-rose-250 mt-6 font-semibold">
+          <span>🔓</span> Log Out Panel
+        </button>
+      </nav>
+
+      <!-- Rebuild Button -->
+      <div class="p-4 border-t border-brand-950/50">
+        <button @click="rebuildSite()" 
+                :disabled="building"
+                class="w-full bg-accent-orange text-white py-2.5 rounded-lg text-xs font-bold shadow-md hover:bg-accent-orange/90 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50">
+          <span x-show="building" class="inline-block w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+          <span x-show="!building">🔄 Rebuild Website</span>
+          <span x-show="building">Rebuilding...</span>
+        </button>
+        <a href="/" target="_blank" class="block w-full text-center mt-3 text-xs text-brand-300 hover:text-white transition-colors">
+          View Live Website ↗
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      
+      <!-- Top header bar -->
+      <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-4 sm:px-6 flex-shrink-0">
+        <div class="flex items-center gap-2 sm:gap-4">
+          <!-- Mobile Menu Toggle Button -->
+          <button @click="mobileSidebarOpen = !mobileSidebarOpen" class="md:hidden p-1.5 -ml-1 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg focus:outline-none transition-colors cursor-pointer" aria-label="Open Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <h2 class="text-base sm:text-lg font-bold text-slate-800 capitalize font-serif" x-text="activeTab + ' management'"></h2>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs bg-emerald-50 text-emerald-600 font-bold px-2.5 sm:px-3 py-1 rounded-full border border-emerald-100 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="hidden sm:inline">Server Active</span>
+            <span class="sm:hidden">Active</span>
+          </span>
+        </div>
+      </header>
+
+      <!-- Content wrapper -->
+      <div class="p-6 md:p-8 flex-1 max-w-7xl w-full mx-auto space-y-8">
+        
+        <!-- Loading overlay -->
+        <div x-show="loading" class="flex flex-col items-center justify-center py-24 space-y-4">
+          <div class="w-12 h-12 border-4 border-brand-100 border-t-brand-500 rounded-full animate-spin"></div>
+          <p class="text-sm text-slate-500 font-medium">Loading database details...</p>
+        </div>
+
+        <div x-show="!loading" x-cloak class="space-y-8">
+          
+          <!-- TAB 1: DASHBOARD & SETTINGS -->
+          <div x-show="activeTab === 'dashboard'" class="space-y-8">
+            
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-5">
+                <span class="text-3xl bg-brand-50 text-brand-600 p-3.5 rounded-xl">📦</span>
+                <div>
+                  <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider font-sans">Total Products</h4>
+                  <p class="text-2xl font-bold font-serif text-slate-800 mt-1" x-text="data.products ? data.products.length : 0"></p>
+                </div>
+              </div>
+              <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-5">
+                <span class="text-3xl bg-brand-50 text-brand-600 p-3.5 rounded-xl">📂</span>
+                <div>
+                  <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider font-sans">Categories</h4>
+                  <p class="text-2xl font-bold font-serif text-slate-800 mt-1" x-text="data.categories ? data.categories.length : 0"></p>
+                </div>
+              </div>
+              <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-5">
+                <span class="text-3xl bg-brand-50 text-brand-600 p-3.5 rounded-xl">💬</span>
+                <div>
+                  <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider font-sans">Testimonials</h4>
+                  <p class="text-2xl font-bold font-serif text-slate-800 mt-1" x-text="data.testimonials ? data.testimonials.length : 0"></p>
+                </div>
+              </div>
+              <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex items-center gap-5">
+                <span class="text-3xl bg-brand-50 text-brand-600 p-3.5 rounded-xl">⭐</span>
+                <div>
+                  <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider font-sans">Product Reviews</h4>
+                  <p class="text-2xl font-bold font-serif text-slate-800 mt-1" x-text="data.reviews ? data.reviews.length : 0"></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Settings Form -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs">
+              <div class="px-6 py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 bg-slate-50/50 rounded-t-2xl">
+                <h3 class="font-bold text-slate-800 font-serif">Global Website Settings</h3>
+                <button @click="saveData()" class="px-5 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold shadow transition-all cursor-pointer self-end sm:self-auto">Save Settings</button>
+              </div>
+              <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6" x-data="{ settings: data.settings }">
+                
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Website Name</label>
+                  <input type="text" x-model="data.settings.siteName" class="w-full text-sm border border-slate-200 rounded-lg px-3.5 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                </div>
+
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Logo Text</label>
+                  <input type="text" x-model="data.settings.logoText" class="w-full text-sm border border-slate-200 rounded-lg px-3.5 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                </div>
+
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Contact Email</label>
+                  <input type="email" x-model="data.settings.contactEmail" class="w-full text-sm border border-slate-200 rounded-lg px-3.5 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                </div>
+
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Contact Phone</label>
+                  <input type="text" x-model="data.settings.contactPhone" class="w-full text-sm border border-slate-200 rounded-lg px-3.5 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                </div>
+
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">WhatsApp Number (For Orders)</label>
+                  <input type="text" x-model="data.settings.whatsappNumber" placeholder="e.g. 8801700000000" class="w-full text-sm border border-slate-200 rounded-lg px-3.5 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                  <p class="text-[10px] text-slate-400 mt-1">Include country code without any + or spaces (e.g. 88017xxxxxxxx).</p>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Physical Address</label>
+                  <input type="text" x-model="data.settings.address" class="w-full text-sm border border-slate-200 rounded-lg px-3.5 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                </div>
+
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Email Delivery Fee ($)</label>
+                  <input type="number" x-model.number="data.settings.insideChapaiDeliveryFee" class="w-full text-sm border border-slate-200 rounded-lg px-3.5 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                </div>
+
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Instant WhatsApp Delivery Fee ($)</label>
+                  <input type="number" x-model.number="data.settings.outsideChapaiDeliveryFee" class="w-full text-sm border border-slate-200 rounded-lg px-3.5 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                </div>
+
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Facebook URL</label>
+                  <input type="text" x-model="data.settings.facebookUrl" class="w-full text-sm border border-slate-200 rounded-lg px-3.5 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                </div>
+
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Instagram URL</label>
+                  <input type="text" x-model="data.settings.instagramUrl" class="w-full text-sm border border-slate-200 rounded-lg px-3.5 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                </div>
+
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">TikTok URL</label>
+                  <input type="text" x-model="data.settings.tiktokUrl" class="w-full text-sm border border-slate-200 rounded-lg px-3.5 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none">
+                </div>
+
+                <!-- Logo Image Uploader -->
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Website Logo</label>
+                  <div class="flex items-center gap-4 p-3 border border-slate-200 rounded-lg bg-slate-50/50">
+                    <img :src="data.settings.logoImage ? data.settings.logoImage : 'images/logo/logo.webp'" alt="Logo Preview" class="w-12 h-12 object-contain bg-transparent flex-shrink-0">
+                    <div class="flex-grow">
+                      <input type="file" accept="image/*" @change="handleLogoUpload($event)" class="text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-50 file:text-brand-600 hover:file:bg-brand-100 cursor-pointer w-full">
+                      <p class="text-[10px] text-slate-400 mt-1">Recommended square PNG or SVG with transparent background.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Favicon Image Uploader -->
+                <div class="space-y-1">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Website Favicon</label>
+                  <div class="flex items-center gap-4 p-3 border border-slate-200 rounded-lg bg-slate-50/50">
+                    <img :src="data.settings.faviconImage ? data.settings.faviconImage : 'images/logo/favicon.webp'" alt="Favicon Preview" class="w-8 h-8 object-contain bg-transparent flex-shrink-0">
+                    <div class="flex-grow">
+                      <input type="file" accept="image/*" @change="handleFaviconUpload($event)" class="text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-50 file:text-brand-600 hover:file:bg-brand-100 cursor-pointer w-full">
+                      <p class="text-[10px] text-slate-400 mt-1">Recommended square image (.png or .ico) - 32x32px or 64x64px.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-1 md:col-span-2">
+                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Footer About Text</label>
+                  <textarea x-model="data.settings.footerAboutText" rows="3" class="w-full text-sm border border-slate-200 rounded-lg px-3.5 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none"></textarea>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- TAB 2: PRODUCTS -->
+          <div x-show="activeTab === 'products'" class="space-y-6">
+            
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+              <p class="text-sm text-slate-500">Manage all items offered on the website.</p>
+              <button @click="openProductModal('add')" class="px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold shadow-md hover:shadow transition-all flex items-center gap-1.5 cursor-pointer self-start sm:self-auto">
+                <span>➕</span> Add Product
+              </button>
+            </div>
+
+            <!-- Products List Card -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-50 text-[10px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100">
+                      <th class="px-4 sm:px-6 py-4">Product Details</th>
+                      <th class="px-4 sm:px-6 py-4">Category</th>
+                      <th class="px-4 sm:px-6 py-4">Price / Unit</th>
+                      <th class="px-4 sm:px-6 py-4">Stock Status</th>
+                      <th class="px-4 sm:px-6 py-4">Badges</th>
+                      <th class="px-4 sm:px-6 py-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 text-sm">
+                    <template x-for="prod in data.products" :key="prod.id">
+                      <tr class="hover:bg-slate-50/50">
+                        <td class="px-4 sm:px-6 py-4 flex items-center gap-4">
+                          <img :src="prod.image" :alt="prod.name" class="w-12 h-12 rounded-lg object-cover bg-slate-100 border border-slate-100 flex-shrink-0">
+                          <div>
+                            <div class="font-bold text-slate-800" x-text="prod.name"></div>
+                            <div class="text-[10px] text-slate-400" x-text="'ID: ' + prod.id"></div>
+                          </div>
+                        </td>
+                        <td class="px-4 sm:px-6 py-4">
+                          <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-600 rounded-full" x-text="getCategoryName(prod.category)"></span>
+                        </td>
+                        <td class="px-4 sm:px-6 py-4">
+                          <span class="font-bold text-slate-800" x-text="'$' + prod.price"></span>
+                          <span class="text-xs text-slate-400 line-through block" x-text="'$' + prod.originalPrice"></span>
+                          <span class="text-[10px] text-slate-400 block" x-text="'Per ' + prod.unit"></span>
+                        </td>
+                        <td class="px-4 sm:px-6 py-4">
+                          <span :class="prod.inStock ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100'"
+                                class="px-2.5 py-1 text-xs font-bold rounded-full border" 
+                                x-text="prod.inStock ? 'In Stock' : 'Out of Stock'"></span>
+                        </td>
+                        <td class="px-4 sm:px-6 py-4 space-y-1">
+                          <span x-show="prod.isBestSeller" class="inline-block px-2 py-0.5 text-[9px] font-bold bg-accent-orange/15 text-accent-orange border border-accent-orange/20 rounded">Best Seller</span>
+                          <span x-show="prod.isNew" class="inline-block px-2 py-0.5 text-[9px] font-bold bg-brand-500/15 text-brand-500 border border-brand-500/20 rounded">New</span>
+                        </td>
+                        <td class="px-4 sm:px-6 py-4 text-right">
+                          <div class="flex items-center justify-end gap-2">
+                            <button @click="openProductModal('edit', prod)" class="p-2 hover:bg-slate-100 text-slate-600 hover:text-brand-500 rounded-lg transition-colors cursor-pointer" title="Edit">✏️</button>
+                            <button @click="deleteProduct(prod.id)" class="p-2 hover:bg-rose-50 text-rose-500 rounded-lg transition-colors cursor-pointer" title="Delete">🗑️</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- TAB 3: CATEGORIES -->
+          <div x-show="activeTab === 'categories'" class="space-y-6">
+            
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+              <p class="text-sm text-slate-500">Manage shop product collections.</p>
+              <button @click="openCategoryModal('add')" class="px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold shadow-md hover:shadow transition-all flex items-center gap-1.5 cursor-pointer self-start sm:self-auto">
+                <span>➕</span> Add Category
+              </button>
+            </div>
+
+            <!-- Categories Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <template x-for="cat in data.categories" :key="cat.id">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex gap-5 items-center relative">
+                  <img :src="cat.image" :alt="cat.name" class="w-20 h-20 rounded-xl object-cover bg-slate-50 border border-slate-100 flex-shrink-0">
+                  <div class="flex-1 space-y-1 pr-12">
+                    <h3 class="font-bold text-slate-800 font-serif text-base" x-text="cat.name"></h3>
+                    <p class="text-xs text-slate-400" x-text="'ID: ' + cat.id"></p>
+                    <p class="text-xs text-slate-500 line-clamp-2" x-text="cat.description"></p>
+                  </div>
+                  <div class="absolute top-4 right-4 flex gap-1">
+                    <button @click="openCategoryModal('edit', cat)" class="p-1.5 hover:bg-slate-100 text-slate-600 hover:text-brand-500 rounded transition-colors cursor-pointer" title="Edit">✏️</button>
+                    <button @click="deleteCategory(cat.id)" class="p-1.5 hover:bg-rose-50 text-rose-500 rounded transition-colors cursor-pointer" title="Delete">🗑️</button>
+                  </div>
+                </div>
+              </template>
+            </div>
+
+          </div>
+
+          <!-- TAB 4: REVIEWS -->
+          <div x-show="activeTab === 'reviews'" class="space-y-6">
+            
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+              <p class="text-sm text-slate-500">Manage testimonials displayed on the homepage.</p>
+              <button @click="openReviewModal('add')" class="px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold shadow-md hover:shadow transition-all flex items-center gap-1.5 cursor-pointer self-start sm:self-auto">
+                <span>➕</span> Add Testimonial
+              </button>
+            </div>
+
+            <!-- Testimonials List -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <template x-for="(test, index) in data.testimonials">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between relative group">
+                  <div class="space-y-3">
+                    <div class="flex text-amber-400 text-xs">
+                      <template x-for="i in 5">
+                        <span x-text="i <= test.rating ? '★' : '☆'"></span>
+                      </template>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed italic" x-text="'&ldquo;' + test.text + '&rdquo;'"></p>
+                  </div>
+                  <div class="flex items-center gap-3 pt-4 mt-4 border-t border-slate-50">
+                    <div class="w-8 h-8 rounded-full bg-brand-50 text-brand-600 font-bold flex items-center justify-center text-xs" x-text="test.name.charAt(0)"></div>
+                    <div>
+                      <h4 class="text-xs font-bold text-slate-800" x-text="test.name"></h4>
+                      <p class="text-[10px] text-slate-400" x-text="test.designation + ' • ' + test.date"></p>
+                    </div>
+                  </div>
+                  <div class="absolute top-4 right-4 flex gap-1 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button @click="openReviewModal('edit', test, index)" class="p-1.5 bg-white shadow hover:bg-slate-100 text-slate-600 hover:text-brand-500 rounded transition-colors cursor-pointer" title="Edit">✏️</button>
+                    <button @click="deleteReview(index)" class="p-1.5 bg-white shadow hover:bg-rose-50 text-rose-500 rounded transition-colors cursor-pointer" title="Delete">🗑️</button>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <!-- TAB 5: PRODUCT REVIEWS -->
+          <div x-show="activeTab === 'product-reviews'" class="space-y-6" x-cloak>
+            
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+              <p class="text-sm text-slate-500">Manage client reviews submitted on product detail pages.</p>
+              <button @click="openProductReviewModal('add')" class="px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold shadow-md hover:shadow transition-all flex items-center gap-1.5 cursor-pointer self-start sm:self-auto">
+                <span>➕</span> Add Product Review
+              </button>
+            </div>
+
+            <!-- Search & Filters Toolbar -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row gap-4">
+              <!-- Search Box -->
+              <div class="flex-1 relative">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-sm">🔍</span>
+                <input type="text" x-model="reviewSearchQuery" placeholder="Search by reviewer name or content..." class="w-full text-sm border border-slate-200 rounded-lg pl-9 pr-3 py-2 outline-none focus:ring-1 focus:ring-brand-500">
+              </div>
+              <!-- Filter by Product -->
+              <div class="w-full md:w-60">
+                <select x-model="reviewProductFilter" x-html="'<option value=\'\'>All Products</option>' + renderProductOptions()" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 bg-white outline-none focus:ring-1 focus:ring-brand-500">
+                </select>
+              </div>
+              <!-- Filter by Rating -->
+              <div class="w-full md:w-40">
+                <select x-model="reviewRatingFilter" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 bg-white outline-none focus:ring-1 focus:ring-brand-500">
+                  <option value="">All Ratings</option>
+                  <option value="5">5 Stars</option>
+                  <option value="4">4 Stars</option>
+                  <option value="3">3 Stars</option>
+                  <option value="2">2 Stars</option>
+                  <option value="1">1 Star</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Product Reviews Table -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-50 text-[10px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100">
+                      <th class="px-4 sm:px-6 py-4">Product</th>
+                      <th class="px-4 sm:px-6 py-4">Reviewer</th>
+                      <th class="px-4 sm:px-6 py-4">Rating</th>
+                      <th class="px-4 sm:px-6 py-4">Review Date</th>
+                      <th class="px-4 sm:px-6 py-4">Review Text</th>
+                      <th class="px-4 sm:px-6 py-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 text-sm">
+                    <template x-for="rev in filteredProductReviews()" :key="rev.id">
+                      <tr class="hover:bg-slate-50/50">
+                        <!-- Product Association -->
+                        <td class="px-4 sm:px-6 py-4 flex items-center gap-3">
+                          <img :src="getProductImage(rev.productId)" class="w-10 h-10 rounded object-cover bg-slate-100 border border-slate-100 flex-shrink-0">
+                          <div>
+                            <div class="font-bold text-slate-800" x-text="getProductName(rev.productId)"></div>
+                            <div class="text-[10px] text-slate-400" x-text="'ID: ' + rev.productId"></div>
+                          </div>
+                        </td>
+                        <!-- Reviewer Name -->
+                        <td class="px-4 sm:px-6 py-4 font-semibold text-slate-800" x-text="rev.name"></td>
+                        <!-- Rating -->
+                        <td class="px-4 sm:px-6 py-4">
+                          <div class="flex text-amber-400 text-xs">
+                            <template x-for="i in 5">
+                              <span x-text="i <= rev.rating ? '★' : '☆'"></span>
+                            </template>
+                          </div>
+                        </td>
+                        <!-- Review Date -->
+                        <td class="px-4 sm:px-6 py-4 text-xs text-slate-500 whitespace-nowrap" x-text="rev.date"></td>
+                        <!-- Review Text -->
+                        <td class="px-4 sm:px-6 py-4 text-xs text-slate-650 max-w-xs">
+                          <div class="truncate" :title="rev.text" x-text="rev.text"></div>
+                          <template x-if="rev.image">
+                            <div class="mt-1.5 flex items-center gap-1.5">
+                              <span class="text-[10px] text-slate-400 font-sans">সংযুক্ত ছবি:</span>
+                              <a :href="rev.image" target="_blank" class="inline-block">
+                                <img :src="rev.image" class="w-8 h-8 rounded object-cover bg-slate-50 border border-slate-200 hover:opacity-80 transition-opacity">
+                              </a>
+                            </div>
+                          </template>
+                        </td>
+                        <!-- Actions -->
+                        <td class="px-4 sm:px-6 py-4 text-right whitespace-nowrap">
+                          <div class="flex items-center justify-end gap-2">
+                            <button @click="openProductReviewModal('edit', rev)" class="p-2 hover:bg-slate-100 text-slate-600 hover:text-brand-500 rounded-lg transition-colors cursor-pointer" title="Edit">✏️</button>
+                            <button @click="deleteProductReview(rev.id)" class="p-2 hover:bg-rose-50 text-rose-500 rounded-lg transition-colors cursor-pointer" title="Delete">🗑️</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </template>
+                    <template x-if="filteredProductReviews().length === 0">
+                      <tr>
+                        <td colspan="6" class="px-4 sm:px-6 py-12 text-center text-slate-400 italic">No matching product reviews found.</td>
+                      </tr>
+                    </template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- TAB 6: COUPONS -->
+          <div x-show="activeTab === 'coupons'" class="space-y-6" x-cloak>
+            
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+              <p class="text-sm text-slate-500">Manage all promotional/discount coupon codes active on the website.</p>
+              <button @click="openCouponModal('add')" class="px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold shadow-md hover:shadow transition-all flex items-center gap-1.5 cursor-pointer self-start sm:self-auto">
+                <span>➕</span> Add Coupon
+              </button>
+            </div>
+
+            <!-- Coupons Table -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-50 text-[10px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100">
+                      <th class="px-4 sm:px-6 py-4">Coupon Code</th>
+                      <th class="px-4 sm:px-6 py-4">Type</th>
+                      <th class="px-4 sm:px-6 py-4">Value</th>
+                      <th class="px-4 sm:px-6 py-4">Min Order</th>
+                      <th class="px-4 sm:px-6 py-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 text-sm">
+                    <template x-for="coupon in data.coupons" :key="coupon.code">
+                      <tr class="hover:bg-slate-50/50">
+                        <td class="px-4 sm:px-6 py-4 font-bold text-brand-600 font-sans tracking-wide" x-text="coupon.code"></td>
+                        <td class="px-4 sm:px-6 py-4">
+                          <span :class="coupon.type === 'percent' ? 'bg-amber-50 text-amber-700 border-amber-100' : 'bg-blue-50 text-blue-700 border-blue-100'"
+                                class="px-2.5 py-1 rounded-full text-xs font-semibold border"
+                                x-text="coupon.type === 'percent' ? 'Percentage Discount' : 'Flat Delivery Discount'">
+                          </span>
+                        </td>
+                        <td class="px-4 sm:px-6 py-4 font-semibold text-slate-800" x-text="coupon.type === 'percent' ? coupon.value + '%' : '$' + coupon.value"></td>
+                        <td class="px-4 sm:px-6 py-4 text-slate-600" x-text="'$' + coupon.minOrder"></td>
+                        <td class="px-4 sm:px-6 py-4 text-right whitespace-nowrap">
+                          <div class="flex items-center justify-end gap-2">
+                            <button @click="openCouponModal('edit', coupon)" class="p-2 hover:bg-slate-100 text-slate-600 hover:text-brand-500 rounded-lg transition-colors cursor-pointer" title="Edit">✏️</button>
+                            <button @click="deleteCoupon(coupon.code)" class="p-2 hover:bg-rose-50 text-rose-500 rounded-lg transition-colors cursor-pointer" title="Delete">🗑️</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </template>
+                    <template x-if="!data.coupons || data.coupons.length === 0">
+                      <tr>
+                        <td colspan="5" class="px-4 sm:px-6 py-12 text-center text-slate-400 italic">No coupons found. Click 'Add Coupon' to create one.</td>
+                      </tr>
+                    </template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- TAB 7: BLOGS -->
+          <div x-show="activeTab === 'blogs'" class="space-y-6" x-cloak>
+            
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+              <p class="text-sm text-slate-500">Manage blog posts and articles published on the website.</p>
+              <button @click="openBlogModal('add')" class="px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold shadow-md hover:shadow transition-all flex items-center gap-1.5 cursor-pointer self-start sm:self-auto">
+                <span>➕</span> Add Blog Post
+              </button>
+            </div>
+
+            <!-- Blogs List Card -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-50 text-[10px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100">
+                      <th class="px-4 sm:px-6 py-4">Blog Article</th>
+                      <th class="px-4 sm:px-6 py-4">Category</th>
+                      <th class="px-4 sm:px-6 py-4">Author</th>
+                      <th class="px-4 sm:px-6 py-4">Date</th>
+                      <th class="px-4 sm:px-6 py-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 text-sm">
+                    <template x-for="blog in data.blogs" :key="blog.id">
+                      <tr class="hover:bg-slate-50/50">
+                        <td class="px-4 sm:px-6 py-4 flex items-center gap-4">
+                          <img :src="blog.image" :alt="blog.title" class="w-12 h-12 rounded-lg object-cover bg-slate-100 border border-slate-100 flex-shrink-0">
+                          <div>
+                            <div class="font-bold text-slate-800" x-text="blog.title"></div>
+                            <div class="text-[10px] text-slate-400" x-text="'ID: ' + blog.id"></div>
+                          </div>
+                        </td>
+                        <td class="px-4 sm:px-6 py-4">
+                          <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 text-slate-600 rounded-full" x-text="blog.category"></span>
+                        </td>
+                        <td class="px-4 sm:px-6 py-4 text-slate-650" x-text="blog.author"></td>
+                        <td class="px-4 sm:px-6 py-4 text-xs text-slate-400" x-text="blog.date"></td>
+                        <td class="px-4 sm:px-6 py-4 text-right">
+                          <div class="flex items-center justify-end gap-2">
+                            <button @click="openBlogModal('edit', blog)" class="p-2 hover:bg-slate-100 text-slate-600 hover:text-brand-500 rounded-lg transition-colors cursor-pointer" title="Edit">✏️</button>
+                            <button @click="deleteBlog(blog.id)" class="p-2 hover:bg-rose-50 text-rose-500 rounded-lg transition-colors cursor-pointer" title="Delete">🗑️</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </template>
+                    <template x-if="!data.blogs || data.blogs.length === 0">
+                      <tr>
+                        <td colspan="5" class="px-4 sm:px-6 py-12 text-center text-slate-400 italic">No blog posts found. Click 'Add Blog Post' to write one.</td>
+                      </tr>
+                    </template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: ADD / EDIT PRODUCT -->
+  <!-- ============================================== -->
+  <div x-show="productModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto" x-cloak>
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity" @click="productModalOpen = false"></div>
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden z-10 border border-slate-200 flex flex-col max-h-[90vh]">
+      <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+        <h3 class="font-bold text-slate-800 font-serif text-lg" x-text="productModalMode === 'add' ? 'Add New Product' : 'Edit Product Details'"></h3>
+        <button @click="productModalOpen = false" class="text-slate-400 hover:text-slate-600 text-xl font-bold">×</button>
+      </div>
+      <div class="p-6 space-y-4 overflow-y-auto flex-1 font-sans">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Product Name</label>
+            <input type="text" x-model="productForm.name" @input="if(productModalMode === 'add') { productForm.id = slugify(productForm.name); }" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500">
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Product ID (Slug / Link)</label>
+            <input type="text" x-model="productForm.id" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Category</label>
+            <select x-model="productForm.category" x-html="renderCategoryOptions()" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none bg-white">
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Price ($)</label>
+            <input type="number" x-model.number="productForm.price" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Original Price ($)</label>
+            <input type="number" x-model.number="productForm.originalPrice" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Weight Unit</label>
+            <input type="text" x-model="productForm.unit" placeholder="e.g. kg, pcs, packet" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Rating (1-5)</label>
+            <input type="number" step="0.1" min="1" max="5" x-model.number="productForm.rating" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Reviews Count</label>
+            <input type="number" x-model.number="productForm.reviewsCount" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+        </div>
+
+        <!-- Image Selector & Uploader -->
+        <div class="space-y-3">
+          <label class="block text-xs font-semibold text-slate-500">Product Image</label>
+          <div class="flex flex-col sm:flex-row gap-4 items-start">
+            <!-- Preview Box -->
+            <div class="w-24 h-24 rounded-xl border border-slate-200 overflow-hidden bg-slate-50 flex items-center justify-center flex-shrink-0 relative group">
+              <template x-if="productForm.image">
+                <img :src="productForm.image" alt="Product Image Preview" class="w-full h-full object-cover">
+              </template>
+              <template x-if="!productForm.image">
+                <div class="text-slate-300 text-3xl">📦</div>
+              </template>
+              <button type="button" x-show="productForm.image" @click="productForm.image = ''" 
+                      class="absolute top-1 right-1 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow transition-colors cursor-pointer">
+                ×
+              </button>
+            </div>
+            
+            <!-- Controls -->
+            <div class="flex-grow space-y-2 w-full">
+              <div class="flex flex-wrap gap-2">
+                <!-- Custom File Upload Button -->
+                <label class="px-4 py-2 bg-brand-50 hover:bg-brand-100 text-brand-600 border border-brand-200 rounded-lg text-xs font-semibold cursor-pointer flex items-center gap-1.5 transition-colors">
+                  <span>📤</span> Upload Image File
+                  <input type="file" accept="image/*" @change="handleProductImageUpload($event)" class="hidden">
+                </label>
+                
+                <button type="button" @click="showGallery = !showGallery" 
+                        class="px-4 py-2 border border-slate-200 hover:bg-slate-50 rounded-lg text-xs font-semibold text-slate-600 transition-colors cursor-pointer">
+                  Browse Project Images
+                </button>
+              </div>
+              
+              <!-- Text input for manual paths or showing current reference -->
+              <input type="text" x-model="productForm.image" placeholder="Or enter image path manually..." 
+                     class="w-full text-xs border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500 bg-white">
+              
+              <p class="text-[10px] text-slate-400">Upload a fresh image from your computer, select a preset, or specify an absolute/relative URL path.</p>
+            </div>
+          </div>
+
+          <!-- Image Picker Gallery -->
+          <div x-show="showGallery" class="border border-slate-200 rounded-xl p-3 bg-slate-50 grid grid-cols-4 sm:grid-cols-6 gap-3 max-h-40 overflow-y-auto mt-2" x-cloak>
+            <template x-for="img in imageList" :key="img">
+              <button type="button" @click="productForm.image = img; showGallery = false;" 
+                      class="flex flex-col items-center justify-center p-1 rounded bg-white hover:bg-brand-50 border border-slate-200 transition-all cursor-pointer">
+                <img :src="img" class="w-8 h-8 object-cover rounded">
+                <span class="text-[9px] text-slate-400 mt-1 truncate max-w-full" x-text="img"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+
+        <!-- Product Gallery Images (Additional) -->
+        <div class="space-y-3 pt-4 border-t border-slate-100">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-semibold text-slate-500">Product Gallery Images (Additional)</label>
+            <span class="text-[10px] text-slate-400" x-text="`${(productForm.images || []).slice(1).length} additional image(s)`"></span>
+          </div>
+          
+          <!-- Gallery Grid -->
+          <div class="flex flex-wrap gap-3 items-center">
+            <!-- Loop through additional images (index > 0) -->
+            <template x-for="(img, idx) in (productForm.images || []).slice(1)" :key="idx">
+              <div class="w-20 h-20 rounded-xl border border-slate-200 overflow-hidden bg-slate-50 relative group shadow-sm transition-all hover:shadow">
+                <img :src="img" class="w-full h-full object-cover">
+                <!-- Delete Button -->
+                <button type="button" @click="productForm.images = productForm.images.filter((_, i) => i !== idx + 1)" 
+                        class="absolute top-1 right-1 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow transition-colors cursor-pointer"
+                        title="Remove image">
+                  ×
+                </button>
+                <div class="absolute bottom-0 left-0 right-0 bg-slate-900/60 text-[8px] text-center text-white py-0.5" x-text="`Slot ${idx + 1}`"></div>
+              </div>
+            </template>
+            
+            <!-- Upload Box (Add Button) -->
+            <label class="w-20 h-20 rounded-xl border-2 border-dashed border-slate-200 hover:border-brand-500 bg-slate-50 hover:bg-brand-50/50 flex flex-col items-center justify-center text-slate-400 hover:text-brand-600 cursor-pointer transition-all duration-200">
+              <span class="text-xl">📤</span>
+              <span class="text-[9px] font-bold mt-1">Upload</span>
+              <input type="file" accept="image/*" @change="addGalleryImageUpload($event)" class="hidden" multiple>
+            </label>
+            
+            <!-- Browse Presets Box -->
+            <button type="button" @click="showGalleryPicker = !showGalleryPicker"
+                    class="w-20 h-20 rounded-xl border-2 border-dashed border-slate-200 hover:border-brand-500 bg-slate-50 hover:bg-brand-50/50 flex flex-col items-center justify-center text-slate-400 hover:text-brand-600 cursor-pointer transition-all duration-200">
+              <span class="text-xl">🖼️</span>
+              <span class="text-[9px] font-bold mt-1">Browse</span>
+            </button>
+          </div>
+
+          <!-- Gallery Presets Picker -->
+          <div x-show="showGalleryPicker" class="border border-slate-200 rounded-xl p-3 bg-slate-50 grid grid-cols-4 sm:grid-cols-6 gap-3 max-h-40 overflow-y-auto mt-2" x-cloak>
+            <template x-for="img in imageList" :key="img">
+              <button type="button" @click="if(!productForm.images){ productForm.images = [productForm.image || '']; } if(!productForm.images.includes(img)){ productForm.images.push(img); }; showGalleryPicker = false;" 
+                      class="flex flex-col items-center justify-center p-1.5 rounded-lg bg-white hover:bg-brand-50 border border-slate-200 transition-all cursor-pointer shadow-sm hover:border-brand-200">
+                <img :src="img" class="w-10 h-10 object-cover rounded">
+                <span class="text-[8px] text-slate-400 mt-1 truncate max-w-full" x-text="img.split('/').pop()"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+
+        <!-- Checkboxes -->
+
+        <div class="flex flex-wrap gap-6 pt-2">
+          <label class="flex items-center gap-2 text-sm font-semibold text-slate-600 cursor-pointer select-none">
+            <input type="checkbox" x-model="productForm.inStock" class="w-4.5 h-4.5 text-brand-500 border-slate-300 rounded focus:ring-brand-500">
+            In Stock / Available
+          </label>
+          <label class="flex items-center gap-2 text-sm font-semibold text-slate-600 cursor-pointer select-none">
+            <input type="checkbox" x-model="productForm.isBestSeller" class="w-4.5 h-4.5 text-brand-500 border-slate-300 rounded focus:ring-brand-500">
+            Best Seller Item
+          </label>
+          <label class="flex items-center gap-2 text-sm font-semibold text-slate-600 cursor-pointer select-none">
+            <input type="checkbox" x-model="productForm.isNew" class="w-4.5 h-4.5 text-brand-500 border-slate-300 rounded focus:ring-brand-500">
+            Mark as New Product
+          </label>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Short Description</label>
+          <textarea x-model="productForm.shortDescription" rows="3" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none" placeholder="Provide a brief summary/short description of the product (shown in top card next to image)..."></textarea>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Product Description</label>
+          <textarea x-model="productForm.description" rows="8" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none" placeholder="Provide a detailed description of the product..."></textarea>
+          <p class="text-[10px] text-slate-400 mt-1">Press Enter twice to create paragraph breaks. Paragraphs will render dynamically on the storefront with proper spacing.</p>
+        </div>
+
+        <!-- SEO Settings Section -->
+        <div class="space-y-4 pt-4 border-t border-slate-100">
+          <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+            <span>🔍</span> Search Engine Optimization (SEO) Settings
+          </h4>
+          <div class="space-y-3">
+            <div class="space-y-1">
+              <label class="block text-xs font-semibold text-slate-500">SEO Custom Title</label>
+              <input type="text" x-model="productForm.seo_title" placeholder="e.g. Buy Aged Gmail Accounts - Safe & Fast" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500">
+              <p class="text-[10px] text-slate-400">Keep it under 60 characters for best Google display. Default will be: Product Name – Verified & Fast | BestPVAShop.</p>
+            </div>
+            <div class="space-y-1">
+              <label class="block text-xs font-semibold text-slate-500">SEO Keywords (Comma-separated)</label>
+              <input type="text" x-model="productForm.seo_tags" placeholder="e.g. buy aged gmail, pva accounts, buy old email" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500">
+            </div>
+            <div class="space-y-1">
+              <label class="block text-xs font-semibold text-slate-500">SEO Custom Meta Description</label>
+              <textarea x-model="productForm.seo_description" rows="2" placeholder="Provide a custom search snippet description (120-160 characters)..." class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500"></textarea>
+              <p class="text-[10px] text-slate-400">If empty, it will auto-generate from the first 150 characters of the product description.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+        <button @click="productModalOpen = false" class="px-4 py-2 border border-slate-200 hover:bg-slate-100 rounded-lg text-xs font-bold text-slate-600">Cancel</button>
+        <button @click="saveProduct()" class="px-5 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold shadow">Save Product</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: ADD / EDIT CATEGORY -->
+  <!-- ============================================== -->
+  <div x-show="categoryModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto" x-cloak>
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity" @click="categoryModalOpen = false"></div>
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden z-10 border border-slate-200 flex flex-col">
+      <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+        <h3 class="font-bold text-slate-800 font-serif text-lg" x-text="categoryModalMode === 'add' ? 'Add New Category' : 'Edit Category Details'"></h3>
+        <button @click="categoryModalOpen = false" class="text-slate-400 hover:text-slate-600 text-xl font-bold">×</button>
+      </div>
+      <div class="p-6 space-y-4 font-sans">
+        
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Category Name</label>
+          <input type="text" x-model="categoryForm.name" @input="if(categoryModalMode === 'add') { categoryForm.id = slugify(categoryForm.name); }" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Category ID (Slug)</label>
+          <input type="text" x-model="categoryForm.id" :disabled="categoryModalMode === 'edit'" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none disabled:bg-slate-50 disabled:text-slate-400">
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Category Image Path</label>
+          <div class="flex gap-2">
+            <input type="text" x-model="categoryForm.image" placeholder="Image file name..." class="flex-grow text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+            <button @click="showCatGallery = !showCatGallery" class="px-4 py-2 border border-slate-200 hover:bg-slate-50 rounded-lg text-xs font-semibold">
+              Browse
+            </button>
+          </div>
+          <div x-show="showCatGallery" class="border border-slate-100 rounded-xl p-3 bg-slate-50 grid grid-cols-4 gap-3 max-h-32 overflow-y-auto mt-2" x-cloak>
+            <template x-for="img in imageList" :key="img">
+              <button @click="categoryForm.image = img; showCatGallery = false;" class="flex flex-col items-center justify-center p-1 rounded bg-white hover:bg-brand-50 border border-slate-200 transition-all cursor-pointer">
+                <img :src="img" class="w-8 h-8 object-cover rounded">
+                <span class="text-[9px] text-slate-400 mt-1 truncate max-w-full" x-text="img"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Description</label>
+          <textarea x-model="categoryForm.description" rows="3" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none"></textarea>
+        </div>
+
+      </div>
+      <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+        <button @click="categoryModalOpen = false" class="px-4 py-2 border border-slate-200 hover:bg-slate-100 rounded-lg text-xs font-bold text-slate-600">Cancel</button>
+        <button @click="saveCategory()" class="px-5 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold shadow">Save Category</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: ADD / EDIT REVIEW (Testimonials) -->
+  <!-- ============================================== -->
+  <div x-show="reviewModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto" x-cloak>
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity" @click="reviewModalOpen = false"></div>
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden z-10 border border-slate-200 flex flex-col">
+      <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+        <h3 class="font-bold text-slate-800 font-serif text-lg" x-text="reviewModalMode === 'add' ? 'Add New Testimonial' : 'Edit Testimonial Details'"></h3>
+        <button @click="reviewModalOpen = false" class="text-slate-400 hover:text-slate-600 text-xl font-bold">×</button>
+      </div>
+      <div class="p-6 space-y-4 font-sans">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Customer Name</label>
+            <input type="text" x-model="reviewForm.name" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Customer Location</label>
+            <input type="text" x-model="reviewForm.designation" placeholder="e.g. Dhaka" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Rating (1-5)</label>
+            <input type="number" min="1" max="5" x-model.number="reviewForm.rating" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Review Date</label>
+            <input type="text" x-model="reviewForm.date" placeholder="e.g. May 21, 2026" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Testimonial Text</label>
+          <textarea x-model="reviewForm.text" rows="4" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none"></textarea>
+        </div>
+
+      </div>
+      <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+        <button @click="reviewModalOpen = false" class="px-4 py-2 border border-slate-200 hover:bg-slate-100 rounded-lg text-xs font-bold text-slate-600">Cancel</button>
+        <button @click="saveReview()" class="px-5 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold shadow">Save Testimonial</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: ADD / EDIT PRODUCT REVIEW -->
+  <!-- ============================================== -->
+  <div x-show="productReviewModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto" x-cloak>
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity" @click="productReviewModalOpen = false"></div>
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden z-10 border border-slate-200 flex flex-col">
+      <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+        <h3 class="font-bold text-slate-800 font-serif text-lg" x-text="productReviewModalMode === 'add' ? 'Add New Product Review' : 'Edit Product Review Details'"></h3>
+        <button @click="productReviewModalOpen = false" class="text-slate-400 hover:text-slate-600 text-xl font-bold">×</button>
+      </div>
+      <div class="p-6 space-y-4 font-sans">
+        
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Associate Product</label>
+          <select x-model="productReviewForm.productId" x-html="renderProductOptions()" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 bg-white outline-none focus:ring-1 focus:ring-brand-500">
+          </select>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Customer Name</label>
+            <input type="text" x-model="productReviewForm.name" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500">
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Review Date</label>
+            <input type="text" x-model="productReviewForm.date" placeholder="e.g. মে ২০, ২০২৬" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500">
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Rating (1-5)</label>
+          <div class="flex gap-1 text-slate-200">
+            <template x-for="star in [1, 2, 3, 4, 5]">
+              <button @click="productReviewForm.rating = star" class="text-2xl transition-colors cursor-pointer" 
+                      :class="star <= productReviewForm.rating ? 'text-amber-400' : 'text-slate-200'" aria-label="Rate star">★</button>
+            </template>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Review Content</label>
+          <textarea x-model="productReviewForm.text" rows="4" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500" placeholder="Write review description..."></textarea>
+        </div>
+
+        <template x-if="productReviewForm.image">
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Uploaded Review Image</label>
+            <div class="flex items-center gap-3">
+              <img :src="productReviewForm.image" class="w-16 h-16 rounded object-cover bg-slate-50 border border-slate-200">
+              <button @click="productReviewForm.image = ''" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-bold transition-all">Remove Image</button>
+            </div>
+          </div>
+        </template>
+
+      </div>
+      <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+        <button @click="productReviewModalOpen = false" class="px-4 py-2 border border-slate-200 hover:bg-slate-100 rounded-lg text-xs font-bold text-slate-600">Cancel</button>
+        <button @click="saveProductReview()" class="px-5 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold shadow">Save Review</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: ADD / EDIT COUPON -->
+  <!-- ============================================== -->
+  <div x-show="couponModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto" x-cloak>
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity" @click="couponModalOpen = false"></div>
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden z-10 border border-slate-200 flex flex-col">
+      <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+        <h3 class="font-bold text-slate-800 font-serif text-lg" x-text="couponModalMode === 'add' ? 'Add New Coupon' : 'Edit Coupon Details'"></h3>
+        <button @click="couponModalOpen = false" class="text-slate-400 hover:text-slate-600 text-xl font-bold">×</button>
+      </div>
+      <div class="p-6 space-y-4 font-sans">
+        
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Coupon Code</label>
+          <input type="text" x-model="couponForm.code" :disabled="couponModalMode === 'edit'" placeholder="e.g. WELCOME10" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500 uppercase disabled:bg-slate-50 disabled:text-slate-400">
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Discount Type</label>
+          <select x-model="couponForm.type" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none bg-white">
+            <option value="percent">Percentage Discount (%)</option>
+            <option value="flat_delivery">Flat Delivery Discount ($)</option>
+          </select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500" x-text="couponForm.type === 'percent' ? 'Discount Percentage (%)' : 'Discount Amount ($)'"></label>
+            <input type="number" x-model.number="couponForm.value" min="0" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Min Order ($)</label>
+            <input type="number" x-model.number="couponForm.minOrder" min="0" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+        </div>
+
+      </div>
+      <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+        <button @click="couponModalOpen = false" class="px-4 py-2 border border-slate-200 hover:bg-slate-100 rounded-lg text-xs font-bold text-slate-600">Cancel</button>
+        <button @click="saveCoupon()" class="px-5 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold shadow">Save Coupon</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: ADD / EDIT BLOG POST -->
+  <!-- ============================================== -->
+  <div x-show="blogModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto" x-cloak>
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity" @click="blogModalOpen = false"></div>
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden z-10 border border-slate-200 flex flex-col max-h-[90vh]">
+      <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+        <h3 class="font-bold text-slate-800 font-serif text-lg" x-text="blogModalMode === 'add' ? 'Add New Blog Post' : 'Edit Blog Post Details'"></h3>
+        <button @click="blogModalOpen = false" class="text-slate-400 hover:text-slate-600 text-xl font-bold">×</button>
+      </div>
+      <div class="p-6 space-y-4 overflow-y-auto flex-1 font-sans">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Blog Title</label>
+            <input type="text" x-model="blogForm.title" @input="if(blogModalMode === 'add') { blogForm.id = slugify(blogForm.title); }" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500">
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Blog ID (Slug / URL)</label>
+            <input type="text" x-model="blogForm.id" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          <div class="space-y-1 col-span-2">
+            <label class="block text-xs font-semibold text-slate-500">Category</label>
+            <input type="text" x-model="blogForm.category" placeholder="e.g. Marketing Guide" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Author</label>
+            <input type="text" x-model="blogForm.author" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Read Time</label>
+            <input type="text" x-model="blogForm.readTime" placeholder="e.g. 8 min read" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-slate-500">Publish Date</label>
+            <input type="text" x-model="blogForm.date" placeholder="e.g. May 15, 2026" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          </div>
+          <div class="space-y-1">
+            <!-- Blog Image selector -->
+            <label class="block text-xs font-semibold text-slate-500">Blog Image</label>
+            <div class="flex gap-2">
+              <input type="text" x-model="blogForm.image" placeholder="Or enter image path..." class="flex-grow text-xs border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500 bg-white">
+              <label class="px-3 py-2 bg-brand-50 hover:bg-brand-100 text-brand-600 border border-brand-200 rounded-lg text-xs font-semibold cursor-pointer flex items-center gap-1 transition-colors">
+                <span>📤</span> Upload
+                <input type="file" accept="image/*" @change="handleBlogImageUpload($event)" class="hidden">
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Excerpt (Summary)</label>
+          <textarea x-model="blogForm.excerpt" rows="2" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none" placeholder="Provide a brief summary of the blog post..."></textarea>
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-slate-500">Content (HTML allowed)</label>
+          <textarea x-model="blogForm.content" rows="8" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none" placeholder="Write full HTML blog post content..."></textarea>
+          <p class="text-[10px] text-slate-400 mt-1">HTML tags like &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, and &lt;b&gt; are supported for dynamic rendering.</p>
+        </div>
+
+        <!-- Blog SEO Settings Section -->
+        <div class="space-y-4 pt-4 border-t border-slate-100">
+          <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+            <span>🔍</span> Search Engine Optimization (SEO)
+          </h4>
+          <div class="space-y-3">
+            <div class="space-y-1">
+              <label class="block text-xs font-semibold text-slate-500">SEO Custom Title</label>
+              <input type="text" x-model="blogForm.seo_title" placeholder="e.g. Complete Guide to PVA Accounts - Best Tips" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500">
+              <p class="text-[10px] text-slate-400">Default will be: Blog Title.</p>
+            </div>
+            <div class="space-y-1">
+              <label class="block text-xs font-semibold text-slate-500">SEO Keywords (Comma-separated)</label>
+              <input type="text" x-model="blogForm.seo_tags" placeholder="e.g. pva account guide, proxy setup, buy gmail" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500">
+            </div>
+            <div class="space-y-1">
+              <label class="block text-xs font-semibold text-slate-500">SEO Custom Meta Description</label>
+              <textarea x-model="blogForm.seo_description" rows="2" placeholder="Provide a custom search snippet description (120-160 characters)..." class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-brand-500"></textarea>
+              <p class="text-[10px] text-slate-400">If empty, it will auto-generate from the excerpt or content description.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
+        <button @click="blogModalOpen = false" class="px-4 py-2 border border-slate-200 hover:bg-slate-100 rounded-lg text-xs font-bold text-slate-600">Cancel</button>
+        <button @click="saveBlog()" class="px-5 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-xs font-bold shadow">Save Article</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function cmsDashboard() {
+      return {
+        activeTab: 'dashboard',
+        mobileSidebarOpen: false,
+        loading: true,
+        building: false,
+        data: {
+          settings: {},
+          products: [],
+          categories: [],
+          testimonials: [],
+          reviews: [],
+          coupons: [],
+          blogs: []
+        },
+        imageList: [],
+        showGallery: false,
+        showGalleryPicker: false,
+        showCatGallery: false,
+
+        // Security / Authentication States
+        isAuthenticated: false,
+        enteredPassword: '',
+        authError: '',
+        shakeCard: false,
+        showPassword: false,
+
+        // Modal states
+        productModalOpen: false,
+        productModalMode: 'add',
+        originalProductId: '',
+        productForm: { id: '', name: '', category: '', price: 0, originalPrice: 0, unit: 'kg', rating: 5, reviewsCount: 0, image: '', images: [], inStock: true, isBestSeller: false, isNew: false, shortDescription: '', description: '', seo_title: '', seo_tags: '', seo_description: '' },
+        
+        categoryModalOpen: false,
+        categoryModalMode: 'add',
+        categoryForm: { id: '', name: '', description: '', image: '' },
+
+        reviewModalOpen: false,
+        reviewModalMode: 'add',
+        reviewIndex: null,
+        reviewForm: { name: '', designation: '', text: '', rating: 5, date: '' },
+
+        // Product Review states
+        productReviewModalOpen: false,
+        productReviewModalMode: 'add',
+        productReviewForm: { id: '', productId: '', name: '', text: '', rating: 5, date: '' },
+        reviewSearchQuery: '',
+        reviewProductFilter: '',
+        reviewRatingFilter: '',
+
+        // Coupon states
+        couponModalOpen: false,
+        couponModalMode: 'add',
+        couponForm: { code: '', type: 'percent', value: 0, minOrder: 0 },
+
+        // Blog states
+        blogModalOpen: false,
+        blogModalMode: 'add',
+        originalBlogId: '',
+        blogForm: { id: '', title: '', category: 'Guides', author: 'Admin', readTime: '5 min read', date: '', image: '', excerpt: '', content: '', seo_title: '', seo_tags: '', seo_description: '' },
+
+        init() {
+          if (sessionStorage.getItem('chapai_admin_auth') === 'true') {
+            this.isAuthenticated = true;
+          }
+          this.fetchData();
+          this.fetchImages();
+        },
+
+        login() {
+          this.authError = '';
+          if (this.enteredPassword === 'pvamarketplace123') {
+            this.isAuthenticated = true;
+            sessionStorage.setItem('chapai_admin_auth', 'true');
+            this.enteredPassword = '';
+          } else {
+            this.authError = 'ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।';
+            this.shakeCard = true;
+            setTimeout(() => { this.shakeCard = false; }, 500);
+          }
+        },
+
+        logout() {
+          this.isAuthenticated = false;
+          sessionStorage.removeItem('chapai_admin_auth');
+        },
+
+        async fetchData() {
+          this.loading = true;
+          try {
+            const res = await fetch('/api/data?t=' + Date.now());
+            if (res.ok) {
+              this.data = await res.json();
+            } else {
+              throw new Error('Local server API not available');
+            }
+          } catch (err) {
+            console.warn('API error, trying to load static site_data.js:', err);
+            try {
+              await this.loadStaticSiteData();
+            } catch (staticErr) {
+              console.error('Static data load failed:', staticErr);
+              alert('Failed to load database. Ensure local server is running or site_data.js is present.');
+            }
+          } finally {
+            this.loading = false;
+          }
+        },
+
+        loadStaticSiteData() {
+          return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'site_data.js?t=' + Date.now();
+            script.onload = () => {
+              if (window.siteData) {
+                this.data = window.siteData;
+                resolve();
+              } else {
+                reject(new Error('window.siteData is undefined'));
+              }
+            };
+            script.onerror = () => {
+              reject(new Error('Failed to load site_data.js script'));
+            };
+            document.head.appendChild(script);
+          });
+        },
+
+        renderCategoryOptions() {
+          if (!this.data.categories) return '';
+          return this.data.categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
+        },
+
+        renderProductOptions() {
+          if (!this.data.products) return '';
+          return this.data.products.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+        },
+
+        async fetchImages() {
+          try {
+            const res = await fetch('/api/images');
+            if (res.ok) {
+              this.imageList = await res.json();
+            }
+          } catch (e) {
+            console.error('Error fetching image list:', e);
+          }
+        },
+
+        async saveData() {
+          this.loading = true;
+          try {
+            const res = await fetch('/api/save', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(this.data)
+            });
+            if (res.ok) {
+              this.showToast('✅ Database saved & Rebuilding website...');
+              await this.fetchData();
+            } else {
+              alert('Error saving data.');
+              this.loading = false;
+            }
+          } catch (err) {
+            console.error(err);
+            if (window.location.hostname.includes('github.io') || window.location.protocol === 'file:') {
+              alert('Cannot save changes on a static hosting environment (like GitHub Pages). To edit products or settings, please run the CMS server locally using the start_cms.bat or cms_server.ps1 script, make your changes, and then commit and push the updated site_data.js to GitHub.');
+            } else {
+              alert('Failed to connect to the CMS server.');
+            }
+            this.loading = false;
+          }
+        },
+
+        async rebuildSite() {
+          this.building = true;
+          try {
+            const res = await fetch('/api/build', { method: 'POST' });
+            if (res.ok) {
+              this.showToast('🎉 Website rebuilt successfully!');
+            } else {
+              alert('Rebuild failed.');
+            }
+          } catch (err) {
+            console.error(err);
+            if (window.location.hostname.includes('github.io') || window.location.protocol === 'file:') {
+              alert('Cannot rebuild website on a static hosting environment (like GitHub Pages). Rebuilding is done automatically when running the CMS server locally.');
+            } else {
+              alert('Failed to connect to the CMS server.');
+            }
+          } finally {
+            this.building = false;
+          }
+        },
+
+        getCategoryName(id) {
+          const cat = this.data.categories.find(c => c.id === id);
+          return cat ? cat.name : id;
+        },
+
+        slugify(text) {
+          return text.toString().toLowerCase().trim()
+            .replace(/\s+/g, '-')           // Replace spaces with -
+            .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+            .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+            .replace(/^-+/, '')             // Trim - from start of text
+            .replace(/-+$/, '');            // Trim - from end of text
+        },
+
+        // --- PRODUCT ACTIONS ---
+        openProductModal(mode, prod = null) {
+          this.productModalMode = mode;
+          this.showGallery = false;
+          this.showGalleryPicker = false;
+          if (mode === 'add') {
+            const firstImg = this.imageList[0] || '';
+            this.originalProductId = '';
+            this.productForm = { 
+              id: '', 
+              name: '', 
+              category: this.data.categories[0] ? this.data.categories[0].id : '', 
+              price: 100, 
+              originalPrice: 120, 
+              unit: 'kg', 
+              rating: 5, 
+              reviewsCount: 0, 
+              image: firstImg, 
+              images: [firstImg],
+              inStock: true, 
+              isBestSeller: false, 
+              isNew: true, 
+              shortDescription: '', 
+              description: '',
+              seo_title: '',
+              seo_tags: '',
+              seo_description: ''
+            };
+          } else {
+            this.productForm = { 
+              seo_title: '', 
+              seo_tags: '', 
+              seo_description: '',
+              ...prod 
+            };
+            this.originalProductId = prod.id;
+            if (!this.productForm.images || !Array.isArray(this.productForm.images)) {
+              this.productForm.images = [this.productForm.image || ''];
+            } else {
+              this.productForm.images = [...prod.images];
+            }
+          }
+          this.productModalOpen = true;
+        },
+
+        saveProduct() {
+          if (!this.productForm.id || !this.productForm.name) {
+            alert('Please fill out Product Name and ID.');
+            return;
+          }
+          
+          // Format slug
+          this.productForm.id = this.slugify(this.productForm.id);
+          
+          // Ensure images array contains the main image
+          if (!this.productForm.images || !Array.isArray(this.productForm.images)) {
+            this.productForm.images = [this.productForm.image];
+          } else {
+            // Keep all gallery images (including Base64 strings starting with 'data:image/')
+            // and ensure the main image is at index 0.
+            const otherImages = this.productForm.images.filter(img => img !== this.productForm.image);
+            this.productForm.images = [this.productForm.image, ...otherImages];
+          }
+
+          if (this.productModalMode === 'add') {
+            // Check duplicates
+            if (this.data.products.some(p => p.id === this.productForm.id)) {
+              alert('A product with this ID already exists!');
+              return;
+            }
+            this.data.products.push(this.productForm);
+          } else {
+            // Edit Mode: check ID duplicates on change
+            if (this.productForm.id !== this.originalProductId) {
+              if (this.data.products.some(p => p.id === this.productForm.id)) {
+                alert('A product with this new ID already exists!');
+                return;
+              }
+              // Update references in reviews table
+              if (this.data.reviews) {
+                this.data.reviews.forEach(r => {
+                  if (r.productId === this.originalProductId) {
+                    r.productId = this.productForm.id;
+                  }
+                });
+              }
+            }
+
+            const idx = this.data.products.findIndex(p => p.id === this.originalProductId);
+            if (idx >= 0) {
+              this.data.products[idx] = this.productForm;
+            }
+          }
+
+          this.productModalOpen = false;
+          this.saveData();
+        },
+
+        deleteProduct(id) {
+          if (confirm('Are you sure you want to delete this product?')) {
+            this.data.products = this.data.products.filter(p => p.id !== id);
+            this.saveData();
+          }
+        },
+
+        // --- CATEGORY ACTIONS ---
+        openCategoryModal(mode, cat = null) {
+          this.categoryModalMode = mode;
+          this.showCatGallery = false;
+          if (mode === 'add') {
+            this.categoryForm = { id: '', name: '', description: '', image: this.imageList[0] || '' };
+          } else {
+            this.categoryForm = { ...cat };
+          }
+          this.categoryModalOpen = true;
+        },
+
+        saveCategory() {
+          if (!this.categoryForm.id || !this.categoryForm.name) {
+            alert('Please fill out Category Name and ID.');
+            return;
+          }
+
+          if (this.categoryModalMode === 'add') {
+            if (this.data.categories.some(c => c.id === this.categoryForm.id)) {
+              alert('A category with this ID already exists!');
+              return;
+            }
+            this.data.categories.push(this.categoryForm);
+          } else {
+            const idx = this.data.categories.findIndex(c => c.id === this.categoryForm.id);
+            if (idx >= 0) {
+              this.data.categories[idx] = this.categoryForm;
+            }
+          }
+
+          this.categoryModalOpen = false;
+          this.saveData();
+        },
+
+        deleteCategory(id) {
+          if (confirm('Are you sure you want to delete this category? Products in this category will not be deleted, but they will lose their category association.')) {
+            this.data.categories = this.data.categories.filter(c => c.id !== id);
+            this.saveData();
+          }
+        },
+
+        // --- REVIEWS ACTIONS ---
+        openReviewModal(mode, review = null, index = null) {
+          this.reviewModalMode = mode;
+          this.reviewIndex = index;
+          if (mode === 'add') {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            this.reviewForm = { name: '', designation: 'Dhaka', text: '', rating: 5, date: dateStr };
+          } else {
+            this.reviewForm = { ...review };
+          }
+          this.reviewModalOpen = true;
+        },
+
+        saveReview() {
+          if (!this.reviewForm.name || !this.reviewForm.text) {
+            alert('Please fill out Name and Testimonial text.');
+            return;
+          }
+
+          if (this.reviewModalMode === 'add') {
+            this.data.testimonials.push(this.reviewForm);
+          } else {
+            if (this.reviewIndex !== null) {
+              this.data.testimonials[this.reviewIndex] = this.reviewForm;
+            }
+          }
+
+          this.reviewModalOpen = false;
+          this.saveData();
+        },
+
+        deleteReview(index) {
+          if (confirm('Are you sure you want to delete this testimonial?')) {
+            this.data.testimonials.splice(index, 1);
+            this.saveData();
+          }
+        },
+
+        // --- PRODUCT REVIEWS ACTIONS ---
+        getProductName(id) {
+          if (!this.data.products) return id;
+          const prod = this.data.products.find(p => p.id === id);
+          return prod ? prod.name : id;
+        },
+
+        getProductImage(id) {
+          if (!this.data.products) return '';
+          const prod = this.data.products.find(p => p.id === id);
+          return prod ? prod.image : 'images/default-product.jpg';
+        },
+
+        filteredProductReviews() {
+          if (!this.data.reviews) return [];
+          return this.data.reviews.filter(rev => {
+            const name = rev.name ? String(rev.name).toLowerCase() : '';
+            const text = rev.text ? String(rev.text).toLowerCase() : '';
+            const query = this.reviewSearchQuery ? this.reviewSearchQuery.toLowerCase() : '';
+            
+            const matchesSearch = !query || name.includes(query) || text.includes(query);
+            const matchesProduct = !this.reviewProductFilter || rev.productId === this.reviewProductFilter;
+            const matchesRating = !this.reviewRatingFilter || Math.round(Number(rev.rating)) === parseInt(this.reviewRatingFilter);
+            
+            return matchesSearch && matchesProduct && matchesRating;
+          });
+        },
+
+        openProductReviewModal(mode, review = null) {
+          this.productReviewModalMode = mode;
+          if (mode === 'add') {
+            const now = new Date();
+            const monthNamesBn = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+            const currentMonthBn = monthNamesBn[now.getMonth()];
+            const bnDigits = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
+            const toBnDigits = (num) => String(num).split('').map(d => bnDigits[Number(d)] || d).join('');
+            const dateStr = `${currentMonthBn} ${toBnDigits(now.getDate())}, ${toBnDigits(now.getFullYear())}`;
+
+            this.productReviewForm = {
+              id: 'rev-' + Date.now(),
+              productId: this.data.products[0] ? this.data.products[0].id : '',
+              name: '',
+              text: '',
+              rating: 5,
+              date: dateStr
+            };
+          } else {
+            this.productReviewForm = { ...review };
+          }
+          this.productReviewModalOpen = true;
+        },
+
+        recalculateProductRatings() {
+          if (!this.data.products || !this.data.reviews) return;
+          this.data.products.forEach(product => {
+            const productReviews = this.data.reviews.filter(r => r.productId === product.id);
+            product.reviewsCount = productReviews.length;
+            if (productReviews.length > 0) {
+              const totalRating = productReviews.reduce((sum, r) => sum + Number(r.rating), 0);
+              product.rating = Number((totalRating / productReviews.length).toFixed(1));
+            } else {
+              product.rating = 5.0;
+            }
+          });
+        },
+
+        saveProductReview() {
+          if (!this.productReviewForm.productId || !this.productReviewForm.name || !this.productReviewForm.text) {
+            alert('Please fill in the Associate Product, Customer Name, and Review Content.');
+            return;
+          }
+
+          if (!this.data.reviews) {
+            this.data.reviews = [];
+          }
+
+          if (this.productReviewModalMode === 'add') {
+            this.data.reviews.unshift(this.productReviewForm);
+          } else {
+            const idx = this.data.reviews.findIndex(r => r.id === this.productReviewForm.id);
+            if (idx >= 0) {
+              this.data.reviews[idx] = this.productReviewForm;
+            }
+          }
+
+          this.recalculateProductRatings();
+          this.productReviewModalOpen = false;
+          this.saveData();
+        },
+
+        deleteProductReview(id) {
+          if (confirm('Are you sure you want to delete this product review?')) {
+            this.data.reviews = this.data.reviews.filter(r => r.id !== id);
+            this.recalculateProductRatings();
+            this.saveData();
+          }
+        },
+
+        // --- BLOG ACTIONS ---
+        openBlogModal(mode, blog = null) {
+          this.blogModalMode = mode;
+          if (mode === 'add') {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            this.originalBlogId = '';
+            this.blogForm = { 
+              id: '', 
+              title: '', 
+              category: 'Guides', 
+              author: 'Admin', 
+              readTime: '5 min read', 
+              date: dateStr, 
+              image: this.imageList[0] || 'images/cat-emails.webp', 
+              excerpt: '', 
+              content: '', 
+              seo_title: '', 
+              seo_tags: '', 
+              seo_description: '' 
+            };
+          } else {
+            this.blogForm = { 
+              seo_title: '', 
+              seo_tags: '', 
+              seo_description: '',
+              ...blog 
+            };
+            this.originalBlogId = blog.id;
+          }
+          this.blogModalOpen = true;
+        },
+
+        saveBlog() {
+          if (!this.blogForm.id || !this.blogForm.title) {
+            alert('Please fill out Blog Title and ID.');
+            return;
+          }
+          this.blogForm.id = this.slugify(this.blogForm.id);
+
+          if (!this.data.blogs) {
+            this.data.blogs = [];
+          }
+
+          if (this.blogModalMode === 'add') {
+            if (this.data.blogs.some(b => b.id === this.blogForm.id)) {
+              alert('A blog post with this ID already exists!');
+              return;
+            }
+            this.data.blogs.push(this.blogForm);
+          } else {
+            if (this.blogForm.id !== this.originalBlogId) {
+              if (this.data.blogs.some(b => b.id === this.blogForm.id)) {
+                alert('A blog post with this new ID already exists!');
+                return;
+              }
+            }
+            const idx = this.data.blogs.findIndex(b => b.id === this.originalBlogId);
+            if (idx >= 0) {
+              this.data.blogs[idx] = this.blogForm;
+            }
+          }
+          this.blogModalOpen = false;
+          this.saveData();
+        },
+
+        deleteBlog(id) {
+          if (confirm('Are you sure you want to delete this blog post?')) {
+            this.data.blogs = this.data.blogs.filter(b => b.id !== id);
+            this.saveData();
+          }
+        },
+
+        handleBlogImageUpload(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              this.blogForm.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        },
+
+        showToast(message) {
+          const toast = document.createElement('div');
+          toast.className = 'fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-4 rounded-xl shadow-2xl text-sm font-bold z-50 transition-all duration-300 opacity-0 translate-y-3 border border-slate-800';
+          toast.innerHTML = message;
+          document.body.appendChild(toast);
+          
+          setTimeout(() => {
+            toast.classList.remove('opacity-0', 'translate-y-3');
+            toast.classList.add('opacity-100', 'translate-y-0');
+          }, 50);
+
+          setTimeout(() => {
+            toast.classList.remove('opacity-100', 'translate-y-0');
+            toast.classList.add('opacity-0', 'translate-y-3');
+            setTimeout(() => {
+              document.body.removeChild(toast);
+            }, 300);
+          }, 3500);
+        },
+
+        handleLogoUpload(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              this.data.settings.logoImage = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        },
+
+        handleFaviconUpload(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              this.data.settings.faviconImage = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        },
+
+        handleProductImageUpload(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              this.productForm.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        },
+
+        addGalleryImageUpload(event) {
+          const files = event.target.files;
+          if (files && files.length > 0) {
+            if (!this.productForm.images || !Array.isArray(this.productForm.images)) {
+              this.productForm.images = [this.productForm.image || ''];
+            }
+            Array.from(files).forEach(file => {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                this.productForm.images.push(e.target.result);
+              };
+              reader.readAsDataURL(file);
+            });
+          }
+        },
+
+
+        // --- COUPON ACTIONS ---
+        openCouponModal(mode, coupon = null) {
+          this.couponModalMode = mode;
+          if (mode === 'add') {
+            this.couponForm = { code: '', type: 'percent', value: 10, minOrder: 0 };
+          } else {
+            this.couponForm = { ...coupon };
+          }
+          this.couponModalOpen = true;
+        },
+
+        saveCoupon() {
+          if (!this.couponForm.code) {
+            alert('Please enter a Coupon Code.');
+            return;
+          }
+          this.couponForm.code = this.couponForm.code.trim().toUpperCase();
+
+          if (!this.data.coupons) {
+            this.data.coupons = [];
+          }
+
+          if (this.couponModalMode === 'add') {
+            if (this.data.coupons.some(c => c.code === this.couponForm.code)) {
+              alert('A coupon with this code already exists!');
+              return;
+            }
+            this.data.coupons.push(this.couponForm);
+          } else {
+            const idx = this.data.coupons.findIndex(c => c.code === this.couponForm.code);
+            if (idx >= 0) {
+              this.data.coupons[idx] = this.couponForm;
+            }
+          }
+          this.couponModalOpen = false;
+          this.saveData();
+        },
+
+        deleteCoupon(code) {
+          if (confirm(`Are you sure you want to delete the coupon '${code}'?`)) {
+            this.data.coupons = this.data.coupons.filter(c => c.code !== code);
+            this.saveData();
+          }
+        }
+      };
+    }
+  </script>
+</body>
+</html>
