@@ -249,16 +249,42 @@ const siteData = {
       "seo_description": "Looking to buy Google reviews for your local business? PVAMarketplace delivers real, aged-profile feedback to improve your star ratings, dominate Google Maps & convert more customers. Gradual safe delivery included."
     },
     {
+      "seo_title": "Google Reviews to Buy – Boost Star Ratings for Business Growth | PVAMarketplace",
+      "seo_tags": "google reviews, buy google reviews, real google reviews, google business reviews, purchase google reviews, google maps reviews, 5 star google reviews, local seo reviews, verified google reviews, google review packages, pvamarketplace google reviews, bulk google reviews, google review service, google star rating boost, local business reviews, google maps ranking reviews, genuine google reviews",
+      "seo_description": "Looking to buy Google reviews from real aged profiles? PVAMarketplace delivers genuine verified feedback to grow your star rating, dominate local search & win more customers. Safe gradual delivery included.",
       "id": "google-reviews-turn-your-star-rating-into-your-most-powerful-sales-tool",
-      "name": "Google Reviews – Turn Your Star Rating Into Your Most Powerful Sales Tool",
+      "name": "Buy Google 5 Star Reviews",
       "category": "emails",
       "price": 10,
       "originalPrice": 12,
-      "unit": "kg",
+      "unit": "per",
       "rating": 5,
       "reviewsCount": 0,
-      "image": "images/cat-developers.webp",
+      "image": "",
       "images": [
+        "",
+        "images/cat-developers.webp"
+      ],
+      "inStock": true,
+      "isBestSeller": false,
+      "isNew": false,
+      "shortDescription": "Want to buy Google reviews that drive real business results? Our genuine feedback packages are posted from real aged profiles, delivered gradually & built to improve your star rating, local search position & customer conversion rate.",
+      "description": "Google Reviews – Genuine Customer Feedback That Puts Your Business Ahead of the Competition\nEvery day potential customers search Google and choose businesses based on star ratings and review counts. If your listing is sitting with few or no reviews while competitors dominate the local pack — you are losing business that should be yours.\nPVAMarketplace delivers genuine Google review packages posted from real, aged profiles with authentic activity history. Our reviews are designed to blend naturally into your existing feedback profile — gradually building the social proof your business needs to rank higher, earn trust faster, and convert more searchers into paying customers.\n\nWhat Makes Our Google Review Packages Different?\nFeatureDetails✅ Real Aged Google ProfilesEvery review posted from accounts with genuine long-term activity history✅ Organic Delivery ScheduleReviews released in natural patterns — never in suspicious bulk batches✅ Permanent Retention FocusHigh-quality profiles selected specifically for long-term review stability✅ Fully Custom Review TextYour words, your brand voice — or we write it for you✅ Rating Mix ControlFull flexibility to choose star distribution for authentic profile balance✅ Guaranteed ReplacementDropped reviews within coverage period replaced free, no questions asked\n\nWho Is This For?\n\nNew Business Owners – Overcome the credibility gap that comes with a fresh Google listing and zero reviews\nBrick & Mortar Retailers – Pull more foot traffic by outranking nearby competitors in Google Maps results\nTrades & Home Services – Convert fence-sitting customers who compare star ratings before making a call\nMedical & Wellness Clinics – Establish patient trust with a consistent, credible stream of positive feedback\nHospitality & Dining – Fill more tables and bookings by showcasing a strong dining reputation online\nMarketing Agencies – Deliver quantifiable reputation improvements for clients across multiple business categories\n\n\nThe Business Case for a Stronger Google Review Profile\nThe impact of Google reviews extends far beyond a simple star rating — it touches every stage of your customer acquisition process:\n\nLocal Pack Positioning — Review volume and recency are core signals in Google's local ranking algorithm\nSearch Result Star Display — Businesses with sufficient reviews earn star ratings directly in organic search results\nFirst Impression Conversion — A strong rating communicates trustworthiness before a customer even visits your website\nDecision-Stage Influence — Customers actively comparing options almost always choose the business with more positive reviews\nRevenue Per Customer — Higher trust scores correlate directly with customers spending more and returning more often\nLong-Term Brand Equity — A growing review profile compounds in value — every new review strengthens the ones before it\n\n\nPackage Options\nChoose the Google review package that matches your current listing status and growth target:\n\nFoundation Pack — Perfect for brand-new listings that need an initial review base to establish credibility\nMomentum Pack — Designed for active businesses looking to accelerate their review count in competitive markets\nDominance Pack — High-volume review packages for businesses targeting first-place positions in their local area\nEnterprise Pack — Multi-location and agency-scale review campaigns with fully custom delivery and content\n\nSelect your package from the dropdown above to view full pricing and delivery timeline details.\n\nDelivery & Retention Policy\n🚀 Organic Delivery Schedule — Reviews are released gradually across your selected delivery window — mimicking the natural pace of real customer feedback and keeping your listing growth pattern looking completely authentic.\n🔄 Free Replacement Guarantee — If any review within our guaranteed coverage window is removed by the platform, we replace it at zero cost — your agreed review count is always maintained.\n\nFrequently Asked Questions\n❓ Where do these Google reviews come from?\nEvery review is posted from a real, aged Google account with a genuine activity history spanning multiple platforms and services — making each review indistinguishable from organic customer feedback.\n❓ How soon will reviews start appearing?\nYour first reviews typically go live within 24 to 48 hours of order confirmation. The remainder are released gradually over your selected delivery window for maximum safety and authenticity.\n❓ Can I supply the review text myself?\nYes. You can submit custom review content in any language, specific to your services or products. If you prefer, our team will write natural, industry-appropriate feedback that reads like genuine customer experience.\n❓ What happens if a review disappears?\nOur replacement guarantee covers all reviews within the stated coverage period. If any review is removed, we replace it free of charge — no paperwork, no delays, no extra cost.\n❓ Do you offer mixed star ratings?\nYes. We can deliver any combination of star ratings you prefer — creating a realistic review distribution that looks naturally earned rather than artificially uniform.\n❓ Can you manage reviews across multiple locations?\nAbsolutely. PVAMarketplace handles multi-location review campaigns for franchise brands, agency clients and businesses with multiple Google Business listings. Reach out for custom multi-location pricing.\n❓ What support is available after my order?\nOur team is available 24 hours a day, 7 days a week via WhatsApp, Telegram, and Email — ready to handle content submissions, delivery updates, replacement requests and any other post-purchase needs.\n",
+      "features": [],
+      "pricing": []
+    },
+    {
+      "id": "google-negative-reviews-competitive-analysis-reputation-stress-testing-packages",
+      "name": "Google Negative Reviews – Competitive Analysis & Reputation Stress Testing Packages",
+      "category": "emails",
+      "price": 10,
+      "originalPrice": 11,
+      "unit": "per",
+      "rating": 5,
+      "reviewsCount": 0,
+      "image": "",
+      "images": [
+        "",
         "images/cat-developers.webp"
       ],
       "inStock": true,
