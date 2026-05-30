@@ -133,6 +133,7 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
     .replace(/\{\{FACEBOOK_URL\}\}/g, () => siteData.settings.facebookUrl)
     .replace(/\{\{INSTAGRAM_URL\}\}/g, () => siteData.settings.instagramUrl)
     .replace(/\{\{TIKTOK_URL\}\}/g, () => siteData.settings.tiktokUrl || '')
+    .replace(/\{\{TELEGRAM_URL\}\}/g, () => siteData.settings.telegramUrl || '')
     .replace(/\{\{CONTACT_ADDRESS\}\}/g, () => siteData.settings.address)
     .replace(/\{\{CONTACT_PHONE\}\}/g, () => siteData.settings.contactPhone)
     .replace(/\{\{CONTACT_EMAIL\}\}/g, () => siteData.settings.contactEmail)
@@ -187,7 +188,7 @@ function renderProductCard(product, prefix = '', index = 0) {
     
     <!-- Image -->
     <a href="${prefix}product/${product.id}/" class="h-48 w-full bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center p-3 mb-4">
-      <img src="${prefix}${product.image}" alt="${product.name}" loading="lazy" width="240" height="240" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300">
+      <img decoding="async" src="${prefix}${product.image}" alt="${product.name}" loading="lazy" width="240" height="240" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300">
     </a>
 
     <!-- Details -->
@@ -236,7 +237,7 @@ function renderBlogCard(blog, prefix = '') {
     <div>
       <!-- Image -->
       <a href="${prefix}blog/${blog.id}/" class="block aspect-video w-full overflow-hidden bg-slate-50 border-b border-slate-50">
-        <img src="${prefix}${blog.image}" alt="${blog.title}" loading="lazy" width="400" height="250" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500">
+        <img decoding="async" src="${prefix}${blog.image}" alt="${blog.title}" loading="lazy" width="400" height="250" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500">
       </a>
       
       <!-- Details -->
@@ -272,7 +273,7 @@ let categoriesGridHTML = '';
 siteData.categories.forEach(cat => {
   categoriesGridHTML += `
   <a href="category/${cat.id}/" class="relative group h-64 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-brand-100 block">
-    <img src="${cat.image}" alt="${cat.name}" loading="lazy" width="300" height="200" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500">
+    <img decoding="async" src="${cat.image}" alt="${cat.name}" loading="lazy" width="300" height="200" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500">
     <div class="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/20 to-transparent"></div>
     <div class="absolute bottom-5 left-5 right-5">
       <span class="text-[10px] font-bold text-accent-yellow uppercase tracking-wider font-sans">Collection</span>

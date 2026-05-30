@@ -82,7 +82,7 @@
   </script>
   <link rel="preload" as="image" href="../images/cat-emails.webp" fetchpriority="high">
   <link href="../output.css" rel="stylesheet">
-  <link rel="icon" type="image/png" href="../images/logo/favicon.webp?v=1780153901151">
+  <link rel="icon" type="image/png" href="../images/logo/favicon.webp?v=1780155203684">
   <!-- Alpine.js for interactive dropdowns, cart, mobile nav -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
@@ -119,7 +119,7 @@
         
         <!-- Logo -->
         <a href="../" class="flex items-center gap-2 group">
-          <img src="../images/logo/logo.webp?v=1780153901151" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
+          <img decoding="async" src="../images/logo/logo.webp?v=1780155203684" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
           <span class="text-2xl font-bold font-serif tracking-tight text-brand-500 group-hover:text-brand-600 transition-colors">
             PVA Marketplace
           </span>
@@ -202,7 +202,7 @@
 
     <!-- Featured Cover Image -->
     <div class="rounded-2xl overflow-hidden shadow-sm border border-slate-100">
-      <img src="../images/cat-emails.webp" fetchpriority="high" width="800" height="450" alt="Importance of Aged PVA Accounts in Digital Marketing" class="w-full h-auto object-cover max-h-[450px]">
+      <img decoding="async" src="../images/cat-emails.webp" fetchpriority="high" width="800" height="450" alt="Importance of Aged PVA Accounts in Digital Marketing" class="w-full h-auto object-cover max-h-[450px]">
     </div>
 
     <!-- Content Body -->
@@ -250,7 +250,7 @@
     <div>
       <!-- Image -->
       <a href="../../blog/pva-security-guide/" class="block aspect-video w-full overflow-hidden bg-slate-50 border-b border-slate-50">
-        <img src="../../images/cat-socials.webp" alt="How to Safely Use PVA Accounts After Purchase" loading="lazy" width="400" height="250" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500">
+        <img decoding="async" src="../../images/cat-socials.webp" alt="How to Safely Use PVA Accounts After Purchase" loading="lazy" width="400" height="250" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500">
       </a>
       
       <!-- Details -->
@@ -280,7 +280,7 @@
     <div>
       <!-- Image -->
       <a href="../../blog/verified-financials-benefit/" class="block aspect-video w-full overflow-hidden bg-slate-50 border-b border-slate-50">
-        <img src="../../images/cat-financials.webp" alt="Collecting Freelancing Payments via US Cash App and Binance Accounts" loading="lazy" width="400" height="250" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500">
+        <img decoding="async" src="../../images/cat-financials.webp" alt="Collecting Freelancing Payments via US Cash App and Binance Accounts" loading="lazy" width="400" height="250" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500">
       </a>
       
       <!-- Details -->
@@ -320,7 +320,7 @@
         <!-- Brand Info -->
         <div class="space-y-4">
           <a href="../" class="flex items-center gap-2.5 group">
-            <img src="../images/logo/logo.webp?v=1780153901151" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
+            <img decoding="async" src="../images/logo/logo.webp?v=1780155203684" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
             <span class="text-2xl font-bold font-serif text-brand-400 tracking-tight group-hover:text-brand-300 transition-colors">
               PVA Marketplace
             </span>
@@ -369,7 +369,7 @@
           <h4 class="text-brand-400 text-base font-semibold tracking-wide font-sans">Contact Info</h4>
           <p class="text-sm text-brand-200/70 leading-relaxed font-sans">
             📍 Dallas, Texas, USA (Support: Dhaka, Bangladesh)<br>
-            📞 +880 1308995319<br>
+            📞 +1 (548) 580-1949<br>
             ✉️ support@pvamarketplace.com
           </p>
           <div class="pt-2">
@@ -436,7 +436,7 @@
               <div x-show="cartItems.length > 0" class="divide-y divide-slate-100">
                 <template x-for="item in cartItems" :key="item.id">
                   <div class="flex py-4 gap-4">
-                    <img :src="'../' + item.image" :alt="item.name" width="64" height="64" loading="lazy" class="h-16 w-16 flex-none rounded-lg object-cover bg-slate-50 border border-slate-100">
+                    <img decoding="async" :src="'../' + item.image" :alt="item.name" width="64" height="64" loading="lazy" class="h-16 w-16 flex-none rounded-lg object-cover bg-slate-50 border border-slate-100">
                     <div class="flex-auto">
                       <h4 class="text-sm font-semibold text-slate-800 font-sans leading-snug" x-text="item.name"></h4>
                       <p class="text-xs text-slate-400 mt-0.5" x-text="'$' + item.price + ' / ' + item.unit"></p>
@@ -558,7 +558,7 @@
       <div class="p-6 border-b border-brand-50 bg-brand-50/50 flex justify-between items-center print:border-b-2 print:border-slate-200">
         <div>
           <div class="flex items-center gap-2">
-            <img src="../images/logo/logo.webp?v=1780153901151" alt="PVA Marketplace" width="32" height="32" class="w-8 h-8 object-contain">
+            <img decoding="async" src="../images/logo/logo.webp?v=1780155203684" alt="PVA Marketplace" width="32" height="32" class="w-8 h-8 object-contain">
             <span class="text-xl font-bold font-serif text-brand-600">PVA Marketplace</span>
           </div>
           <p class="text-xs text-slate-400 font-sans mt-0.5">Verified & Secure Accounts</p>
@@ -638,7 +638,7 @@
         <!-- Thank you message -->
         <div class="text-center pt-4 border-t border-slate-50 print:border-slate-200 font-sans">
           <p class="text-xs text-brand-600 font-semibold">Thank you for ordering from PVA Marketplace!</p>
-          <p class="text-[10px] text-slate-400 mt-1">For any assistance, contact us: +880 1308995319</p>
+          <p class="text-[10px] text-slate-400 mt-1">For any assistance, contact us: +1 (548) 580-1949</p>
         </div>
 
       </div>
@@ -676,7 +676,7 @@
         deliveryArea: 'inside',
         insideFee: 60,
         outsideFee: 130,
-        whatsappNumber: '8801308995319',
+        whatsappNumber: '+1 (548) 580-1949',
         
         // Coupon system states
         coupons: [{"code":"WELCOME10","type":"percent","value":10,"minOrder":0},{"code":"PVADISCOUNT","type":"percent","value":15,"minOrder":5000}],
@@ -936,17 +936,17 @@
         <svg class="w-4 h-4 text-slate-300 group-hover:text-emerald-500 ml-auto transition-all duration-300 group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
       </a>
 
-      <!-- Facebook Messenger Button -->
-      <a :href="messengerLink" target="_blank" rel="noopener noreferrer"
-         class="group flex items-center gap-3 bg-white hover:bg-blue-50 rounded-2xl shadow-xl border border-slate-100 hover:border-blue-200 px-5 py-3.5 w-72 transition-all duration-300 hover:shadow-blue-100/50 hover:-translate-y-0.5">
-        <span class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-md shadow-blue-200 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-          <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 4.975 0 11.111c0 3.497 1.745 6.616 4.472 8.652V24l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.974 12-11.111C24 4.975 18.627 0 12 0zm1.193 14.963l-3.056-3.259-5.963 3.259L10.733 8.3l3.13 3.259L19.752 8.3l-6.559 6.663z"/></svg>
+      <!-- Telegram Button -->
+      <a :href="telegramUrl" target="_blank" rel="noopener noreferrer"
+         class="group flex items-center gap-3 bg-white hover:bg-sky-50 rounded-2xl shadow-xl border border-slate-100 hover:border-sky-200 px-5 py-3.5 w-72 transition-all duration-300 hover:shadow-sky-100/50 hover:-translate-y-0.5">
+        <span class="w-10 h-10 rounded-full bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-md shadow-sky-200 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+          <svg class="w-5 h-5 fill-white" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
         </span>
         <div>
-          <p class="text-sm font-bold text-slate-800 group-hover:text-blue-700 transition-colors">Messenger</p>
-          <p class="text-[10px] text-slate-400">Chat via Facebook Messenger</p>
+          <p class="text-sm font-bold text-slate-800 group-hover:text-sky-700 transition-colors">Telegram</p>
+          <p class="text-[10px] text-slate-400">Chat via Telegram</p>
         </div>
-        <svg class="w-4 h-4 text-slate-300 group-hover:text-blue-500 ml-auto transition-all duration-300 group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+        <svg class="w-4 h-4 text-slate-300 group-hover:text-sky-500 ml-auto transition-all duration-300 group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
       </a>
     </div>
 
@@ -972,8 +972,8 @@
     function liveChatBubble() {
       return {
         isOpen: false,
-        whatsappNumber: '8801308995319',
-        facebookUrl: 'https://www.facebook.com/pvamarketplace7',
+        whatsappNumber: '+1 (548) 580-1949',
+        telegramUrl: 'https://t.me/BestPVAShops',
 
         get whatsappLink() {
           let phone = this.whatsappNumber.replace(/\D/g, '');
@@ -981,16 +981,6 @@
             phone = '88' + phone;
           }
           return `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent('Hello! I have a question about your PVA accounts...')}`;
-        },
-
-        get messengerLink() {
-          const fbUrl = this.facebookUrl || '';
-          if (fbUrl.includes('facebook.com')) {
-            const parts = fbUrl.replace(/\/+$/, '').split('/');
-            const pageId = parts[parts.length - 1];
-            return `https://m.me/${pageId}`;
-          }
-          return 'https://m.me/';
         }
       };
     }

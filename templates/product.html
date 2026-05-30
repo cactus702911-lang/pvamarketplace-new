@@ -40,17 +40,7 @@
         @mouseleave="zoom = false"
       >
         <!-- Main Display Image (visible when not zoomed) -->
-        <img 
-          :src="'{{PATH_PREFIX}}' + images[activeImageIdx]" 
-          fetchpriority="high" 
-          loading="eager"
-          decoding="async"
-          width="400" 
-          height="350"
-          alt="{{PRODUCT_NAME}}" 
-          class="max-h-[350px] w-auto object-contain transition-all duration-300"
-          :class="zoom ? 'opacity-0 scale-95' : 'opacity-100 scale-100'"
-        >
+        <img :src="'{{PATH_PREFIX}}' + images[activeImageIdx]" fetchpriority="high" loading="eager" decoding="async" width="400" height="350" alt="{{PRODUCT_NAME}}" class="max-h-[350px] w-auto object-contain transition-all duration-300" :class="zoom ? 'opacity-0 scale-95' : 'opacity-100 scale-100'" >
         
         <!-- Zoom Overlay (visible on hover) -->
         <div 
@@ -73,7 +63,7 @@
             class="w-16 h-16 rounded-xl overflow-hidden border-2 bg-white p-1 hover:border-brand-400 focus:outline-none transition-all duration-200"
             :class="activeImageIdx === idx ? 'border-brand-500 ring-2 ring-brand-100' : 'border-slate-150'"
           >
-            <img :src="'{{PATH_PREFIX}}' + img" alt="" width="60" height="60" loading="lazy" class="w-full h-full object-contain">
+            <img decoding="async" :src="'{{PATH_PREFIX}}' + img" alt="" width="60" height="60" loading="lazy" class="w-full h-full object-contain">
           </button>
         </template>
       </div>
@@ -275,7 +265,7 @@
             
             <template x-if="newImageBase64">
               <div class="relative w-12 h-12 rounded-lg border border-slate-200 overflow-hidden bg-slate-50">
-                <img :src="newImageBase64" class="w-full h-full object-cover">
+                <img loading="lazy" decoding="async" :src="newImageBase64" class="w-full h-full object-cover">
                 <button type="button" @click="removeSelectedImage()" class="absolute -top-1 -right-1 bg-rose-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[9px] hover:bg-rose-600" aria-label="Remove image">×</button>
               </div>
             </template>
@@ -311,10 +301,7 @@
             <p class="text-xs text-slate-600 leading-relaxed font-sans" x-text="review.text"></p>
             <template x-if="review.image">
               <div class="mt-2 max-w-[120px] rounded-lg overflow-hidden border border-slate-150 bg-slate-50 cursor-pointer hover:opacity-90 transition-opacity">
-                <img :src="review.image.startsWith('data:image/') ? review.image : '{{PATH_PREFIX}}' + review.image" 
-                     alt="Review image" 
-                     class="w-full h-auto object-contain max-h-[80px]"
-                     @click="window.open(review.image.startsWith('data:image/') ? review.image : '{{PATH_PREFIX}}' + review.image, '_blank')">
+                <img loading="lazy" decoding="async" :src="review.image.startsWith('data:image/') ? review.image : '{{PATH_PREFIX}}' + review.image" alt="Review image" class="w-full h-auto object-contain max-h-[80px]" @click="window.open(review.image.startsWith('data:image/') ? review.image : '{{PATH_PREFIX}}' + review.image, '_blank')">
               </div>
             </template>
           </div>
