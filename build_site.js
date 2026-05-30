@@ -844,6 +844,17 @@ try {
   console.error('Error cleaning up blog directory:', err.message);
 }
 
+// Helper to escape XML special characters
+const escapeXML = (str) => {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+};
+
 // ----------------------------------------------------
 // GENERATE SITEMAPS & RSS FEED
 // ----------------------------------------------------
@@ -867,7 +878,7 @@ const generateSitemaps = () => {
 
   // Product pages with images
   siteData.products.forEach(prod => {
-    xml += `  <url>\n    <loc>https://pvamarketplace.com/product/${prod.id}/</loc>\n    <image:image>\n      <image:loc>https://pvamarketplace.com/${prod.image}</image:loc>\n      <image:title>${prod.seo_title || prod.name}</image:title>\n    </image:image>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
+    xml += `  <url>\n    <loc>https://pvamarketplace.com/product/${prod.id}/</loc>\n    <image:image>\n      <image:loc>https://pvamarketplace.com/${escapeXML(prod.image)}</image:loc>\n      <image:title>${escapeXML(prod.seo_title || prod.name)}</image:title>\n    </image:image>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
   });
 
   // Blog pages
@@ -882,7 +893,7 @@ const generateSitemaps = () => {
   let rss = `<?xml version="1.0" encoding="UTF-8" ?>\n<rss version="2.0">\n<channel>\n  <title>PVA Marketplace Blog</title>\n  <link>https://pvamarketplace.com/blog/</link>\n  <description>Latest guides and updates on PVA accounts and marketing.</description>\n`;
   
   (siteData.blogs || []).forEach(blog => {
-    rss += `  <item>\n    <title>${blog.title}</title>\n    <link>https://pvamarketplace.com/blog/${blog.id}/</link>\n    <description><![CDATA[${blog.excerpt || ''}]]></description>\n  </item>\n`;
+    rss += `  <item>\n    <title>${escapeXML(blog.title)}</title>\n    <link>https://pvamarketplace.com/blog/${blog.id}/</link>\n    <description><![CDATA[${blog.excerpt || ''}]]></description>\n  </item>\n`;
   });
   
   rss += `</channel>\n</rss>`;
