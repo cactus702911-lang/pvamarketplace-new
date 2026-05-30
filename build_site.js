@@ -1,4 +1,4 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
@@ -54,7 +54,7 @@ function generateStarsHTML(rating) {
 function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activeNav = '', extraHead = '', seoOptions = {}) {
   let footerCategoriesHTML = '';
   siteData.categories.forEach(cat => {
-    footerCategoriesHTML += `<li><a href="${pathPrefix}category/${cat.id}" class="hover:text-white transition-colors">${cat.name}</a></li>\n`;
+    footerCategoriesHTML += `<li><a href="${pathPrefix}category/${cat.id}/" class="hover:text-white transition-colors">${cat.name}</a></li>\n`;
   });
 
   const resolveAssetPath = (filePath) => {
@@ -65,7 +65,7 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
     return pathPrefix + filePath;
   };
 
-  const homeURL = pathPrefix === '../' ? '../home' : 'home';
+  const homeURL = pathPrefix === '../' ? '../' : './';
 
   // --- Technical SEO Implementation ---
   
@@ -186,7 +186,7 @@ function renderProductCard(product, prefix = '', index = 0) {
     </div>
     
     <!-- Image -->
-    <a href="${prefix}product/${product.id}" class="h-48 w-full bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center p-3 mb-4">
+    <a href="${prefix}product/${product.id}/" class="h-48 w-full bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center p-3 mb-4">
       <img src="${prefix}${product.image}" alt="${product.name}" loading="lazy" width="240" height="240" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300">
     </a>
 
@@ -197,7 +197,7 @@ function renderProductCard(product, prefix = '', index = 0) {
           ${generateStarsHTML(rating)}
           <span class="text-slate-400 font-medium ml-1">(${reviewsCount})</span>
         </div>
-        <a href="${prefix}product/${product.id}" class="block mt-1">
+        <a href="${prefix}product/${product.id}/" class="block mt-1">
           <h3 class="text-base font-bold text-slate-800 hover:text-brand-500 transition-colors leading-snug font-sans">${product.name}</h3>
         </a>
       </div>
@@ -235,7 +235,7 @@ function renderBlogCard(blog, prefix = '') {
   <div class="bg-white rounded-2xl border border-brand-100 overflow-hidden hover-glow flex flex-col justify-between group transition-custom">
     <div>
       <!-- Image -->
-      <a href="${prefix}blog/${blog.id}" class="block aspect-video w-full overflow-hidden bg-slate-50 border-b border-slate-50">
+      <a href="${prefix}blog/${blog.id}/" class="block aspect-video w-full overflow-hidden bg-slate-50 border-b border-slate-50">
         <img src="${prefix}${blog.image}" alt="${blog.title}" loading="lazy" width="400" height="250" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500">
       </a>
       
@@ -245,7 +245,7 @@ function renderBlogCard(blog, prefix = '') {
           <span class="px-2.5 py-0.5 bg-brand-50 text-brand-600 rounded-full">${blog.category}</span>
           <span>${blog.date}</span>
         </div>
-        <a href="${prefix}blog/${blog.id}" class="block">
+        <a href="${prefix}blog/${blog.id}/" class="block">
           <h3 class="text-base font-bold text-slate-800 hover:text-brand-500 transition-colors leading-snug font-serif">${blog.title}</h3>
         </a>
         <p class="text-xs text-slate-500 leading-relaxed font-sans line-clamp-3">${blog.excerpt}</p>
@@ -253,7 +253,7 @@ function renderBlogCard(blog, prefix = '') {
     </div>
     
     <div class="px-6 pb-6 pt-2">
-      <a href="${prefix}blog/${blog.id}" class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-600 hover:text-brand-500 transition-all group-hover:translate-x-0.5 duration-300">
+      <a href="${prefix}blog/${blog.id}/" class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-600 hover:text-brand-500 transition-all group-hover:translate-x-0.5 duration-300">
         Read More 
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -271,7 +271,7 @@ console.log('Generating index.html...');
 let categoriesGridHTML = '';
 siteData.categories.forEach(cat => {
   categoriesGridHTML += `
-  <a href="category/${cat.id}" class="relative group h-64 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-brand-100 block">
+  <a href="category/${cat.id}/" class="relative group h-64 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-brand-100 block">
     <img src="${cat.image}" alt="${cat.name}" loading="lazy" width="300" height="200" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500">
     <div class="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/20 to-transparent"></div>
     <div class="absolute bottom-5 left-5 right-5">
@@ -417,7 +417,7 @@ let shopContent = shopTemplate
 
 fs.writeFileSync(
   path.join(__dirname, 'shop.html'),
-  compilePage(shopContent, 'Shop PVA Accounts', 'Explore our selection of premium verified accounts, including email, social, and payment gateway profiles.', '', 'shop', '', { url: 'https://pvamarketplace.com/shop.html' })
+  compilePage(shopContent, 'Shop PVA Accounts', 'Explore our selection of premium verified accounts, including email, social, and payment gateway profiles.', '', 'shop', '', { url: 'https://pvamarketplace.com/shop/' })
 );
 
 // ----------------------------------------------------
@@ -452,7 +452,7 @@ siteData.categories.forEach(cat => {
         "@type": "ListItem",
         "position": 2,
         "name": cat.name,
-        "item": `https://pvamarketplace.com/category/${cat.id}`
+        "item": `https://pvamarketplace.com/category/${cat.id}/`
       }
     ]
   };
@@ -460,7 +460,7 @@ siteData.categories.forEach(cat => {
   fs.writeFileSync(
     path.join(__dirname, 'category', `${cat.id}.html`),
     compilePage(catContent, cat.name, cat.description, '../', '', '', { 
-      url: `https://pvamarketplace.com/category/${cat.id}`,
+      url: `https://pvamarketplace.com/category/${cat.id}/`,
       schemas: [breadcrumbSchema]
     })
   );
@@ -511,7 +511,7 @@ siteData.products.forEach(prod => {
     },
     "offers": {
       "@type": "AggregateOffer",
-      "url": `https://pvamarketplace.com/product/${prod.id}`,
+      "url": `https://pvamarketplace.com/product/${prod.id}/`,
       "priceCurrency": "USD",
       "lowPrice": prod.price,
       "highPrice": prod.originalPrice,
@@ -570,13 +570,13 @@ siteData.products.forEach(prod => {
         "@type": "ListItem",
         "position": 2,
         "name": cat.name,
-        "item": `https://pvamarketplace.com/category/${cat.id}`
+        "item": `https://pvamarketplace.com/category/${cat.id}/`
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": prod.name,
-        "item": `https://pvamarketplace.com/product/${prod.id}`
+        "item": `https://pvamarketplace.com/product/${prod.id}/`
       }
     ]
   };
@@ -610,7 +610,7 @@ siteData.products.forEach(prod => {
   fs.writeFileSync(
     path.join(__dirname, 'product', `${prod.id}.html`),
     compilePage(prodContent, finalTitle, cleanMetaDesc, '../', '', `<link rel="preload" as="image" href="../${prod.image}" fetchpriority="high">`, {
-      url: `https://pvamarketplace.com/product/${prod.id}`,
+      url: `https://pvamarketplace.com/product/${prod.id}/`,
       image: prod.image,
       keywords: prod.seo_tags || 'pva accounts, buy pva',
       type: 'product',
@@ -643,11 +643,11 @@ try {
 console.log('Generating about.html and contact.html...');
 fs.writeFileSync(
   path.join(__dirname, 'about.html'),
-  compilePage(aboutTemplate, 'About Us', 'Learn about PVA Marketplace, our verification processes, security standards, and support channels.', '', 'about', '', { url: 'https://pvamarketplace.com/about' })
+  compilePage(aboutTemplate, 'About Us', 'Learn about PVA Marketplace, our verification processes, security standards, and support channels.', '', 'about', '', { url: 'https://pvamarketplace.com/about/' })
 );
 fs.writeFileSync(
   path.join(__dirname, 'contact.html'),
-  compilePage(contactTemplate, 'Contact Us', 'Get in touch with the PVA Marketplace sales and support team. Available on WhatsApp and Telegram.', '', 'contact', '', { url: 'https://pvamarketplace.com/contact' })
+  compilePage(contactTemplate, 'Contact Us', 'Get in touch with the PVA Marketplace sales and support team. Available on WhatsApp and Telegram.', '', 'contact', '', { url: 'https://pvamarketplace.com/contact/' })
 );
 fs.writeFileSync(
   path.join(__dirname, '404.html'),
@@ -669,7 +669,7 @@ fs.writeFileSync(
         document.head.insertBefore(base, document.head.firstChild);
       })();
     </script>`,
-    { url: 'https://pvamarketplace.com/404' }
+    { url: 'https://pvamarketplace.com/404.html' }
   )
 );
 
@@ -687,7 +687,7 @@ let blogContent = blogTemplate
 
 fs.writeFileSync(
   path.join(__dirname, 'blog.html'),
-  compilePage(blogContent, 'Blog & News', 'Read the latest guides, tips, and tutorials about PVA accounts, proxy setups, and digital marketing.', '', 'blog', '', { url: 'https://pvamarketplace.com/blog' })
+  compilePage(blogContent, 'Blog & News', 'Read the latest guides, tips, and tutorials about PVA accounts, proxy setups, and digital marketing.', '', 'blog', '', { url: 'https://pvamarketplace.com/blog/' })
 );
 
 (siteData.blogs || []).forEach(blog => {
@@ -760,13 +760,13 @@ fs.writeFileSync(
         "@type": "ListItem",
         "position": 2,
         "name": "Blog",
-        "item": "https://pvamarketplace.com/blog"
+        "item": "https://pvamarketplace.com/blog/"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": blog.title,
-        "item": `https://pvamarketplace.com/blog/${blog.id}`
+        "item": `https://pvamarketplace.com/blog/${blog.id}/`
       }
     ]
   };
@@ -774,7 +774,7 @@ fs.writeFileSync(
   fs.writeFileSync(
     path.join(__dirname, 'blog', `${blog.id}.html`),
     compilePage(blogDetailContent, finalTitle, cleanMetaDesc, '../', 'blog', `<link rel="preload" as="image" href="../${blog.image}" fetchpriority="high">`, { 
-      url: `https://pvamarketplace.com/blog/${blog.id}`, 
+      url: `https://pvamarketplace.com/blog/${blog.id}/`, 
       image: blog.image,
       keywords: blog.seo_tags || 'pva accounts, blog, guide',
       schemas: [blogPostingSchema, breadcrumbSchema]
@@ -812,32 +812,33 @@ const generateSitemaps = () => {
   staticPages.forEach(p => {
     let locPath = p.replace('.html', '');
     if (locPath === 'index') locPath = '';
+    else locPath = locPath + '/';
     xml += `  <url>\n    <loc>https://pvamarketplace.com/${locPath}</loc>\n    <changefreq>daily</changefreq>\n    <priority>${p === 'index.html' ? '1.0' : '0.8'}</priority>\n  </url>\n`;
   });
 
   // Category pages
   siteData.categories.forEach(cat => {
-    xml += `  <url>\n    <loc>https://pvamarketplace.com/category/${cat.id}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
+    xml += `  <url>\n    <loc>https://pvamarketplace.com/category/${cat.id}/</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
   });
 
   // Product pages with images
   siteData.products.forEach(prod => {
-    xml += `  <url>\n    <loc>https://pvamarketplace.com/product/${prod.id}</loc>\n    <image:image>\n      <image:loc>https://pvamarketplace.com/${prod.image}</image:loc>\n      <image:title>${prod.seo_title || prod.name}</image:title>\n    </image:image>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
+    xml += `  <url>\n    <loc>https://pvamarketplace.com/product/${prod.id}/</loc>\n    <image:image>\n      <image:loc>https://pvamarketplace.com/${prod.image}</image:loc>\n      <image:title>${prod.seo_title || prod.name}</image:title>\n    </image:image>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
   });
 
   // Blog pages
   (siteData.blogs || []).forEach(blog => {
-    xml += `  <url>\n    <loc>https://pvamarketplace.com/blog/${blog.id}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
+    xml += `  <url>\n    <loc>https://pvamarketplace.com/blog/${blog.id}/</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
   });
 
   xml += `</urlset>`;
   fs.writeFileSync(path.join(__dirname, 'sitemap.xml'), xml);
 
   // RSS Feed
-  let rss = `<?xml version="1.0" encoding="UTF-8" ?>\n<rss version="2.0">\n<channel>\n  <title>PVA Marketplace Blog</title>\n  <link>https://pvamarketplace.com/blog</link>\n  <description>Latest guides and updates on PVA accounts and marketing.</description>\n`;
+  let rss = `<?xml version="1.0" encoding="UTF-8" ?>\n<rss version="2.0">\n<channel>\n  <title>PVA Marketplace Blog</title>\n  <link>https://pvamarketplace.com/blog/</link>\n  <description>Latest guides and updates on PVA accounts and marketing.</description>\n`;
   
   (siteData.blogs || []).forEach(blog => {
-    rss += `  <item>\n    <title>${blog.title}</title>\n    <link>https://pvamarketplace.com/blog/${blog.id}</link>\n    <description><![CDATA[${blog.excerpt || ''}]]></description>\n  </item>\n`;
+    rss += `  <item>\n    <title>${blog.title}</title>\n    <link>https://pvamarketplace.com/blog/${blog.id}/</link>\n    <description><![CDATA[${blog.excerpt || ''}]]></description>\n  </item>\n`;
   });
   
   rss += `</channel>\n</rss>`;
@@ -850,7 +851,8 @@ const generateSitemaps = () => {
   staticPages.forEach(p => {
     const title = p.replace('.html', '').replace(/^\w/, c => c.toUpperCase()) || 'Home';
     let cleanPath = p.replace('.html', '');
-    if (cleanPath === 'index') cleanPath = '.';
+    if (cleanPath === 'index') cleanPath = './';
+    else cleanPath = cleanPath + '/';
     htmlSitemap += `<li><a href="${cleanPath}" class="text-brand-500 hover:underline">${title}</a></li>`;
   });
   htmlSitemap += `</ul>`;
@@ -858,7 +860,7 @@ const generateSitemaps = () => {
   // Blog Articles section
   htmlSitemap += `<div class="mt-8"><h2 class="text-xl font-bold mb-4 border-b pb-2">Blog Articles</h2><ul class="space-y-2">`;
   (siteData.blogs || []).forEach(blog => {
-    htmlSitemap += `<li><a href="blog/${blog.id}" class="text-brand-500 hover:underline">${blog.title}</a></li>`;
+    htmlSitemap += `<li><a href="blog/${blog.id}/" class="text-brand-500 hover:underline">${blog.title}</a></li>`;
   });
   htmlSitemap += `</ul></div>`;
   
@@ -866,10 +868,10 @@ const generateSitemaps = () => {
   
   htmlSitemap += `<div><h2 class="text-xl font-bold mb-4 border-b pb-2">Categories & Products</h2><ul class="space-y-4">`;
   siteData.categories.forEach(cat => {
-    htmlSitemap += `<li><a href="category/${cat.id}" class="font-bold text-slate-800 hover:text-brand-500">${cat.name}</a><ul class="pl-4 mt-2 border-l border-slate-200 space-y-1">`;
+    htmlSitemap += `<li><a href="category/${cat.id}/" class="font-bold text-slate-800 hover:text-brand-500">${cat.name}</a><ul class="pl-4 mt-2 border-l border-slate-200 space-y-1">`;
     const catProds = siteData.products.filter(p => p.category === cat.id);
     catProds.forEach(p => {
-      htmlSitemap += `<li><a href="product/${p.id}" class="text-slate-600 hover:text-brand-500 text-sm">${p.name}</a></li>`;
+      htmlSitemap += `<li><a href="product/${p.id}/" class="text-slate-600 hover:text-brand-500 text-sm">${p.name}</a></li>`;
     });
     htmlSitemap += `</ul></li>`;
   });
@@ -879,7 +881,7 @@ const generateSitemaps = () => {
   
   fs.writeFileSync(
     path.join(__dirname, 'sitemap.html'),
-    compilePage(htmlSitemap, 'Site Map', 'Sitemap of PVA Marketplace', '', '', '', { url: 'https://pvamarketplace.com/sitemap' })
+    compilePage(htmlSitemap, 'Site Map', 'Sitemap of PVA Marketplace', '', '', '', { url: 'https://pvamarketplace.com/sitemap/' })
   );
 };
 

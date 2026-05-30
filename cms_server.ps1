@@ -47,6 +47,11 @@ try {
             $path = $request.Url.LocalPath
             $method = $request.HttpMethod
 
+            # Strip trailing slash (if any) for internal serving logic (except root /)
+            if ($path.EndsWith("/") -and $path.Length -gt 1) {
+                $path = $path.Substring(0, $path.Length - 1)
+            }
+
             # Redirect / to /home
             if ($path -eq "/" -and $method -eq "GET") {
                 $cleanPath = "/home"

@@ -43,111 +43,6 @@ const siteData = {
   ],
   "products": [
     {
-      "id": "aged-facebook",
-      "name": "Aged Facebook Profile (PVA)",
-      "category": "socials",
-      "price": 1800,
-      "originalPrice": 2500,
-      "unit": "Account",
-      "image": "images/product-facebook.webp",
-      "images": [
-        "images/product-facebook.webp"
-      ],
-      "rating": 4.8,
-      "reviewsCount": 8,
-      "isBestSeller": false,
-      "isNew": true,
-      "inStock": true,
-      "seo_title": "Buy Aged Facebook Profiles – Marketplace Enabled | BestPVAShop",
-      "seo_tags": "buy aged facebook, facebook pva accounts, buy facebook accounts",
-      "shortDescription": "Phone verified Facebook profile with Marketplace access and Ads Manager pre-configured.",
-      "description": "High-quality aged Facebook accounts with active Marketplace access, pre-configured Ads Manager, and real phone number verification. Created on residential proxies and comes with cookie data (JSON/Netscape) for instant integration."
-    },
-    {
-      "id": "verified-github",
-      "name": "Aged GitHub Account",
-      "category": "developers",
-      "price": 1200,
-      "originalPrice": 1800,
-      "unit": "Account",
-      "image": "images/product-github.webp",
-      "images": [
-        "images/product-github.webp"
-      ],
-      "rating": 4.9,
-      "reviewsCount": 6,
-      "isBestSeller": true,
-      "isNew": false,
-      "inStock": true,
-      "seo_title": "Buy Aged GitHub Accounts – High Trust & Verified | BestPVAShop",
-      "seo_tags": "buy github accounts, aged github, github pva",
-      "shortDescription": "Aged and active GitHub account for developers with contribution history.",
-      "description": "Aged GitHub developer accounts with established repository history, contribution graphs, and clean verification status. Ideal for deployment pipelines, API integrations, and developer branding."
-    },
-    {
-      "id": "verified-binance",
-      "name": "Fully Verified Binance Account (KYC)",
-      "category": "financials",
-      "price": 30000,
-      "originalPrice": 35000,
-      "unit": "Account",
-      "image": "images/product-binance.webp",
-      "images": [
-        "images/product-binance.webp"
-      ],
-      "rating": 5,
-      "reviewsCount": 4,
-      "isBestSeller": true,
-      "isNew": true,
-      "inStock": true,
-      "seo_title": "Verified Binance Accounts – Full KYC (Identity) | BestPVAShop",
-      "seo_tags": "buy binance account, verified binance, binance kyc account",
-      "shortDescription": "KYC verified account for USDT and crypto trading with full access.",
-      "description": "Fully verified Binance accounts with complete KYC verification (identity & address) from various regions. Ready for trading, high-limit P2P transactions, API keys, and secure cryptocurrency storage. Configured with recovery options and 2FA."
-    },
-    {
-      "id": "verified-cashapp",
-      "name": "Verified Cash App Account",
-      "category": "financials",
-      "price": 10000,
-      "originalPrice": 12000,
-      "unit": "Account",
-      "image": "images/product-cashapp.webp",
-      "images": [
-        "images/product-cashapp.webp"
-      ],
-      "rating": 4.7,
-      "reviewsCount": 5,
-      "isBestSeller": false,
-      "isNew": false,
-      "inStock": true,
-      "seo_title": "Fully Verified Cash App Accounts (US/UK) | BestPVAShop",
-      "seo_tags": "buy cash app account, verified cash app, buy cashapp",
-      "shortDescription": "Fully verified US Cash App account with standard sending and receiving limits.",
-      "description": "Fully verified US Cash App accounts (personal or business) ready for instant money transfers and withdrawals. Phone and email verified with SSN/ID details attached, offering standard sending and receiving limits."
-    },
-    {
-      "id": "aged-twitter",
-      "name": "Aged Twitter / X Account (PVA)",
-      "category": "socials",
-      "price": 2000,
-      "originalPrice": 2800,
-      "unit": "Account",
-      "image": "images/product-twitter.webp",
-      "images": [
-        "images/product-twitter.webp"
-      ],
-      "rating": 4.6,
-      "reviewsCount": 7,
-      "isBestSeller": false,
-      "isNew": false,
-      "inStock": true,
-      "seo_title": "Buy Aged Twitter/X Accounts – Phone Verified (PVA) | BestPVAShop",
-      "seo_tags": "buy twitter accounts, aged twitter accounts, twitter pva",
-      "shortDescription": "Aged phone-verified Twitter (X) accounts with a clean history and active follower base.",
-      "description": "Aged Twitter (X) accounts created on high-quality residential proxies, verified with real phone numbers, and equipped with a natural follower base. Perfect for brand marketing, automation bots, and organic social outreach."
-    },
-    {
       "id": "verified-cash-app-accounts",
       "name": "Buy Verified Cash App Accounts",
       "category": "developers",
@@ -169,6 +64,28 @@ const siteData = {
       "seo_title": "",
       "seo_tags": "",
       "seo_description": ""
+    },
+    {
+      "seo_title": "",
+      "seo_tags": "",
+      "seo_description": "",
+      "id": "buy-verified-ftx-account",
+      "name": "Buy Verified FTX Account ",
+      "category": "developers",
+      "price": 100,
+      "originalPrice": 120,
+      "unit": "pice",
+      "rating": 5,
+      "reviewsCount": 0,
+      "image": "images/product-buy-verified-ftx-account-1780152810684.webp",
+      "images": [
+        "images/product-buy-verified-ftx-account-1780152810684.webp"
+      ],
+      "inStock": true,
+      "isBestSeller": true,
+      "isNew": false,
+      "shortDescription": "",
+      "description": ""
     }
   ],
   "testimonials": [
@@ -243,16 +160,7 @@ const siteData = {
       "minOrder": 5000
     }
   ],
-  "reviews": [
-    {
-      "id": "rev-2",
-      "productId": "verified-github",
-      "name": "Jessica Taylor",
-      "rating": 5,
-      "date": "May 8, 2026",
-      "text": "Got the account with very clean contribution history. Thank you so much for the fast delivery!"
-    }
-  ]
+  "reviews": []
 };
 
 if (typeof module !== 'undefined' && module.exports) {
