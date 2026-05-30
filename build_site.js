@@ -820,6 +820,7 @@ fs.writeFileSync(
 try {
   const blogFiles = fs.readdirSync(path.join(__dirname, 'blog'));
   const activeBlogFiles = new Set((siteData.blogs || []).map(b => `${b.id}.html`));
+  activeBlogFiles.add('index.html');
   blogFiles.forEach(file => {
     if (file.endsWith('.html') && !activeBlogFiles.has(file)) {
       try {
