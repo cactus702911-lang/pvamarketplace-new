@@ -65,7 +65,7 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
     return pathPrefix + filePath;
   };
 
-  const homeURL = pathPrefix === '../' ? '../' : './';
+  const homeURL = pathPrefix || './';
 
   // --- Technical SEO Implementation ---
   
@@ -408,16 +408,18 @@ siteData.categories.forEach(cat => {
 
 let shopProductsHTML = '';
 siteData.products.forEach((prod, index) => {
-  shopProductsHTML += renderProductCard(prod, '', index);
+  shopProductsHTML += renderProductCard(prod, '../', index);
 });
 
 let shopContent = shopTemplate
   .replace(/\{\{CATEGORIES_FILTER_LIST\}\}/g, () => categoriesFilterListHTML)
   .replace(/\{\{SHOP_PRODUCTS_LIST\}\}/g, () => shopProductsHTML);
 
+const shopDir = path.join(__dirname, 'shop');
+if (!fs.existsSync(shopDir)) fs.mkdirSync(shopDir, { recursive: true });
 fs.writeFileSync(
-  path.join(__dirname, 'shop.html'),
-  compilePage(shopContent, 'Shop PVA Accounts', 'Explore our selection of premium verified accounts, including email, social, and payment gateway profiles.', '', 'shop', '', { url: 'https://pvamarketplace.com/shop/' })
+  path.join(shopDir, 'index.html'),
+  compilePage(shopContent, 'Shop PVA Accounts', 'Explore our selection of premium verified accounts, including email, social, and payment gateway profiles.', '../', 'shop', '', { url: 'https://pvamarketplace.com/shop/' })
 );
 
 // ----------------------------------------------------
@@ -429,7 +431,7 @@ siteData.categories.forEach(cat => {
   
   let catProductsHTML = '';
   catProducts.forEach((prod, index) => {
-    catProductsHTML += renderProductCard(prod, '../', index);
+    catProductsHTML += renderProductCard(prod, '../../', index);
   });
 
   let catContent = categoryTemplate
@@ -457,9 +459,11 @@ siteData.categories.forEach(cat => {
     ]
   };
 
+  const catDir = path.join(__dirname, 'category', cat.id);
+  if (!fs.existsSync(catDir)) fs.mkdirSync(catDir, { recursive: true });
   fs.writeFileSync(
-    path.join(__dirname, 'category', `${cat.id}.html`),
-    compilePage(catContent, cat.name, cat.description, '../', '', '', { 
+    path.join(catDir, 'index.html'),
+    compilePage(catContent, cat.name, cat.description, '../../', '', '', { 
       url: `https://pvamarketplace.com/category/${cat.id}/`,
       schemas: [breadcrumbSchema]
     })
@@ -491,7 +495,7 @@ siteData.products.forEach(prod => {
   let relatedProducts = siteData.products.filter(p => p.category === prod.category && p.id !== prod.id).slice(0, 4);
   let relatedHTML = '';
   relatedProducts.forEach((related, idx) => {
-    relatedHTML += renderProductCard(related, '../', idx);
+    relatedHTML += renderProductCard(related, '../../', idx);
   });
   if (!relatedHTML) {
     relatedHTML = `<p class="col-span-full text-sm text-slate-400 italic font-sans">No related products found.</p>`;
@@ -607,9 +611,11 @@ siteData.products.forEach(prod => {
   const cleanMetaDesc = prod.seo_description || prod.description.replace(/[\r\n]+/g, ' ').replace(/"/g, '&quot;').substring(0, 150) + '...';
   const finalTitle = prod.seo_title || `${prod.name} – Verified & Fast | BestPVAShop`;
 
+  const prodDir = path.join(__dirname, 'product', prod.id);
+  if (!fs.existsSync(prodDir)) fs.mkdirSync(prodDir, { recursive: true });
   fs.writeFileSync(
-    path.join(__dirname, 'product', `${prod.id}.html`),
-    compilePage(prodContent, finalTitle, cleanMetaDesc, '../', '', `<link rel="preload" as="image" href="../${prod.image}" fetchpriority="high">`, {
+    path.join(prodDir, 'index.html'),
+    compilePage(prodContent, finalTitle, cleanMetaDesc, '../../', '', `<link rel="preload" as="image" href="../../${prod.image}" fetchpriority="high">`, {
       url: `https://pvamarketplace.com/product/${prod.id}/`,
       image: prod.image,
       keywords: prod.seo_tags || 'pva accounts, buy pva',
@@ -622,11 +628,12 @@ siteData.products.forEach(prod => {
 // Clean up stale product pages in the product/ directory
 try {
   const productFiles = fs.readdirSync(path.join(__dirname, 'product'));
-  const activeProductFiles = new Set(siteData.products.map(p => `${p.id}.html`));
+  const activeProductDirs = new Set(siteData.products.map(p => p.id));
   productFiles.forEach(file => {
-    if (file.endsWith('.html') && !activeProductFiles.has(file)) {
+    const fullPath = path.join(__dirname, 'product', file);
+    if (fs.statSync(fullPath).isDirectory() && !activeProductDirs.has(file)) {
       try {
-        fs.unlinkSync(path.join(__dirname, 'product', file));
+        fs.rmSync(fullPath, { recursive: true, force: true });
         console.log(`Deleted stale product page: product/${file}`);
       } catch (err) {
         console.error(`Error deleting stale product page product/${file}:`, err.message);
@@ -641,13 +648,17 @@ try {
 // BUILD STATIC PAGES (about.html, contact.html)
 // ----------------------------------------------------
 console.log('Generating about.html and contact.html...');
+const aboutDir = path.join(__dirname, 'about');
+if (!fs.existsSync(aboutDir)) fs.mkdirSync(aboutDir, { recursive: true });
 fs.writeFileSync(
-  path.join(__dirname, 'about.html'),
-  compilePage(aboutTemplate, 'About Us', 'Learn about PVA Marketplace, our verification processes, security standards, and support channels.', '', 'about', '', { url: 'https://pvamarketplace.com/about/' })
+  path.join(aboutDir, 'index.html'),
+  compilePage(aboutTemplate, 'About Us', 'Learn about PVA Marketplace, our verification processes, security standards, and support channels.', '../', 'about', '', { url: 'https://pvamarketplace.com/about/' })
 );
+const contactDir = path.join(__dirname, 'contact');
+if (!fs.existsSync(contactDir)) fs.mkdirSync(contactDir, { recursive: true });
 fs.writeFileSync(
-  path.join(__dirname, 'contact.html'),
-  compilePage(contactTemplate, 'Contact Us', 'Get in touch with the PVA Marketplace sales and support team. Available on WhatsApp and Telegram.', '', 'contact', '', { url: 'https://pvamarketplace.com/contact/' })
+  path.join(contactDir, 'index.html'),
+  compilePage(contactTemplate, 'Contact Us', 'Get in touch with the PVA Marketplace sales and support team. Available on WhatsApp and Telegram.', '../', 'contact', '', { url: 'https://pvamarketplace.com/contact/' })
 );
 fs.writeFileSync(
   path.join(__dirname, '404.html'),
@@ -679,15 +690,17 @@ fs.writeFileSync(
 console.log('Generating blog.html and blog detail pages...');
 let blogsGridHTML = '';
 (siteData.blogs || []).forEach(blog => {
-  blogsGridHTML += renderBlogCard(blog, '');
+  blogsGridHTML += renderBlogCard(blog, '../');
 });
 
 let blogContent = blogTemplate
   .replace(/\{\{BLOGS_GRID\}\}/g, () => blogsGridHTML);
 
+const blogDir = path.join(__dirname, 'blog');
+if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir, { recursive: true });
 fs.writeFileSync(
-  path.join(__dirname, 'blog.html'),
-  compilePage(blogContent, 'Blog & News', 'Read the latest guides, tips, and tutorials about PVA accounts, proxy setups, and digital marketing.', '', 'blog', '', { url: 'https://pvamarketplace.com/blog/' })
+  path.join(blogDir, 'index.html'),
+  compilePage(blogContent, 'Blog & News', 'Read the latest guides, tips, and tutorials about PVA accounts, proxy setups, and digital marketing.', '../', 'blog', '', { url: 'https://pvamarketplace.com/blog/' })
 );
 
 (siteData.blogs || []).forEach(blog => {
@@ -695,7 +708,7 @@ fs.writeFileSync(
   let relatedBlogs = (siteData.blogs || []).filter(b => b.id !== blog.id).slice(0, 3);
   let relatedBlogsHTML = '';
   relatedBlogs.forEach(rel => {
-    relatedBlogsHTML += renderBlogCard(rel, '../');
+    relatedBlogsHTML += renderBlogCard(rel, '../../');
   });
   if (!relatedBlogsHTML) {
     relatedBlogsHTML = `<p class="col-span-full text-sm text-slate-400 italic font-sans">No related blog posts found.</p>`;
