@@ -1,4 +1,4 @@
-﻿const siteData = {
+const siteData = {
   "settings": {
     "siteName": "PVA Marketplace",
     "logoText": "PVA Marketplace",
@@ -42,28 +42,6 @@
     }
   ],
   "products": [
-    {
-      "id": "aged-gmail",
-      "name": "Aged Gmail Account (PVA)",
-      "category": "emails",
-      "price": 150,
-      "originalPrice": 200,
-      "unit": "Account",
-      "image": "images/product-gmail.png",
-      "images": [
-        "images/product-gmail.png"
-      ],
-      "rating": 5,
-      "reviewsCount": 12,
-      "isBestSeller": true,
-      "isNew": false,
-      "inStock": true,
-      "seo_title": "Aged Gmail Accounts – Verified & Fast | BestPVAShop",
-      "seo_tags": "buy pva accounts, best pva shop, usa accounts, buy old gmail accounts",
-      "seo_description": "Looking to buy old Gmail accounts with years of history? BestPVAShop delivers aged, verified Gmail accounts with real activity logs, instant access & full replacement cover. Trusted by professionals worldwide — shop now!",
-      "shortDescription": "1–3 year aged, phone verified Gmail account with recovery email setup included.",
-      "description": "Premium aged Gmail accounts (1-3 years old) with unique IP registration, complete phone verification (PVA), and recovery email configurations. Perfect for marketing, cold emailing, and high-volume outreach without restriction barriers."
-    },
     {
       "id": "aged-facebook",
       "name": "Aged Facebook Profile (PVA)",
@@ -168,6 +146,29 @@
       "seo_tags": "buy twitter accounts, aged twitter accounts, twitter pva",
       "shortDescription": "Aged phone-verified Twitter (X) accounts with a clean history and active follower base.",
       "description": "Aged Twitter (X) accounts created on high-quality residential proxies, verified with real phone numbers, and equipped with a natural follower base. Perfect for brand marketing, automation bots, and organic social outreach."
+    },
+    {
+      "id": "verified-cash-app-accounts",
+      "name": "Buy Verified Cash App Accounts",
+      "category": "developers",
+      "price": 100,
+      "originalPrice": 120,
+      "unit": "pice",
+      "rating": 5,
+      "reviewsCount": 0,
+      "image": "images/product-verified-cash-app-accounts-1780152546942.webp",
+      "images": [
+        "images/product-verified-cash-app-accounts-1780152546942.webp",
+        "images/cat-developers.webp"
+      ],
+      "inStock": true,
+      "isBestSeller": true,
+      "isNew": false,
+      "shortDescription": "",
+      "description": "",
+      "seo_title": "",
+      "seo_tags": "",
+      "seo_description": ""
     }
   ],
   "testimonials": [
@@ -243,14 +244,6 @@
     }
   ],
   "reviews": [
-    {
-      "id": "rev-1",
-      "productId": "aged-gmail",
-      "name": "Amanda Ross",
-      "rating": 5,
-      "date": "May 12, 2026",
-      "text": "I bought 100 Gmail accounts and all of them are working great. Recovery setup was also included. Highly recommended!"
-    },
     {
       "id": "rev-2",
       "productId": "verified-github",
