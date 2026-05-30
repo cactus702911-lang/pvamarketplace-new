@@ -94,7 +94,7 @@
   </script>
   <link rel="preload" as="image" href="../../images/product-verified-cash-app-accounts-1780152546942.webp" fetchpriority="high">
   <link href="../../output.css" rel="stylesheet">
-  <link rel="icon" type="image/png" href="../../images/logo/favicon.webp?v=1780156175030">
+  <link rel="icon" type="image/png" href="../../images/logo/favicon.webp?v=1780156932621">
   <!-- Alpine.js for interactive dropdowns, cart, mobile nav -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
@@ -131,7 +131,7 @@
         
         <!-- Logo -->
         <a href="../../" class="flex items-center gap-2 group">
-          <img decoding="async" src="../../images/logo/logo.webp?v=1780156175030" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
+          <img decoding="async" src="../../images/logo/logo.webp?v=1780156932621" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
           <span class="text-2xl font-bold font-serif tracking-tight text-brand-500 group-hover:text-brand-600 transition-colors">
             PVA Marketplace
           </span>
@@ -206,7 +206,24 @@
            images: ['images/product-verified-cash-app-accounts-1780152546942.webp'],
            activeImageIdx: 0,
            zoom: false,
-           bgPos: '0% 0%'
+           bgPos: '0% 0%',
+           pricingOptions: ['Basic Cash App Account (Limits Unlocked) Only $100','BTC-Enabled Verified Cash App Account Only $180','Premium Aged Verified Cash App Account Only $280'],
+           hasFeatures: true,
+           selectedOption: '',
+           basePrice: 100,
+           baseOriginalPrice: 120,
+           get currentPrice() {
+             if (!this.selectedOption) return this.basePrice;
+             const match = this.selectedOption.match(/\$(\d+(?:\.\d+)?)/);
+             return match ? parseFloat(match[1]) : this.basePrice;
+           },
+           get currentOriginalPrice() {
+             if (!this.selectedOption) return this.baseOriginalPrice;
+             if (this.basePrice > 0) {
+               return Math.round((this.currentPrice / this.basePrice) * this.baseOriginalPrice);
+             }
+             return null;
+           }
          }" 
          @review-submitted.window="reviewsCount = $event.detail.count; rating = $event.detail.rating">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white rounded-3xl border border-brand-100 p-6 sm:p-10 shadow-xs">
@@ -286,8 +303,8 @@
 
       <!-- Pricing -->
       <div class="flex items-baseline gap-4">
-        <span class="text-3xl font-extrabold text-brand-600 font-serif">$100</span>
-        <span class="text-lg text-slate-400 line-through font-serif">$120</span>
+        <span class="text-3xl font-extrabold text-brand-600 font-serif" x-text="'$' + currentPrice">$100</span>
+        <span class="text-lg text-slate-400 line-through font-serif" x-show="currentOriginalPrice" x-text="'$' + currentOriginalPrice">$120</span>
         <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">per pice</span>
       </div>
 
@@ -295,6 +312,70 @@
       <div class="text-sm text-slate-600 leading-relaxed font-sans whitespace-pre-line">
         
       </div>
+
+      <!-- Features List -->
+      <template x-if="hasFeatures">
+        <div class="bg-brand-50/50 rounded-2xl p-5 border border-brand-100/50 space-y-3">
+          <h4 class="text-xs font-bold text-brand-600 uppercase tracking-wider font-sans">Product Features</h4>
+          <ul class="space-y-2.5 font-sans">
+            
+    <li class="flex items-start gap-2.5 text-slate-600 text-sm">
+      <svg class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+      <span>Fully verified identity-confirmed Cash App accounts</span>
+    </li>
+  
+    <li class="flex items-start gap-2.5 text-slate-600 text-sm">
+      <svg class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+      <span>Pre-configured and transaction-ready for instant payment testing</span>
+    </li>
+  
+    <li class="flex items-start gap-2.5 text-slate-600 text-sm">
+      <svg class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+      <span>BTC-enabled options available for cryptocurrency workflow validation</span>
+    </li>
+  
+    <li class="flex items-start gap-2.5 text-slate-600 text-sm">
+      <svg class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+      <span>Login credentials and recovery information securely sent to your email</span>
+    </li>
+  
+    <li class="flex items-start gap-2.5 text-slate-600 text-sm">
+      <svg class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+      <span>100% replacement guarantee if the account encounters access issues on first login</span>
+    </li>
+  
+          </ul>
+        </div>
+      </template>
+
+      <!-- Pricing Dropdown Option Selector -->
+      <template x-if="pricingOptions && pricingOptions.length > 0">
+        <div class="space-y-2 font-sans">
+          <label for="pricing-options" class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Choose an option</label>
+          <div class="relative">
+            <select id="pricing-options" 
+                    x-model="selectedOption"
+                    class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-10 py-3.5 text-sm text-slate-700 focus:outline-none focus:ring-1 focus:ring-brand-400 focus:border-brand-400 appearance-none cursor-pointer">
+              <option value="" selected disabled>Choose an option</option><option value="Basic Cash App Account (Limits Unlocked) Only $100">Basic Cash App Account (Limits Unlocked) Only $100</option><option value="BTC-Enabled Verified Cash App Account Only $180">BTC-Enabled Verified Cash App Account Only $180</option><option value="Premium Aged Verified Cash App Account Only $280">Premium Aged Verified Cash App Account Only $280</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none text-slate-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </template>
 
       <hr class="border-slate-100">
 
@@ -308,7 +389,13 @@
         </div>
 
         <!-- Add to Cart Button -->
-        <button @click="$dispatch('add-to-cart-event', { id: 'verified-cash-app-accounts', name: 'Buy Verified Cash App Accounts', price: 100, unit: 'pice', image: 'images/product-verified-cash-app-accounts-1780152546942.webp', qty: qty })" 
+        <button @click="
+                  if (pricingOptions && pricingOptions.length > 0 && !selectedOption) {
+                    alert('Please choose an option first!');
+                    return;
+                  }
+                  $dispatch('add-to-cart-event', { id: 'verified-cash-app-accounts', name: 'Buy Verified Cash App Accounts' + (selectedOption ? ' (' + selectedOption + ')' : ''), price: currentPrice, unit: 'pice', image: 'images/product-verified-cash-app-accounts-1780152546942.webp', qty: qty })
+                "
                 class="flex-grow sm:flex-grow-0 sm:px-8 py-3.5 bg-brand-950 hover:bg-black text-white rounded-lg font-bold text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 self-stretch">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -882,7 +969,7 @@
         <!-- Brand Info -->
         <div class="space-y-4">
           <a href="../../" class="flex items-center gap-2.5 group">
-            <img decoding="async" src="../../images/logo/logo.webp?v=1780156175030" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
+            <img decoding="async" src="../../images/logo/logo.webp?v=1780156932621" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
             <span class="text-2xl font-bold font-serif text-brand-400 tracking-tight group-hover:text-brand-300 transition-colors">
               PVA Marketplace
             </span>
@@ -1120,7 +1207,7 @@
       <div class="p-6 border-b border-brand-50 bg-brand-50/50 flex justify-between items-center print:border-b-2 print:border-slate-200">
         <div>
           <div class="flex items-center gap-2">
-            <img decoding="async" src="../../images/logo/logo.webp?v=1780156175030" alt="PVA Marketplace" width="32" height="32" class="w-8 h-8 object-contain">
+            <img decoding="async" src="../../images/logo/logo.webp?v=1780156932621" alt="PVA Marketplace" width="32" height="32" class="w-8 h-8 object-contain">
             <span class="text-xl font-bold font-serif text-brand-600">PVA Marketplace</span>
           </div>
           <p class="text-xs text-slate-400 font-sans mt-0.5">Verified & Secure Accounts</p>

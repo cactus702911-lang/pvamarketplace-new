@@ -586,6 +586,22 @@ siteData.products.forEach(prod => {
     ]
   };
 
+  // Generate features list HTML
+  const featuresList = (prod.features || []).map(f => `
+    <li class="flex items-start gap-2.5 text-slate-600 text-sm">
+      <svg class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+      <span>${f}</span>
+    </li>
+  `).join('');
+
+  // Generate pricing options HTML
+  let pricingOptionsHTML = '<option value="" selected disabled>Choose an option</option>';
+  if (prod.pricing && prod.pricing.length > 0) {
+    pricingOptionsHTML += prod.pricing.map(p => `<option value="${p}">${p}</option>`).join('');
+  }
+
   let prodContent = productTemplate
     .replace(/\{\{PRODUCT_ID\}\}/g, () => prod.id)
     .replace(/\{\{PRODUCT_NAME\}\}/g, () => prod.name)
@@ -607,7 +623,11 @@ siteData.products.forEach(prod => {
     .replace(/\{\{PRODUCT_IN_STOCK\}\}/g, () => prod.inStock ? 'true' : 'false')
     .replace(/\{\{STOCK_STATUS_TEXT\}\}/g, () => prod.inStock ? 'In Stock' : 'Out of Stock')
     .replace(/\{\{STOCK_STATUS_COLOR\}\}/g, () => prod.inStock ? 'text-emerald-500' : 'text-rose-500')
-    .replace(/\{\{RELATED_PRODUCTS\}\}/g, () => relatedHTML);
+    .replace(/\{\{RELATED_PRODUCTS\}\}/g, () => relatedHTML)
+    .replace(/\{\{FEATURES_LIST\}\}/g, () => featuresList)
+    .replace(/\{\{PRICING_OPTIONS\}\}/g, () => pricingOptionsHTML)
+    .replace(/\{\{PRODUCT_PRICING_OPTIONS_JSON\}\}/g, () => JSON.stringify(prod.pricing || []).replace(/'/g, "\\'").replace(/"/g, "'"))
+    .replace(/\{\{PRODUCT_HAS_FEATURES\}\}/g, () => prod.features && prod.features.length > 0 ? 'true' : 'false');
 
   const cleanMetaDesc = prod.seo_description || prod.description.replace(/[\r\n]+/g, ' ').replace(/"/g, '&quot;').substring(0, 150) + '...';
   const finalTitle = prod.seo_title || `${prod.name} – Verified & Fast | BestPVAShop`;
