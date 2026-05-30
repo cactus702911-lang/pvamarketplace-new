@@ -1,3 +1,5 @@
+Options -MultiViews
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   
@@ -15,10 +17,21 @@
   RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]+$
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1/ [R=301,L]
 
-  # Rewrite URLs with trailing slashes to their .html equivalent internally
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond $1.html -f
-  RewriteRule ^(.*)/$ $1.html [L]
+  # Shop, About, Contact, Blog list
+  RewriteRule ^shop/$ shop.html [L]
+  RewriteRule ^about/$ about.html [L]
+  RewriteRule ^contact/$ contact.html [L]
+  RewriteRule ^blog/$ blog.html [L]
+  RewriteRule ^sitemap/$ sitemap.html [L]
+
+  # Product details
+  RewriteRule ^product/([^/]+)/$ product/$1.html [L]
+
+  # Category pages
+  RewriteRule ^category/([^/]+)/$ category/$1.html [L]
+
+  # Blog detail pages
+  RewriteRule ^blog/([^/]+)/$ blog/$1.html [L]
 </IfModule>
 
 <IfModule mod_brotli.c>
