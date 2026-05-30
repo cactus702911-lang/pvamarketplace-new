@@ -805,9 +805,11 @@ fs.writeFileSync(
     ]
   };
 
+  const blogPostDir = path.join(__dirname, 'blog', blog.id);
+  if (!fs.existsSync(blogPostDir)) fs.mkdirSync(blogPostDir, { recursive: true });
   fs.writeFileSync(
-    path.join(__dirname, 'blog', `${blog.id}.html`),
-    compilePage(blogDetailContent, finalTitle, cleanMetaDesc, '../', 'blog', `<link rel="preload" as="image" href="../${blog.image}" fetchpriority="high">`, { 
+    path.join(blogPostDir, 'index.html'),
+    compilePage(blogDetailContent, finalTitle, cleanMetaDesc, '../../', 'blog', `<link rel="preload" as="image" href="../../${blog.image}" fetchpriority="high">`, { 
       url: `https://pvamarketplace.com/blog/${blog.id}/`, 
       image: blog.image,
       keywords: blog.seo_tags || 'pva accounts, blog, guide',
@@ -818,16 +820,23 @@ fs.writeFileSync(
 
 // Clean up stale blog pages in the blog/ directory
 try {
-  const blogFiles = fs.readdirSync(path.join(__dirname, 'blog'));
-  const activeBlogFiles = new Set((siteData.blogs || []).map(b => `${b.id}.html`));
-  activeBlogFiles.add('index.html');
-  blogFiles.forEach(file => {
-    if (file.endsWith('.html') && !activeBlogFiles.has(file)) {
+  const blogSubDirs = fs.readdirSync(path.join(__dirname, 'blog'));
+  const activeBlogDirs = new Set((siteData.blogs || []).map(b => b.id));
+  blogSubDirs.forEach(file => {
+    const fullPath = path.join(__dirname, 'blog', file);
+    if (fs.statSync(fullPath).isDirectory() && !activeBlogDirs.has(file)) {
       try {
-        fs.unlinkSync(path.join(__dirname, 'blog', file));
-        console.log(`Deleted stale blog page: blog/${file}`);
+        fs.rmSync(fullPath, { recursive: true, force: true });
+        console.log(`Deleted stale blog directory: blog/${file}`);
       } catch (err) {
-        console.error(`Error deleting stale blog page blog/${file}:`, err.message);
+        console.error(`Error deleting stale blog directory blog/${file}:`, err.message);
+      }
+    } else if (!fs.statSync(fullPath).isDirectory() && file !== 'index.html') {
+      try {
+        fs.unlinkSync(fullPath);
+        console.log(`Deleted old static blog file: blog/${file}`);
+      } catch (err) {
+        console.error(`Error deleting old static blog file blog/${file}:`, err.message);
       }
     }
   });
