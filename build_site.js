@@ -187,8 +187,8 @@ function renderProductCard(product, prefix = '', index = 0) {
     </div>
     
     <!-- Image -->
-    <a href="${prefix}product/${product.id}/" class="h-48 w-full bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center p-3 mb-4">
-      <img decoding="async" src="${prefix}${product.image}" alt="${product.name}" loading="lazy" width="240" height="240" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300">
+    <a href="${prefix}product/${product.id}/" class="h-48 w-full bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center mb-4">
+      <img decoding="async" src="${prefix}${product.image}" alt="${product.name}" loading="lazy" width="240" height="240" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
     </a>
 
     <!-- Details -->
