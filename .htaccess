@@ -17,7 +17,7 @@
 
   # Rewrite URLs with trailing slashes to their .html equivalent internally
   RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteCond $1.html -f
   RewriteRule ^(.*)/$ $1.html [L]
 </IfModule>
 
