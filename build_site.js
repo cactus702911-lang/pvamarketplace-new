@@ -665,6 +665,25 @@ try {
   console.error('Error cleaning up product directory:', err.message);
 }
 
+// Clean up stale category pages in the category/ directory
+try {
+  const categoryFiles = fs.readdirSync(path.join(__dirname, 'category'));
+  const activeCategoryDirs = new Set(siteData.categories.map(c => c.id));
+  categoryFiles.forEach(file => {
+    const fullPath = path.join(__dirname, 'category', file);
+    if (fs.statSync(fullPath).isDirectory() && !activeCategoryDirs.has(file)) {
+      try {
+        fs.rmSync(fullPath, { recursive: true, force: true });
+        console.log(`Deleted stale category page: category/${file}`);
+      } catch (err) {
+        console.error(`Error deleting stale category page category/${file}:`, err.message);
+      }
+    }
+  });
+} catch (err) {
+  console.error('Error cleaning up category directory:', err.message);
+}
+
 // ----------------------------------------------------
 // BUILD STATIC PAGES (about.html, contact.html)
 // ----------------------------------------------------

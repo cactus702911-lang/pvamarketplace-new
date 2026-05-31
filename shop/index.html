@@ -33,7 +33,7 @@
   </script>
   
   <link href="../output.css" rel="stylesheet">
-  <link rel="icon" type="image/png" href="../images/logo/favicon.webp?v=1780164742560">
+  <link rel="icon" type="image/png" href="../images/logo/favicon.webp?v=1780194404068">
   <!-- Alpine.js for interactive dropdowns, cart, mobile nav -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
@@ -70,7 +70,7 @@
         
         <!-- Logo -->
         <a href="../" class="flex items-center gap-2 group">
-          <img decoding="async" src="../images/logo/logo.webp?v=1780164742560" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
+          <img decoding="async" src="../images/logo/logo.webp?v=1780194404067" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
           <span class="text-2xl font-bold font-serif tracking-tight text-brand-500 group-hover:text-brand-600 transition-colors">
             PVA Marketplace
           </span>
@@ -157,28 +157,28 @@
             <span>All Products</span>
           </button>
           
-  <button @click="setCategory('emails')" 
-          :class="activeCategory === 'emails' ? 'bg-brand-500 text-white font-semibold' : 'text-slate-600 hover:bg-brand-50'" 
+  <button @click="setCategory('accounts')" 
+          :class="activeCategory === 'accounts' ? 'bg-brand-500 text-white font-semibold' : 'text-slate-600 hover:bg-brand-50'" 
           class="w-full text-left text-sm px-3 py-2 rounded-lg transition-all flex justify-between items-center cursor-pointer">
-    <span>Email Accounts</span>
+    <span>Accounts</span>
   </button>
   
-  <button @click="setCategory('socials')" 
-          :class="activeCategory === 'socials' ? 'bg-brand-500 text-white font-semibold' : 'text-slate-600 hover:bg-brand-50'" 
+  <button @click="setCategory('reviews')" 
+          :class="activeCategory === 'reviews' ? 'bg-brand-500 text-white font-semibold' : 'text-slate-600 hover:bg-brand-50'" 
           class="w-full text-left text-sm px-3 py-2 rounded-lg transition-all flex justify-between items-center cursor-pointer">
-    <span>Social Accounts</span>
+    <span>Reviews</span>
   </button>
   
-  <button @click="setCategory('developers')" 
-          :class="activeCategory === 'developers' ? 'bg-brand-500 text-white font-semibold' : 'text-slate-600 hover:bg-brand-50'" 
+  <button @click="setCategory('google')" 
+          :class="activeCategory === 'google' ? 'bg-brand-500 text-white font-semibold' : 'text-slate-600 hover:bg-brand-50'" 
           class="w-full text-left text-sm px-3 py-2 rounded-lg transition-all flex justify-between items-center cursor-pointer">
-    <span>Developer Accounts</span>
+    <span>Google</span>
   </button>
   
-  <button @click="setCategory('financials')" 
-          :class="activeCategory === 'financials' ? 'bg-brand-500 text-white font-semibold' : 'text-slate-600 hover:bg-brand-50'" 
+  <button @click="setCategory('bank-crypto')" 
+          :class="activeCategory === 'bank-crypto' ? 'bg-brand-500 text-white font-semibold' : 'text-slate-600 hover:bg-brand-50'" 
           class="w-full text-left text-sm px-3 py-2 rounded-lg transition-all flex justify-between items-center cursor-pointer">
-    <span>Payment Accounts</span>
+    <span>Bank & Crypto</span>
   </button>
   
         </div>
@@ -233,7 +233,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="shop-products-grid">
         
   <div class="product-card-item bg-white rounded-2xl border border-brand-100 p-4 hover-glow flex flex-col justify-between group relative transition-custom"
-       data-category="developers"
+       data-category="bank-crypto"
        data-price="100"
        data-rating="5"
        data-name="Buy Verified Cash App Accounts"
@@ -289,10 +289,10 @@
   </div>
   
   <div class="product-card-item bg-white rounded-2xl border border-brand-100 p-4 hover-glow flex flex-col justify-between group relative transition-custom"
-       data-category="developers"
+       data-category="bank-crypto"
        data-price="100"
        data-rating="5"
-       data-name="Buy Verified FTX Account "
+       data-name="Buy Verified FTX Account"
        data-in-stock="true"
        data-index="1">
        
@@ -306,7 +306,7 @@
     
     <!-- Image -->
     <a href="../product/buy-verified-ftx-account/" class="h-48 w-full bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center mb-4">
-      <img decoding="async" src="../images/product-buy-verified-ftx-account-1780152810684.webp" alt="Buy Verified FTX Account " loading="lazy" width="240" height="240" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+      <img decoding="async" src="../images/product-buy-verified-ftx-account-1780152810684.webp" alt="Buy Verified FTX Account" loading="lazy" width="240" height="240" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
     </a>
 
     <!-- Details -->
@@ -317,7 +317,7 @@
           <span class="text-slate-400 font-medium ml-1">(0)</span>
         </div>
         <a href="../product/buy-verified-ftx-account/" class="block mt-1">
-          <h3 class="text-base font-bold text-slate-800 hover:text-brand-500 transition-colors leading-snug font-sans">Buy Verified FTX Account </h3>
+          <h3 class="text-base font-bold text-slate-800 hover:text-brand-500 transition-colors leading-snug font-sans">Buy Verified FTX Account</h3>
         </a>
       </div>
 
@@ -332,7 +332,7 @@
         </div>
 
         
-        <button onclick="window.dispatchEvent(new CustomEvent('add-to-cart-event', { detail: { id: 'buy-verified-ftx-account', name: 'Buy Verified FTX Account ', price: 100, unit: 'pice', image: 'images/product-buy-verified-ftx-account-1780152810684.webp', qty: 1 } }))"
+        <button onclick="window.dispatchEvent(new CustomEvent('add-to-cart-event', { detail: { id: 'buy-verified-ftx-account', name: 'Buy Verified FTX Account', price: 100, unit: 'pice', image: 'images/product-buy-verified-ftx-account-1780152810684.webp', qty: 1 } }))"
                 class="w-9 h-9 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-600 hover:text-white flex items-center justify-center transition-all shadow-xs border border-brand-100 hover:border-brand-500 cursor-pointer" 
                 aria-label="Add to cart">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
@@ -345,7 +345,7 @@
   </div>
   
   <div class="product-card-item bg-white rounded-2xl border border-brand-100 p-4 hover-glow flex flex-col justify-between group relative transition-custom"
-       data-category="emails"
+       data-category="accounts"
        data-price="8"
        data-rating="5"
        data-name="Buy Old Gmail Accounts"
@@ -401,7 +401,7 @@
   </div>
   
   <div class="product-card-item bg-white rounded-2xl border border-brand-100 p-4 hover-glow flex flex-col justify-between group relative transition-custom"
-       data-category="developers"
+       data-category="google"
        data-price="12"
        data-rating="5"
        data-name="Buy GitHub Accounts"
@@ -457,7 +457,7 @@
   </div>
   
   <div class="product-card-item bg-white rounded-2xl border border-brand-100 p-4 hover-glow flex flex-col justify-between group relative transition-custom"
-       data-category="developers"
+       data-category="google"
        data-price="290"
        data-rating="5"
        data-name="Buy Verified Binance Accounts"
@@ -513,7 +513,7 @@
   </div>
   
   <div class="product-card-item bg-white rounded-2xl border border-brand-100 p-4 hover-glow flex flex-col justify-between group relative transition-custom"
-       data-category="emails"
+       data-category="accounts"
        data-price="8"
        data-rating="5"
        data-name="Google Reviews – Strengthen Your Local Business Presence with Real Customer Feedback"
@@ -569,7 +569,7 @@
   </div>
   
   <div class="product-card-item bg-white rounded-2xl border border-brand-100 p-4 hover-glow flex flex-col justify-between group relative transition-custom"
-       data-category="emails"
+       data-category="accounts"
        data-price="10"
        data-rating="5"
        data-name="Buy Google 5 Star Reviews"
@@ -586,7 +586,7 @@
     
     <!-- Image -->
     <a href="../product/google-reviews-turn-your-star-rating-into-your-most-powerful-sales-tool/" class="h-48 w-full bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center mb-4">
-      <img decoding="async" src="../" alt="Buy Google 5 Star Reviews" loading="lazy" width="240" height="240" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+      <img decoding="async" src="../images/product-buy-google-5-star-reviews-1780194041920.webp" alt="Buy Google 5 Star Reviews" loading="lazy" width="240" height="240" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
     </a>
 
     <!-- Details -->
@@ -612,7 +612,7 @@
         </div>
 
         
-        <button onclick="window.dispatchEvent(new CustomEvent('add-to-cart-event', { detail: { id: 'google-reviews-turn-your-star-rating-into-your-most-powerful-sales-tool', name: 'Buy Google 5 Star Reviews', price: 10, unit: 'per', image: '', qty: 1 } }))"
+        <button onclick="window.dispatchEvent(new CustomEvent('add-to-cart-event', { detail: { id: 'google-reviews-turn-your-star-rating-into-your-most-powerful-sales-tool', name: 'Buy Google 5 Star Reviews', price: 10, unit: 'per', image: 'images/product-buy-google-5-star-reviews-1780194041920.webp', qty: 1 } }))"
                 class="w-9 h-9 rounded-full bg-brand-50 hover:bg-brand-500 text-brand-600 hover:text-white flex items-center justify-center transition-all shadow-xs border border-brand-100 hover:border-brand-500 cursor-pointer" 
                 aria-label="Add to cart">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
@@ -625,7 +625,7 @@
   </div>
   
   <div class="product-card-item bg-white rounded-2xl border border-brand-100 p-4 hover-glow flex flex-col justify-between group relative transition-custom"
-       data-category="emails"
+       data-category="accounts"
        data-price="10"
        data-rating="5"
        data-name="Buy Google Negative Reviews"
@@ -792,7 +792,7 @@
         <!-- Brand Info -->
         <div class="space-y-4">
           <a href="../" class="flex items-center gap-2.5 group">
-            <img decoding="async" src="../images/logo/logo.webp?v=1780164742560" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
+            <img decoding="async" src="../images/logo/logo.webp?v=1780194404068" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
             <span class="text-2xl font-bold font-serif text-brand-400 tracking-tight group-hover:text-brand-300 transition-colors">
               PVA Marketplace
             </span>
@@ -828,10 +828,10 @@
         <div class="space-y-4 font-sans">
           <h4 class="text-brand-400 text-base font-semibold tracking-wide font-sans">Categories</h4>
           <ul class="space-y-2 text-sm text-brand-200/80">
-            <li><a href="../category/emails/" class="hover:text-white transition-colors">Email Accounts</a></li>
-<li><a href="../category/socials/" class="hover:text-white transition-colors">Social Accounts</a></li>
-<li><a href="../category/developers/" class="hover:text-white transition-colors">Developer Accounts</a></li>
-<li><a href="../category/financials/" class="hover:text-white transition-colors">Payment Accounts</a></li>
+            <li><a href="../category/accounts/" class="hover:text-white transition-colors">Accounts</a></li>
+<li><a href="../category/reviews/" class="hover:text-white transition-colors">Reviews</a></li>
+<li><a href="../category/google/" class="hover:text-white transition-colors">Google</a></li>
+<li><a href="../category/bank-crypto/" class="hover:text-white transition-colors">Bank & Crypto</a></li>
 
           </ul>
         </div>
@@ -1030,7 +1030,7 @@
       <div class="p-6 border-b border-brand-50 bg-brand-50/50 flex justify-between items-center print:border-b-2 print:border-slate-200">
         <div>
           <div class="flex items-center gap-2">
-            <img decoding="async" src="../images/logo/logo.webp?v=1780164742560" alt="PVA Marketplace" width="32" height="32" class="w-8 h-8 object-contain">
+            <img decoding="async" src="../images/logo/logo.webp?v=1780194404068" alt="PVA Marketplace" width="32" height="32" class="w-8 h-8 object-contain">
             <span class="text-xl font-bold font-serif text-brand-600">PVA Marketplace</span>
           </div>
           <p class="text-xs text-slate-400 font-sans mt-0.5">Verified & Secure Accounts</p>

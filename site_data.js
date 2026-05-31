@@ -18,38 +18,38 @@ const siteData = {
   },
   "categories": [
     {
-      "id": "emails",
-      "name": "Email Accounts",
-      "description": "Verified & Aged Email Accounts (Gmail, Outlook, Yahoo)",
-      "image": "images/cat-emails.webp"
+      "id": "accounts",
+      "name": "Accounts",
+      "description": "",
+      "image": "images/cat-accounts.webp"
     },
     {
-      "id": "socials",
-      "name": "Social Accounts",
-      "description": "Aged Social Media Profiles (Facebook, Twitter/X, Instagram, LinkedIn)",
-      "image": "images/cat-socials.webp"
+      "id": "reviews",
+      "name": "Reviews",
+      "description": "",
+      "image": "images/cat-reviews.webp"
     },
     {
-      "id": "developers",
-      "name": "Developer Accounts",
-      "description": "Aged GitHub, GitLab, and developer profiles",
-      "image": "images/cat-developers.webp"
+      "id": "google",
+      "name": "Google",
+      "description": "",
+      "image": "images/cat-google.webp"
     },
     {
-      "id": "financials",
-      "name": "Payment Accounts",
-      "description": "Verified Binance, Cash App, and Payment Gateways",
+      "id": "bank-crypto",
+      "name": "Bank & Crypto",
+      "description": "",
       "image": "images/cat-financials.webp"
     }
   ],
   "products": [
     {
-      "seo_title": "",
-      "seo_tags": "",
-      "seo_description": "",
+      "seo_title": "Buy Verified Cash App Accounts | BTC Unlocked & Aged - PVA Marketplace",
+      "seo_tags": "buy cash app accounts, verified cash app accounts, cash app btc enabled, buy cash app account, aged cash app accounts, buy verified cash app, cash app for sale, buy cash app online, buy verified accounts",
+      "seo_description": "Buy verified Cash App accounts with BTC enabled, high limits, and 100% security. Get aged Cash App accounts for business and personal payment processing.",
       "id": "verified-cash-app-accounts",
       "name": "Buy Verified Cash App Accounts",
-      "category": "developers",
+      "category": "bank-crypto",
       "price": 100,
       "originalPrice": 120,
       "unit": "pice",
@@ -62,8 +62,8 @@ const siteData = {
       "inStock": true,
       "isBestSeller": true,
       "isNew": false,
-      "shortDescription": "",
-      "description": "",
+      "shortDescription": "Looking to buy verified Cash App accounts with BTC withdrawal enabled and transaction limits unlocked? Our pre-verified Cash App accounts are fully verified using real identities, transaction-ready, and come with a 100% replacement guarantee.",
+      "description": "Buy Verified Cash App Accounts – Fully Identity Verified & BTC-Enabled\n\nAre you looking to buy verified Cash App accounts to streamline your online payment processing, support your business transactions, or unlock cryptocurrency features?\n\nIn today's digital economy, Cash App has become one of the most convenient platforms for sending and receiving money in the US and UK. However, creating and fully verifying a Cash App account requires a US Social Security Number (SSN), a valid photo ID, and a residential US address. If you are a freelancer, a digital marketer, or an international business owner outside these regions, getting a verified account can be almost impossible.\n\nPVAMarketplace provides fully verified, secure, and transaction-ready Cash App accounts with high limits and BTC support, helping you bypass verification bottlenecks instantly.\n\n<strong>What Makes Our Verified Cash App Accounts Unique?</strong>\nEvery Cash App account in our inventory is verified using real, legitimate details. We don't use automated bots or temporary numbers. Here is a breakdown of our quality standards:\n\n✅ <strong>Identity Verification:</strong> Full KYC completed using genuine US-based identity profiles.\n✅ <strong>BTC Integration:</strong> Bitcoin buy, sell, and withdrawal features fully unlocked (in BTC packages).\n✅ <strong>Linked Credentials:</strong> Delivered with the original email access, recovery credentials, and virtual phone number access.\n✅ <strong>Instant Usability:</strong> Accounts are pre-warmed and ready to send/receive payments immediately.\n✅ <strong>Replacement Warranty:</strong> 100% replacement guarantee if you face any issues on your first login.\n\n<strong>Why You Need a Verified Cash App Account</strong>\nIf you use an unverified Cash App account, you are subject to strict weekly and monthly limits (typically a $250 sending limit and a $1,000 receiving limit). Once your account reaches these thresholds, it will lock until you provide SSN and ID verification.\n\nWhen you buy a verified Cash App account from us, you get:\n🚀 <strong>Unlocked Transaction Limits:</strong> Send up to $7,500 per week and receive unlimited funds.\n🚀 <strong>Bitcoin Withdrawal Enabled:</strong> Easily buy, sell, and send Bitcoin to any external wallet without restrictions.\n🚀 <strong>Cash Card Ready:</strong> Request a physical or virtual debit card to spend your balance anywhere Visa is accepted.\n🚀 <strong>Reduced Risk of Holds:</strong> Our accounts are verified with clean records, reducing the chance of transaction flags or sudden deactivations.\n\n<strong>Who Benefits from Buying Cash App Accounts?</strong>\n✔ <strong>Freelancers & Remote Workers:</strong> Collect payments directly from US-based clients who prefer Cash App over complex bank transfers.\n✔ <strong>E-commerce & Dropshipping Sellers:</strong> Offer Cash App as a payment method to increase checkout conversion rates.\n✔ <strong>Affiliate Marketers:</strong> Receive affiliate commissions from US networks that payout exclusively via Cash App.\n✔ <strong>Cryptocurrency Enthusiasts:</strong> Buy Bitcoin and move it to your private wallet using Cash App’s low-fee crypto network.\n\n<strong>Available Packages to Choose From</strong>\nWe offer three distinct tiers of verified Cash App accounts, tailored to your budget and operational scale:\n\n🔹 <strong>Basic Cash App Account ($100):</strong> Fully verified profile with sending/receiving limits unlocked. Best for standard personal and business payment transfers.\n🔹 <strong>BTC-Enabled Cash App Account ($180):</strong> Full identity verification with Bitcoin capabilities completely unlocked (enabled for BTC deposit, withdrawal, and exchange).\n🔹 <strong>Premium Aged Cash App Account ($280):</strong> 6+ months aged account with a clean transaction history and higher trust scores. Highly recommended for high-volume transactions.\n\n<strong>How to Safely Use Your Account After Purchase</strong>\nTo maintain the security of your new Cash App account and prevent platform flags, please follow these safety guidelines:\n\n📌 <strong>Use a US Residential Proxy:</strong> Cash App is geofenced to the US and UK. Always access the account using a high-quality residential US IP. Avoid cheap Datacenter VPNs, as they are easily flagged.\n📌 <strong>Clean Your Browser Fingerprint:</strong> Use anti-detect browsers or clean your browser cookies and cache before logging in.\n📌 <strong>Warm Up the Account:</strong> Avoid making massive transactions on day one. Start with small, natural transfers (e.g., $10–$50) to build a trust history on your device.\n📌 <strong>Do Not Change All Details at Once:</strong> Wait a few days before updating security preferences or changing linked emails to avoid triggering Cash App's automated security checkpoint.\n\n<strong>Frequently Asked Questions (FAQ)</strong>\n❓ <strong>Are these accounts verified with real SSNs?</strong>\nYes. Every verified account is created using authentic identity profiles (SSN and ID verification) to ensure they comply with Cash App’s verification policies.\n\n❓ <strong>Can I withdraw Bitcoin to an external wallet?</strong>\nYes, if you choose our BTC-Enabled or Premium Aged packages. These packages have the Bitcoin verification process fully completed, allowing you to withdraw BTC to any external hardware or exchange wallet.\n\n❓ <strong>How quickly will I receive my account credentials?</strong>\nWe deliver account details via email or your preferred contact method (WhatsApp/Telegram) within 2 to 24 hours of payment confirmation.\n\n❓ <strong>What is your replacement policy?</strong>\nIf you encounter any credentials issue or access checkpoint on your very first login, we will replace the account free of charge. Please read our login guide before logging in to ensure a smooth transition.\n\n❓ <strong>Do I get access to the registered email?</strong>\nYes, every account is delivered with full access to the linked email address, recovery details, and virtual phone number instructions.",
       "features": [
         "Fully verified identity-confirmed Cash App accounts",
         "Pre-configured and transaction-ready for instant payment testing",
@@ -78,12 +78,12 @@ const siteData = {
       ]
     },
     {
-      "seo_title": "",
-      "seo_tags": "",
-      "seo_description": "",
+      "seo_title": "Buy Verified FTX Account | Fully KYC Verified - PVA Marketplace",
+      "seo_tags": "buy ftx account, verified ftx account, buy verified ftx, ftx trading accounts, aged ftx accounts, kyc verified ftx, buy crypto accounts, ftx for sale, buy verification accounts",
+      "seo_description": "Buy verified FTX accounts with full KYC approval, security pre-configured, and instant delivery. Get aged and transaction-ready FTX profiles safely.",
       "id": "buy-verified-ftx-account",
-      "name": "Buy Verified FTX Account ",
-      "category": "developers",
+      "name": "Buy Verified FTX Account",
+      "category": "bank-crypto",
       "price": 100,
       "originalPrice": 120,
       "unit": "pice",
@@ -96,8 +96,8 @@ const siteData = {
       "inStock": true,
       "isBestSeller": true,
       "isNew": false,
-      "shortDescription": "",
-      "description": "",
+      "shortDescription": "Looking to buy verified FTX accounts with full KYC approval and instant access? Our pre-configured FTX accounts are identity-verified, secure, and ready for developer sandbox testing and international trade validation with a 15-day warranty.",
+      "description": "Buy Verified FTX Accounts – KYC Approved & Secure Crypto Exchange Profiles\n\nAre you looking to buy verified FTX accounts to access global cryptocurrency trading features, test exchange APIs, or run automated trading algorithms without identity bottlenecks?\n\nFTX remains a widely referenced platform in cryptocurrency development, trading simulation, and historical data testing. However, completing verification on major global crypto exchanges is challenging due to strict KYC regulations, requiring legal document validation, selfie scans, and address confirmation.\n\nPVAMarketplace provides fully KYC-verified and pre-configured FTX accounts, ready to bypass administrative verification processes instantly.\n\n=========================================\n<strong>What Sets Our Verified FTX Accounts Apart?</strong>\n=========================================\nEvery FTX account in our inventory is built to meet high security and operational standards. Here is a breakdown of our verification credentials:\n\n✅ <strong>Identity Verification:</strong> Full KYC completed using authentic identity papers.\n✅ <strong>API & Sandbox Ready:</strong> Fully enabled for API key generation, bot integration, and trading workflow testing.\n✅ <strong>Linked Security:</strong> Delivered with original email credentials, recovery settings, and active 2FA configuration instructions.\n✅ <strong>Aged Profiles:</strong> Pre-registered profiles with established history to reduce automated security triggers.\n✅ <strong>First-Login Warranty:</strong> 100% replacement guarantee if any login credentials fail or access is restricted on first entry.\n\n=========================================\n<strong>Why You Need a Verified FTX Account</strong>\n=========================================\nUnverified exchange accounts face strict daily limits or are blocked from trading and withdrawals entirely.\n\nWhen you buy a fully verified FTX account from us, you unlock:\n🚀 <strong>Unlimited Trading Features:</strong> Access spot, futures, and leverage trading features without KYC prompts.\n🚀 <strong>API Key Generation:</strong> Seamlessly integrate custom trading bots and automation scripts.\n🚀 <strong>High Withdrawal Limits:</strong> Transfer cryptocurrency assets with maximum daily limits enabled.\n🚀 <strong>Global Coverage:</strong> Access regional exchange configurations suitable for international operations.\n\n=========================================\n<strong>Who Benefits from Verified FTX Accounts?</strong>\n=========================================\n✔ <strong>Crypto Arbitrage Traders:</strong> Execute speed trades across multiple platforms simultaneously.\n✔ <strong>Blockchain Developers:</strong> Test API latency, orderbook feeds, and execution pipelines in sandbox settings.\n✔ <strong>QA & Automation Engineers:</strong> Stress-test trading scripts and portfolio managers on real-world configurations.\n✔ <strong>Agencies & Remote Teams:</strong> Maintain separate testing environments across isolated exchange identities.\n\n=========================================\n<strong>Available Packages to Choose From</strong>\n=========================================\nChoose the package that aligns with your development and trading objectives:\n\n🔹 <strong>Basic Verification Tier ($100):</strong> Standard identity-verified FTX profile with unlocked trading features. Best for basic operations and API integration.\n🔹 <strong>Advanced VIP Tier ($250):</strong> High-tier KYC verification with max limits, aged history, and premium support. Recommended for advanced automated trading.\n\n=========================================\n<strong>How to Maintain Account Security After Purchase</strong>\n=========================================\nTo ensure your new FTX account remains active and secure, please follow these guidelines:\n\n📌 <strong>Use Residential Proxies:</strong> Always log in using a unique, high-quality residential IP from the account's registered region. Avoid standard commercial VPNs.\n📌 <strong>Import Browser Cookies:</strong> Use anti-detect browsers to import cookies and session data to bypass automated bot checkpoints.\n📌 <strong>Keep 2FA Active:</strong> Configure your own Authenticator app immediately to secure withdrawals and API settings.\n📌 <strong>Warm Up Your Volume:</strong> Start with small test transactions before scaling up volume to build a natural usage profile.\n\n=========================================\n<strong>Frequently Asked Questions (FAQ)</strong>\n=========================================\n❓ <strong>Are these FTX accounts fully identity-verified?</strong>\nYes. Every profile in our inventory has successfully passed the KYC verification process using genuine verification documents.\n\n❓ <strong>Can I link my own API keys and bots?</strong>\nYes. Verified accounts support complete API functionality, allowing you to generate and configure read/write keys for trading automation.\n\n❓ <strong>How soon will I receive my login details?</strong>\nFTX account credentials, including linked email access and setup guides, are securely delivered to your email or WhatsApp within 2 to 24 hours of payment.\n\n❓ <strong>What happens if the account gets locked on first login?</strong>\nIf you encounter any access restrictions or credential issues during your initial setup, we provide an immediate swap replacement free of charge.\n\n❓ <strong>Do you provide the recovery email details?</strong>\nYes, full login credentials for both the FTX profile and the linked email box are included in the delivery package.",
       "features": [
         "Fully verified FTX profile ready for platform testing",
         "Email and security verification pre-configured",
@@ -116,7 +116,7 @@ const siteData = {
       "seo_description": "Want to buy old Gmail accounts with real account history? PVAMarketplace delivers aged, phone-verified Google profiles built for business outreach, automation pipelines & email workflow setup. Instant delivery included.",
       "id": "old-gmail-accounts-established-google-profiles-ready-for-immediate-business-use",
       "name": "Buy Old Gmail Accounts",
-      "category": "emails",
+      "category": "accounts",
       "price": 8,
       "originalPrice": 10,
       "unit": "pice",
@@ -152,7 +152,7 @@ const siteData = {
     {
       "id": "github-accounts-aged-verified-developer-profiles-for-instant-repository-access",
       "name": "Buy GitHub Accounts",
-      "category": "developers",
+      "category": "google",
       "price": 12,
       "originalPrice": 15,
       "unit": "pice",
@@ -161,7 +161,7 @@ const siteData = {
       "image": "images/product-github-accounts-aged-verified-developer-profiles-for-instant-repository-access-1780153787245.webp",
       "images": [
         "images/product-github-accounts-aged-verified-developer-profiles-for-instant-repository-access-1780153787245.webp",
-        "images/cat-developers.webp"
+        "images/cat-google.webp"
       ],
       "inStock": true,
       "isBestSeller": false,
@@ -194,7 +194,7 @@ const siteData = {
       "seo_description": "Looking to buy verified Binance accounts with full KYC approval? PVAMarketplace offers pre-verified crypto trading profiles ideal for market access, portfolio testing & exchange workflow setup. Instant delivery guaranteed.",
       "id": "verified-binance-accounts-kyc-approved-crypto-trading-profiles-for-instant-market-access",
       "name": "Buy Verified Binance Accounts",
-      "category": "developers",
+      "category": "google",
       "price": 290,
       "originalPrice": 320,
       "unit": "pice",
@@ -224,9 +224,12 @@ const siteData = {
       ]
     },
     {
+      "seo_title": "Google Reviews to Buy – Real Customer Feedback for Local Business Growth | PVAMarketplace",
+      "seo_tags": "google reviews, buy google reviews, real google reviews, google business reviews, purchase google reviews, google maps reviews, 5 star google reviews, local seo google reviews, verified google reviews, google review packages, pvamarketplace google reviews, bulk google reviews, google review service, buy google business reviews, google review boost, local business google reviews, google maps star rating",
+      "seo_description": "Looking to buy Google reviews for your local business? PVAMarketplace delivers real, aged-profile feedback to improve your star ratings, dominate Google Maps & convert more customers. Gradual safe delivery included.",
       "id": "google-reviews-strengthen-your-local-business-presence-with-real-customer-feedback",
       "name": "Google Reviews – Strengthen Your Local Business Presence with Real Customer Feedback",
-      "category": "emails",
+      "category": "accounts",
       "price": 8,
       "originalPrice": 10,
       "unit": "per",
@@ -235,7 +238,7 @@ const siteData = {
       "image": "",
       "images": [
         "",
-        "images/cat-developers.webp"
+        "images/cat-reviews.webp"
       ],
       "inStock": true,
       "isBestSeller": false,
@@ -243,10 +246,7 @@ const siteData = {
       "shortDescription": "Want to buy Google reviews that actually improve your local rankings? Our real aged-profile feedback packages are gradually delivered, permanently retained & designed to boost your Google Maps visibility, star ratings & customer conversion rate.",
       "description": "Real Google Reviews – Verified Customer Feedback for Local Rankings & Business Growth\nFinding it difficult to compete with established businesses that have hundreds of Google reviews? PVAMarketplace provides real Google review packages posted from aged, active profiles — giving your business the social proof it needs to climb local search rankings, win customer trust, and convert more visitors into paying clients.\nUnlike low-quality review services that rely on bot accounts, our Google reviews come from profiles with genuine activity history — ensuring natural delivery patterns, higher retention rates, and long-term stability for your business listing.\n\nWhat Sets Our Google Review Packages Apart?\nFeatureDetails✅ Genuine Aged ProfilesEvery review posted from real accounts with established Google activity✅ Natural Delivery PaceReviews spread gradually to mirror authentic customer feedback patterns✅ High Retention RateLong-term review stability with minimal drop probability✅ Flexible Review ContentSubmit your own text or let our team write natural industry-specific feedback✅ Star Rating FlexibilityChoose your preferred rating mix for a balanced, credible review profile✅ Free Drop ReplacementAny removed review within the guarantee window replaced at no extra cost\n\nWho Gets the Most Value From These Packages?\n\nRestaurant & Hospitality Owners – Fill your Google listing with positive dining experiences to attract more walk-in customers\nHealthcare & Wellness Providers – Build patient confidence through a consistent stream of credible feedback\nHome Service Businesses – Outrank local competitors in Google Maps by establishing a stronger review count\nRetail & E-commerce Stores – Convert online browsers into buyers with a trustworthy star rating displayed in search\nLegal & Financial Professionals – Signal expertise and reliability to high-value clients researching service providers\nAgencies – Deliver measurable reputation improvements across multiple client business listings simultaneously\n\n\nHow a Stronger Google Review Profile Transforms Your Business\nInvesting in your Google review count delivers compounding benefits across your entire customer acquisition funnel:\n\nGoogle Maps Dominance — Review count and rating are among the strongest local pack ranking signals\nRich Snippet Visibility — Star ratings displayed directly in Google search results dramatically increase click-through rates\nPurchase Decision Influence — The vast majority of consumers check Google reviews before choosing a local business\nTrust at First Glance — A strong review profile instantly communicates credibility before a visitor even reads your website\nRepeat Business Driver — Positive public feedback reinforces customer loyalty and encourages word-of-mouth referrals\nCompetitive Separation — Outpacing nearby competitors in review volume creates a measurable conversion advantage\n\n\nAvailable Package Options\nOur Google review packages are designed to match businesses at every stage of their reputation journey:\n\nKickstarter Pack – Ideal for new listings needing an initial credibility foundation to get noticed\nGrowth Accelerator – Mid-volume reviews for businesses actively building momentum in competitive local markets\nMarket Leader Bundle – High-volume feedback packages for businesses targeting dominant local search positions\nCustom Campaign – Fully tailored review volume, delivery pace and content for multi-location or enterprise needs\n\nUse the option selector above to compare pricing and delivery timelines across all available packages.\n\nDelivery & Retention Policy\n🚀 Gradual Safe Delivery — Reviews are distributed progressively over your selected timeframe — simulating the natural pace of real customer feedback and avoiding sudden volume spikes that could attract platform scrutiny.\n🔄 Drop Replacement Guarantee — Any review that disappears within our coverage window is replaced free of charge, ensuring your agreed review count stays intact throughout the guarantee period.\n\nFrequently Asked Questions\n❓ Are these Google reviews posted from real accounts?\nYes. Every review in our inventory is submitted from aged Google profiles with genuine activity history — not bot accounts or freshly created identities. This is what separates our reviews from lower-quality alternatives.\n❓ Can I write my own review content?\nAbsolutely. You can provide custom review text that matches your brand voice and highlights specific services. Alternatively, our team can craft natural, industry-appropriate feedback on your behalf.\n❓ How long before my reviews appear on Google?\nDelivery typically begins within 24 hours of order confirmation. The full batch is spread gradually based on your selected package timeline to ensure safe, organic-looking growth.\n❓ Will my Google reviews stay permanently?\nOur reviews carry a high long-term retention rate due to the aged profile quality we use. In the unlikely event of any drop, our replacement guarantee covers you throughout the coverage period.\n❓ Can I choose my star rating?\nYes. We offer full star rating flexibility — including mixed rating options — to create an authentic-looking review distribution that avoids suspiciously uniform scores.\n❓ Do you handle multi-location businesses?\nYes. We regularly manage review campaigns across multiple Google Business listings for franchise owners, agencies and multi-location brands. Contact us for custom multi-location pricing.\n❓ Is ongoing support available after purchase?\nAbsolutely. Our team is available around the clock via WhatsApp, Telegram, and Email for any questions, content submissions, custom requests or post-delivery concerns.\n",
       "features": [],
-      "pricing": [],
-      "seo_title": "Google Reviews to Buy – Real Customer Feedback for Local Business Growth | PVAMarketplace",
-      "seo_tags": "google reviews, buy google reviews, real google reviews, google business reviews, purchase google reviews, google maps reviews, 5 star google reviews, local seo google reviews, verified google reviews, google review packages, pvamarketplace google reviews, bulk google reviews, google review service, buy google business reviews, google review boost, local business google reviews, google maps star rating",
-      "seo_description": "Looking to buy Google reviews for your local business? PVAMarketplace delivers real, aged-profile feedback to improve your star ratings, dominate Google Maps & convert more customers. Gradual safe delivery included."
+      "pricing": []
     },
     {
       "seo_title": "Google Reviews to Buy – Boost Star Ratings for Business Growth | PVAMarketplace",
@@ -254,16 +254,16 @@ const siteData = {
       "seo_description": "Looking to buy Google reviews from real aged profiles? PVAMarketplace delivers genuine verified feedback to grow your star rating, dominate local search & win more customers. Safe gradual delivery included.",
       "id": "google-reviews-turn-your-star-rating-into-your-most-powerful-sales-tool",
       "name": "Buy Google 5 Star Reviews",
-      "category": "emails",
+      "category": "accounts",
       "price": 10,
       "originalPrice": 12,
       "unit": "per",
       "rating": 5,
       "reviewsCount": 0,
-      "image": "",
+      "image": "images/product-buy-google-5-star-reviews-1780194041920.webp",
       "images": [
-        "",
-        "images/cat-developers.webp"
+        "images/product-buy-google-5-star-reviews-1780194041920.webp",
+        "images/cat-reviews.webp"
       ],
       "inStock": true,
       "isBestSeller": false,
@@ -279,7 +279,7 @@ const siteData = {
       "seo_description": "Looking to buy Google negative reviews for stress testing or competitive research? PVAMarketplace delivers controlled negative feedback packages for reputation analysis, review management training & business resilience testing. Discreet delivery guaranteed.",
       "id": "google-negative-reviews-competitive-analysis-reputation-stress-testing-packages",
       "name": "Buy Google Negative Reviews",
-      "category": "emails",
+      "category": "accounts",
       "price": 10,
       "originalPrice": 11,
       "unit": "per",
@@ -327,7 +327,7 @@ const siteData = {
       "title": "Importance of Aged PVA Accounts in Digital Marketing",
       "excerpt": "Why using 1-2 year old Gmail or Facebook accounts improves ad campaign effectiveness and reduces the risk of bans compared to fresh accounts.",
       "date": "May 12, 2026",
-      "image": "images/cat-emails.webp",
+      "image": "images/cat-accounts.webp",
       "author": "John Davis",
       "category": "Marketing Guide",
       "readTime": "8 min read",
@@ -338,7 +338,7 @@ const siteData = {
       "title": "How to Safely Use PVA Accounts After Purchase",
       "excerpt": "A complete guide to setting up IP (Proxy), Cookies, and Two-Factor Authentication (2FA) to prevent your account from being blocked or deactivated.",
       "date": "May 15, 2026",
-      "image": "images/cat-socials.webp",
+      "image": "images/cat-reviews.webp",
       "author": "Robert Vance",
       "category": "Security Guide",
       "readTime": "10 min read",

@@ -321,6 +321,14 @@ try {
             $cleanedPath = $localPath.Replace('/', '\').TrimStart('\')
             $filePath = Join-Path $PSScriptRoot $cleanedPath
 
+            # If the path points to a directory, check for index.html inside it
+            if (Test-Path $filePath -PathType Container) {
+                $indexFilePath = Join-Path $filePath "index.html"
+                if (Test-Path $indexFilePath -PathType Leaf) {
+                    $filePath = $indexFilePath
+                }
+            }
+
             # Check if file exists with .html extension for clean URLs
             if (-not (Test-Path $filePath -PathType Leaf) -and -not [System.IO.Path]::GetExtension($filePath)) {
                 $htmlFilePath = $filePath + ".html"

@@ -995,12 +995,12 @@
         
         <div class="space-y-1">
           <label class="block text-xs font-semibold text-slate-500">Category Name</label>
-          <input type="text" x-model="categoryForm.name" @input="if(categoryModalMode === 'add') { categoryForm.id = slugify(categoryForm.name); }" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
+          <input type="text" x-model="categoryForm.name" @input="categoryForm.id = slugify(categoryForm.name);" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
         </div>
 
         <div class="space-y-1">
           <label class="block text-xs font-semibold text-slate-500">Category ID (Slug)</label>
-          <input type="text" x-model="categoryForm.id" :disabled="categoryModalMode === 'edit'" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none disabled:bg-slate-50 disabled:text-slate-400">
+          <input type="text" x-model="categoryForm.id" class="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 outline-none">
         </div>
 
         <div class="space-y-1">
@@ -1321,6 +1321,7 @@
         
         categoryModalOpen: false,
         categoryModalMode: 'add',
+        originalCategoryId: '',
         categoryForm: { id: '', name: '', description: '', image: '' },
 
         reviewModalOpen: false,
@@ -1620,9 +1621,11 @@
           this.categoryModalMode = mode;
           this.showCatGallery = false;
           if (mode === 'add') {
+            this.originalCategoryId = '';
             this.categoryForm = { id: '', name: '', description: '', image: this.imageList[0] || '' };
           } else {
             this.categoryForm = { ...cat };
+            this.originalCategoryId = cat.id;
           }
           this.categoryModalOpen = true;
         },
@@ -1633,6 +1636,8 @@
             return;
           }
 
+          this.categoryForm.id = this.slugify(this.categoryForm.id);
+
           if (this.categoryModalMode === 'add') {
             if (this.data.categories.some(c => c.id === this.categoryForm.id)) {
               alert('A category with this ID already exists!');
@@ -1640,7 +1645,23 @@
             }
             this.data.categories.push(this.categoryForm);
           } else {
-            const idx = this.data.categories.findIndex(c => c.id === this.categoryForm.id);
+            // Edit Mode: check ID duplicates on change
+            if (this.categoryForm.id !== this.originalCategoryId) {
+              if (this.data.categories.some(c => c.id === this.categoryForm.id)) {
+                alert('A category with this new ID already exists!');
+                return;
+              }
+              // Update references in products table
+              if (this.data.products) {
+                this.data.products.forEach(p => {
+                  if (p.category === this.originalCategoryId) {
+                    p.category = this.categoryForm.id;
+                  }
+                });
+              }
+            }
+
+            const idx = this.data.categories.findIndex(c => c.id === this.originalCategoryId);
             if (idx >= 0) {
               this.data.categories[idx] = this.categoryForm;
             }
