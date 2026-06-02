@@ -328,14 +328,14 @@ const siteData = {
       "unit": "Reviews",
       "rating": 5,
       "reviewsCount": 0,
-      "image": "",
+      "image": "images/product-trustpilot-reputation.png",
       "images": [
-        "",
-        "images/cat-accounts.webp"
+        "images/product-trustpilot-reputation.png",
+        "images/cat-reviews.webp"
       ],
       "inStock": true,
       "isBestSeller": false,
-      "isNew": true,
+      "isNew": false,
       "shortDescription": "",
       "description": "",
       "features": [],
