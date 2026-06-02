@@ -353,10 +353,9 @@ const siteData = {
       "unit": "Accounts",
       "rating": 5,
       "reviewsCount": 0,
-      "image": "",
+      "image": "images/product-tinder-accounts.webp",
       "images": [
-        "",
-        "images/cat-accounts.webp"
+        "images/product-tinder-accounts.webp"
       ],
       "inStock": true,
       "isBestSeller": false,
