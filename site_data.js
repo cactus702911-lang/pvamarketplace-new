@@ -340,6 +340,31 @@ const siteData = {
       "description": "",
       "features": [],
       "pricing": []
+    },
+    {
+      "id": "amazon-reviews-drive-more-sales-with-verified-buyer-feedback",
+      "name": "Amazon Reviews – Drive More Sales with Verified Buyer Feedback",
+      "category": "accounts",
+      "price": 25,
+      "originalPrice": 30,
+      "unit": "Reviews",
+      "rating": 5,
+      "reviewsCount": 0,
+      "image": "",
+      "images": [
+        "",
+        "images/cat-accounts.webp"
+      ],
+      "inStock": true,
+      "isBestSeller": false,
+      "isNew": true,
+      "shortDescription": "",
+      "description": "",
+      "features": [],
+      "pricing": [],
+      "seo_title": "",
+      "seo_tags": "",
+      "seo_description": ""
     }
   ],
   "testimonials": [

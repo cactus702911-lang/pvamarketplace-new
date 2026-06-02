@@ -127,6 +127,15 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://pvamarketplace.com/product/amazon-reviews-drive-more-sales-with-verified-buyer-feedback/</loc>
+    <image:image>
+      <image:loc>https://pvamarketplace.com/</image:loc>
+      <image:title>Amazon Reviews – Drive More Sales with Verified Buyer Feedback</image:title>
+    </image:image>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://pvamarketplace.com/blog/why-aged-accounts/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
