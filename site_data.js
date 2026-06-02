@@ -321,7 +321,7 @@ const siteData = {
       "seo_tags": "",
       "seo_description": "",
       "id": "trustpilot-reputation-management-packages",
-      "name": "Trustpilot Reputation Management Packages",
+      "name": "Buy Trustpilot Reviews",
       "category": "reviews",
       "price": 15,
       "originalPrice": 18,
