@@ -365,6 +365,31 @@ const siteData = {
       "seo_title": "",
       "seo_tags": "",
       "seo_description": ""
+    },
+    {
+      "id": "amazon-reviews-strengthen-your-product-listings-with-verified-buyer-feedback",
+      "name": "Amazon Reviews – Strengthen Your Product Listings with Verified Buyer Feedback",
+      "category": "accounts",
+      "price": 100,
+      "originalPrice": null,
+      "unit": "kg",
+      "rating": 5,
+      "reviewsCount": 0,
+      "image": "",
+      "images": [
+        "",
+        "images/cat-accounts.webp"
+      ],
+      "inStock": true,
+      "isBestSeller": false,
+      "isNew": true,
+      "shortDescription": "",
+      "description": "",
+      "features": [],
+      "pricing": [],
+      "seo_title": "",
+      "seo_tags": "",
+      "seo_description": ""
     }
   ],
   "testimonials": [
