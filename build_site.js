@@ -134,6 +134,11 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
     .replace(/\{\{INSTAGRAM_URL\}\}/g, () => siteData.settings.instagramUrl)
     .replace(/\{\{TIKTOK_URL\}\}/g, () => siteData.settings.tiktokUrl || '')
     .replace(/\{\{TELEGRAM_URL\}\}/g, () => siteData.settings.telegramUrl || '')
+    .replace(/\{\{TELEGRAM_USERNAME\}\}/g, () => {
+      const url = siteData.settings.telegramUrl || '';
+      const match = url.match(/t\.me\/([\w]+)/);
+      return match ? '@' + match[1] : url;
+    })
     .replace(/\{\{CONTACT_ADDRESS\}\}/g, () => siteData.settings.address)
     .replace(/\{\{CONTACT_PHONE\}\}/g, () => siteData.settings.contactPhone)
     .replace(/\{\{CONTACT_EMAIL\}\}/g, () => siteData.settings.contactEmail)
@@ -512,7 +517,7 @@ siteData.products.forEach(prod => {
     "sku": prod.id,
     "brand": {
       "@type": "Brand",
-      "name": "BestPVAShop"
+      "name": siteData.settings.siteName || "PVA Marketplace"
     },
     "offers": {
       "@type": "AggregateOffer",
@@ -630,7 +635,7 @@ siteData.products.forEach(prod => {
     .replace(/\{\{PRODUCT_HAS_FEATURES\}\}/g, () => prod.features && prod.features.length > 0 ? 'true' : 'false');
 
   const cleanMetaDesc = prod.seo_description || prod.description.replace(/[\r\n]+/g, ' ').replace(/"/g, '&quot;').substring(0, 150) + '...';
-  const finalTitle = prod.seo_title || `${prod.name} – Verified & Fast | BestPVAShop`;
+  const finalTitle = prod.seo_title || `${prod.name} – Verified & Fast | ${siteData.settings.siteName || "PVA Marketplace"}`;
 
   const prodDir = path.join(__dirname, 'product', prod.id);
   if (!fs.existsSync(prodDir)) fs.mkdirSync(prodDir, { recursive: true });
