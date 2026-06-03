@@ -8,7 +8,7 @@ const siteData = {
     "address": "Dallas, Texas, USA",
     "facebookUrl": "https://www.facebook.com/pvamarketplace7",
     "instagramUrl": "https://instagram.com",
-    "tiktokUrl": "https://www.tiktok.com/@pvamarketplace",
+    "tiktokUrl": "https://www.tiktok.com/@pvamarketplace7",
     "telegramUrl": "https://t.me/pvamarketplace7",
     "footerAboutText": "PVA Marketplace is one of the world's most trusted platforms for Phone Verified Accounts (PVA) for digital marketing and automation. We supply 100% secure and verified Gmail, social media, developer, and financial accounts.",
     "insideChapaiDeliveryFee": 0,
