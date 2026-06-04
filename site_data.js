@@ -233,7 +233,7 @@ const siteData = {
       "seo_tags": "google reviews, buy google reviews, real google reviews, google business reviews, purchase google reviews, google maps reviews, 5 star google reviews, local seo google reviews, verified google reviews, google review packages, pvamarketplace google reviews, bulk google reviews, google review service, buy google business reviews, google review boost, local business google reviews, google maps star rating",
       "seo_description": "Looking to buy Google reviews for your local business? PVAMarketplace delivers real, aged-profile feedback to improve your star ratings, dominate Google Maps & convert more customers. Gradual safe delivery included.",
       "id": "google-reviews-strengthen-your-local-business-presence-with-real-customer-feedback",
-      "name": "Google Reviews – Strengthen Your Local Business Presence with Real Customer Feedback",
+      "name": "Buy Google Reviews",
       "category": "accounts",
       "price": 8,
       "originalPrice": 10,
