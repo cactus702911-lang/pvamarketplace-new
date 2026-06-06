@@ -136,9 +136,9 @@
 
       <!-- Mini badges -->
       <div class="flex flex-wrap gap-3 pt-1">
-        <span class="flex items-center gap-1.5 text-[11px] text-slate-400 font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span> Instant Delivery</span>
-        <span class="flex items-center gap-1.5 text-[11px] text-slate-400 font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span> Bulk Discounts Available</span>
-        <span class="flex items-center gap-1.5 text-[11px] text-slate-400 font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span> 24/7 Support</span>
+        <span class="flex items-center gap-1.5 text-[11px] text-slate-500 font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span> Instant Delivery</span>
+        <span class="flex items-center gap-1.5 text-[11px] text-slate-500 font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span> Bulk Discounts Available</span>
+        <span class="flex items-center gap-1.5 text-[11px] text-slate-500 font-medium"><span class="w-1.5 h-1.5 rounded-full bg-emerald-300"></span> 24/7 Support</span>
       </div>
     </div>
     
@@ -196,7 +196,7 @@
       <button @click="activeFaq = (activeFaq === 1 ? null : 1)" 
               class="w-full flex items-center justify-between px-6 py-5 text-left font-serif font-bold text-slate-800 hover:text-brand-500 focus:outline-none transition-colors cursor-pointer">
         <span class="text-base sm:text-lg">What are PVA accounts?</span>
-        <span class="text-xl font-sans transition-transform duration-300" :class="activeFaq === 1 ? 'rotate-45 text-accent-orange' : 'text-slate-400'">＋</span>
+        <span class="text-xl font-sans transition-transform duration-300" :class="activeFaq === 1 ? 'rotate-45 text-accent-orange' : 'text-slate-500'">＋</span>
       </button>
       <div x-show="activeFaq === 1" 
            class="px-6 pb-6 text-sm text-slate-500 leading-relaxed font-sans border-t border-slate-50 pt-4"
@@ -210,7 +210,7 @@
       <button @click="activeFaq = (activeFaq === 2 ? null : 2)" 
               class="w-full flex items-center justify-between px-6 py-5 text-left font-serif font-bold text-slate-800 hover:text-brand-500 focus:outline-none transition-colors cursor-pointer">
         <span class="text-base sm:text-lg">How long does delivery take?</span>
-        <span class="text-xl font-sans transition-transform duration-300" :class="activeFaq === 2 ? 'rotate-45 text-accent-orange' : 'text-slate-400'">＋</span>
+        <span class="text-xl font-sans transition-transform duration-300" :class="activeFaq === 2 ? 'rotate-45 text-accent-orange' : 'text-slate-500'">＋</span>
       </button>
       <div x-show="activeFaq === 2" 
            class="px-6 pb-6 text-sm text-slate-500 leading-relaxed font-sans border-t border-slate-50 pt-4"
@@ -224,7 +224,7 @@
       <button @click="activeFaq = (activeFaq === 3 ? null : 3)" 
               class="w-full flex items-center justify-between px-6 py-5 text-left font-serif font-bold text-slate-800 hover:text-brand-500 focus:outline-none transition-colors cursor-pointer">
         <span class="text-base sm:text-lg">Do you offer a replacement guarantee?</span>
-        <span class="text-xl font-sans transition-transform duration-300" :class="activeFaq === 3 ? 'rotate-45 text-accent-orange' : 'text-slate-400'">＋</span>
+        <span class="text-xl font-sans transition-transform duration-300" :class="activeFaq === 3 ? 'rotate-45 text-accent-orange' : 'text-slate-500'">＋</span>
       </button>
       <div x-show="activeFaq === 3" 
            class="px-6 pb-6 text-sm text-slate-500 leading-relaxed font-sans border-t border-slate-50 pt-4"
@@ -238,7 +238,7 @@
       <button @click="activeFaq = (activeFaq === 4 ? null : 4)" 
               class="w-full flex items-center justify-between px-6 py-5 text-left font-serif font-bold text-slate-800 hover:text-brand-500 focus:outline-none transition-colors cursor-pointer">
         <span class="text-base sm:text-lg">Can I buy accounts in bulk?</span>
-        <span class="text-xl font-sans transition-transform duration-300" :class="activeFaq === 4 ? 'rotate-45 text-accent-orange' : 'text-slate-400'">＋</span>
+        <span class="text-xl font-sans transition-transform duration-300" :class="activeFaq === 4 ? 'rotate-45 text-accent-orange' : 'text-slate-500'">＋</span>
       </button>
       <div x-show="activeFaq === 4" 
            class="px-6 pb-6 text-sm text-slate-500 leading-relaxed font-sans border-t border-slate-50 pt-4"

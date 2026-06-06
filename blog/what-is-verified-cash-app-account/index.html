@@ -103,7 +103,7 @@
   </script>
   <link rel="preload" as="image" href="../../images/blog-cash-app-guide.png" fetchpriority="high">
   <link href="../../output.css" rel="stylesheet">
-  <link rel="icon" type="image/png" href="../../images/logo/favicon.webp?v=1780757624036">
+  <link rel="icon" type="image/png" href="../../images/logo/favicon.webp?v=1780758221158">
   <!-- Alpine.js for interactive dropdowns, cart, mobile nav -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
@@ -140,7 +140,7 @@
         
         <!-- Logo -->
         <a href="../../" class="flex items-center gap-2 group">
-          <img decoding="async" src="../../images/logo/logo.webp?v=1780757624036" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
+          <img decoding="async" src="../../images/logo/logo.webp?v=1780758221158" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
           <span class="text-2xl font-bold font-serif tracking-tight text-brand-500 group-hover:text-brand-600 transition-colors">
             PVA Marketplace
           </span>
@@ -484,7 +484,7 @@
         <!-- Brand Info -->
         <div class="space-y-4">
           <a href="../../" class="flex items-center gap-2.5 group">
-            <img decoding="async" src="../../images/logo/logo.webp?v=1780757624036" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
+            <img decoding="async" src="../../images/logo/logo.webp?v=1780758221158" alt="PVA Marketplace" width="48" height="48" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform duration-300">
             <span class="text-2xl font-bold font-serif text-brand-400 tracking-tight group-hover:text-brand-300 transition-colors">
               PVA Marketplace
             </span>
@@ -507,7 +507,7 @@
 
         <!-- Quick Links -->
         <div class="space-y-4 font-sans">
-          <h4 class="text-brand-400 text-base font-semibold tracking-wide font-sans">Quick Links</h4>
+          <h3 class="text-brand-400 text-base font-semibold tracking-wide font-sans">Quick Links</h3>
           <ul class="space-y-2 text-sm text-brand-200/80">
             <li><a href="../../" class="hover:text-white transition-colors">Home</a></li>
             <li><a href="../../shop/" class="hover:text-white transition-colors">Shop Catalog</a></li>
@@ -518,7 +518,7 @@
 
         <!-- Categories -->
         <div class="space-y-4 font-sans">
-          <h4 class="text-brand-400 text-base font-semibold tracking-wide font-sans">Categories</h4>
+          <h3 class="text-brand-400 text-base font-semibold tracking-wide font-sans">Categories</h3>
           <ul class="space-y-2 text-sm text-brand-200/80">
             <li><a href="../../category/accounts/" class="hover:text-white transition-colors">Accounts</a></li>
 <li><a href="../../category/reviews/" class="hover:text-white transition-colors">Reviews</a></li>
@@ -530,7 +530,7 @@
 
         <!-- Contact Info -->
         <div class="space-y-4 font-sans">
-          <h4 class="text-brand-400 text-base font-semibold tracking-wide font-sans">Contact Info</h4>
+          <h3 class="text-brand-400 text-base font-semibold tracking-wide font-sans">Contact Info</h3>
           <p class="text-sm text-brand-200/70 leading-relaxed font-sans">
             📍 Dallas, Texas, USA<br>
             📞 1 (548) 580-1949<br>
@@ -577,7 +577,7 @@
               <h2 class="text-lg font-bold font-serif text-brand-600 flex items-center gap-2" id="slide-over-title">
                 🛒 Shopping Cart
               </h2>
-              <button @click="openCart = false" class="text-slate-400 hover:text-brand-500 p-1 rounded-full hover:bg-brand-100 transition-colors">
+              <button @click="openCart = false" class="text-slate-500 hover:text-brand-500 p-1 rounded-full hover:bg-brand-100 transition-colors">
                 <span class="sr-only">Close panel</span>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -592,7 +592,7 @@
               <div x-show="cartItems.length === 0" class="flex flex-col items-center justify-center h-64 text-center">
                 <div class="text-5xl mb-4">🛒</div>
                 <h3 class="text-base font-semibold text-slate-700 font-sans">Your cart is empty</h3>
-                <p class="text-xs text-slate-400 mt-1 max-w-[240px] font-sans">Browse our shop to add verified accounts to your cart.</p>
+                <p class="text-xs text-slate-500 mt-1 max-w-[240px] font-sans">Browse our shop to add verified accounts to your cart.</p>
                 <button @click="openCart = false" class="mt-4 px-4 py-2 bg-brand-500 text-white rounded-lg text-xs font-semibold hover:bg-brand-600 shadow-sm hover:shadow transition-all">Start Shopping</button>
               </div>
 
@@ -602,8 +602,8 @@
                   <div class="flex py-4 gap-4">
                     <img decoding="async" :src="'../../' + item.image" :alt="item.name" width="64" height="64" loading="lazy" class="h-16 w-16 flex-none rounded-lg object-cover bg-slate-50 border border-slate-100">
                     <div class="flex-auto">
-                      <h4 class="text-sm font-semibold text-slate-800 font-sans leading-snug" x-text="item.name"></h4>
-                      <p class="text-xs text-slate-400 mt-0.5" x-text="'$' + item.price + ' / ' + item.unit"></p>
+                      <h3 class="text-sm font-semibold text-slate-800 font-sans leading-snug" x-text="item.name"></h3>
+                      <p class="text-xs text-slate-500 mt-0.5" x-text="'$' + item.price + ' / ' + item.unit"></p>
                       
                       <!-- Quantity control -->
                       <div class="flex items-center gap-2 mt-2">
@@ -722,10 +722,10 @@
       <div class="p-6 border-b border-brand-50 bg-brand-50/50 flex justify-between items-center print:border-b-2 print:border-slate-200">
         <div>
           <div class="flex items-center gap-2">
-            <img decoding="async" src="../../images/logo/logo.webp?v=1780757624036" alt="PVA Marketplace" width="32" height="32" class="w-8 h-8 object-contain">
+            <img decoding="async" src="../../images/logo/logo.webp?v=1780758221158" alt="PVA Marketplace" width="32" height="32" class="w-8 h-8 object-contain">
             <span class="text-xl font-bold font-serif text-brand-600">PVA Marketplace</span>
           </div>
-          <p class="text-xs text-slate-400 font-sans mt-0.5">Verified & Secure Accounts</p>
+          <p class="text-xs text-slate-500 font-sans mt-0.5">Verified & Secure Accounts</p>
         </div>
         <div class="text-right">
           <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-600 border border-emerald-100 uppercase tracking-wide print:hidden">Order Successful</span>
@@ -739,13 +739,13 @@
         <!-- Customer & Order Metadata -->
         <div class="grid grid-cols-2 gap-4 text-xs font-sans">
           <div class="space-y-1">
-            <h4 class="font-bold text-slate-400 uppercase tracking-wider">Customer Details</h4>
+            <h3 class="font-bold text-slate-500 uppercase tracking-wider">Customer Details</h3>
             <p class="font-semibold text-slate-800" x-text="lastOrderDetails.customerName"></p>
             <p class="text-slate-500" x-text="'Phone: ' + lastOrderDetails.customerPhone"></p>
             <p class="text-slate-500" x-text="'Email: ' + lastOrderDetails.customerAddress"></p>
           </div>
           <div class="space-y-1 text-right">
-            <h4 class="font-bold text-slate-400 uppercase tracking-wider">Order Details</h4>
+            <h3 class="font-bold text-slate-500 uppercase tracking-wider">Order Details</h3>
             <p class="text-slate-500" x-text="'Date: ' + lastOrderDetails.date"></p>
             <p class="text-slate-500" x-text="'Delivery: ' + (lastOrderDetails.deliveryArea === 'inside' ? 'Email Delivery' : 'Instant WhatsApp Delivery')"></p>
             <p class="text-slate-500">Payment: Visa / Mastercard / Crypto</p>
@@ -802,7 +802,7 @@
         <!-- Thank you message -->
         <div class="text-center pt-4 border-t border-slate-50 print:border-slate-200 font-sans">
           <p class="text-xs text-brand-600 font-semibold">Thank you for ordering from PVA Marketplace!</p>
-          <p class="text-[10px] text-slate-400 mt-1">For any assistance, contact us: 1 (548) 580-1949</p>
+          <p class="text-[10px] text-slate-500 mt-1">For any assistance, contact us: 1 (548) 580-1949</p>
         </div>
 
       </div>
@@ -1084,7 +1084,7 @@
       <!-- Header Label -->
       <div class="bg-white rounded-2xl shadow-2xl border border-slate-100 px-5 py-4 w-72 chat-bubble-glass">
         <p class="text-sm font-bold text-slate-800 mb-0.5">💬 Chat with Us</p>
-        <p class="text-[11px] text-slate-400 leading-relaxed">We are always ready to help with any questions or orders!</p>
+        <p class="text-[11px] text-slate-500 leading-relaxed">We are always ready to help with any questions or orders!</p>
       </div>
 
       <!-- WhatsApp Button -->
@@ -1095,7 +1095,7 @@
         </span>
         <div>
           <p class="text-sm font-bold text-slate-800 group-hover:text-emerald-700 transition-colors">WhatsApp</p>
-          <p class="text-[10px] text-slate-400">Usually replies within 1 hour</p>
+          <p class="text-[10px] text-slate-500">Usually replies within 1 hour</p>
         </div>
         <svg class="w-4 h-4 text-slate-300 group-hover:text-emerald-500 ml-auto transition-all duration-300 group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
       </a>
@@ -1108,7 +1108,7 @@
         </span>
         <div>
           <p class="text-sm font-bold text-slate-800 group-hover:text-sky-700 transition-colors">Telegram</p>
-          <p class="text-[10px] text-slate-400">Chat via Telegram</p>
+          <p class="text-[10px] text-slate-500">Chat via Telegram</p>
         </div>
         <svg class="w-4 h-4 text-slate-300 group-hover:text-sky-500 ml-auto transition-all duration-300 group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
       </a>
