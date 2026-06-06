@@ -92,7 +92,7 @@ const siteData = {
         "images/product-buy-verified-ftx-account.webp"
       ],
       "inStock": true,
-      "isBestSeller": true,
+      "isBestSeller": false,
       "isNew": false,
       "shortDescription": "KYC-verified FTX accounts with full trading access, withdrawal limits unlocked, and API access enabled. Ideal for crypto traders, developers, and digital finance professionals. Instant delivery.",
       "description": "FTX was one of the world's leading cryptocurrency exchanges, known for its advanced trading features, derivatives markets, and API capabilities. Verified FTX accounts with completed KYC are valuable for developers building crypto applications, traders needing platform access, and researchers studying cryptocurrency exchange ecosystems.\n\nOur verified FTX accounts come with complete identity verification, full withdrawal limits active, and optional API access — ready for immediate use upon delivery.\n\nWho Uses Verified FTX Accounts?\n- Crypto developers building and testing exchange integrations\n- Quantitative traders needing verified exchange access\n- API developers testing automated trading workflows\n- Blockchain researchers and academic study teams\n- Digital finance professionals managing multi-exchange portfolios\n\nAll accounts are delivered with full credentials and our replacement guarantee. Contact us via WhatsApp for bulk orders.",
@@ -213,7 +213,7 @@ const siteData = {
         "images/product-google-reviews.webp"
       ],
       "inStock": true,
-      "isBestSeller": false,
+      "isBestSeller": true,
       "isNew": false,
       "shortDescription": "Authentic Google reviews from real, verified accounts to strengthen your Google Business Profile, improve your star rating, and boost local search visibility. Packages from 5 to 300 reviews. Fast, discreet delivery.",
       "description": "Your Google Business Profile star rating is one of the most powerful trust signals in local search. Businesses with higher ratings appear more prominently in Google Maps results, attract more clicks, and convert visitors into customers at significantly higher rates.\n\nOur Google review service delivers authentic feedback from real, verified Google accounts — helping you build a stronger profile presence and improve your local search ranking organically.\n\nWho Benefits?\n- Local businesses building their Google Business Profile\n- E-commerce brands improving product credibility\n- Service providers (restaurants, clinics, agencies) boosting trust\n- Digital agencies managing reputation for clients\n\nAvailable Packages:\n- 5 Google 5 Star Reviews ($25)\n- 10 Google 5 Star Reviews ($50)\n- 25 Google Reviews ($120)\n- 50 Google Reviews ($235)\n- 100 Google Reviews ($460)\n- 200 Google Reviews ($910)\n- 300 Google Reviews ($1,350)\n\nAll reviews from real verified accounts. Gradual, natural delivery pace. Instant delivery starts within 24 hours.",
