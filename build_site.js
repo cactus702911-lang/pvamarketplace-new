@@ -143,6 +143,7 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
     .replace(/\{\{CONTACT_PHONE\}\}/g, () => siteData.settings.contactPhone)
     .replace(/\{\{CONTACT_EMAIL\}\}/g, () => siteData.settings.contactEmail)
     .replace(/\{\{WHATSAPP_NUMBER\}\}/g, () => siteData.settings.whatsappNumber)
+    .replace(/\{\{CLEAN_WHATSAPP_NUMBER\}\}/g, () => siteData.settings.whatsappNumber.replace(/\D/g, ''))
     .replace(/\{\{INSIDE_CHAPAIFEE\}\}/g, () => siteData.settings.insideChapaiDeliveryFee)
     .replace(/\{\{OUTSIDE_CHAPAIFEE\}\}/g, () => siteData.settings.outsideChapaiDeliveryFee)
     .replace(/\{\{PATH_PREFIX\}\}/g, () => pathPrefix)
