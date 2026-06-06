@@ -180,6 +180,12 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
     .replace(/\{\{NAV_ACTIVE_BLOG\}\}/g, activeNav === 'blog' ? 'text-brand-500 font-semibold border-b-2 border-brand-500' : 'text-slate-600')
     .replace(/\{\{NAV_ACTIVE_CONTACT\}\}/g, activeNav === 'contact' ? 'text-brand-500 font-semibold border-b-2 border-brand-500' : 'text-slate-600');
 
+  // --- HTML Minification for Technical SEO ---
+  html = html
+    .replace(/<!--[\s\S]*?-->/g, '') // Remove HTML comments to save bytes
+    .replace(/\n\s+/g, '\n') // Collapse empty spaces and indentations
+    .replace(/\>[\r\n]+\</g, '><'); // Remove newlines between adjacent HTML tags
+
   return html;
 }
 
