@@ -375,15 +375,15 @@ const faqSchema = {
 
 const compiledHomepage = compilePage(
   indexContent, 
-  'Premium Verified Accounts Marketplace', 
-  'Buy verified Gmail, Facebook, Twitter, Binance, and Cash App accounts. Trusted phone verified accounts for marketing and automation.', 
+  siteData.settings.seo_title || 'Premium Verified Accounts Marketplace', 
+  siteData.settings.seo_description || 'Buy verified Gmail, Facebook, Twitter, Binance, and Cash App accounts. Trusted phone verified accounts for marketing and automation.', 
   '', 
   'home', 
   '<link rel="preload" as="image" href="images/hero-bg.webp" fetchpriority="high">', 
   { 
     url: 'https://pvamarketplace.com/', 
     image: 'images/hero-bg.webp', 
-    keywords: 'pva accounts, buy pva, verified accounts, digital marketing',
+    keywords: siteData.settings.seo_tags || 'pva accounts, buy pva, verified accounts, digital marketing',
     schemas: [websiteSchema, faqSchema]
   }
 );
