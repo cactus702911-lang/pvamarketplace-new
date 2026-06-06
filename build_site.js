@@ -75,7 +75,7 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
     pageDesc += ' Trusted by professionals worldwide. Instant delivery and 100% replacement guarantee.';
   }
   if (pageDesc.length > 160) {
-    pageDesc = pageDesc.substring(0, 160).replace(/\s+\S*$/, '');
+    pageDesc = pageDesc.substring(0, 157).replace(/\s+\S*$/, '') + '...';
   }
 
   // 2. Generate SEO Tags (Canonical, Robots, OG, Twitter, Keywords)
@@ -140,7 +140,20 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
     seoHeadHTML += `\n  <script type="application/ld+json">\n${JSON.stringify(schemaObj, null, 2)}\n  </script>`;
   });
 
-  const finalExtraHead = seoHeadHTML + '\n  ' + extraHead;
+  // Add GA4 and GTM
+  let trackingHead = '';
+  let trackingBody = '';
+  
+  if (siteData.settings.gtmId && siteData.settings.gtmId !== 'GTM-XXXXXXX') {
+    trackingHead += `\n  <!-- Google Tag Manager -->\n  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\n  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\n  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\n  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\n  })(window,document,'script','dataLayer','${siteData.settings.gtmId}');</script>\n  <!-- End Google Tag Manager -->`;
+    trackingBody += `\n  <!-- Google Tag Manager (noscript) -->\n  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${siteData.settings.gtmId}"\n  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>\n  <!-- End Google Tag Manager (noscript) -->`;
+  }
+  
+  if (siteData.settings.ga4Id && siteData.settings.ga4Id !== 'G-XXXXXXXXXX') {
+    trackingHead += `\n  <!-- Google tag (gtag.js) -->\n  <script async src="https://www.googletagmanager.com/gtag/js?id=${siteData.settings.ga4Id}"></script>\n  <script>\n    window.dataLayer = window.dataLayer || [];\n    function gtag(){dataLayer.push(arguments);}\n    gtag('js', new Date());\n    gtag('config', '${siteData.settings.ga4Id}');\n  </script>`;
+  }
+
+  const finalExtraHead = trackingHead + seoHeadHTML + '\n  ' + extraHead;
 
   let html = layoutTemplate
     .replace(/\{\{CONTENT\}\}/g, () => contentHTML)
@@ -170,7 +183,8 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
     .replace(/\{\{PATH_PREFIX\}\}/g, () => pathPrefix)
     .replace(/\{\{FOOTER_CATEGORIES\}\}/g, () => footerCategoriesHTML)
     .replace(/\{\{COUPONS_JSON\}\}/g, () => JSON.stringify(siteData.coupons || []))
-    .replace(/\{\{EXTRA_HEAD\}\}/g, () => finalExtraHead);
+    .replace(/\{\{EXTRA_HEAD\}\}/g, () => finalExtraHead)
+    .replace(/\{\{BODY_TOP\}\}/g, () => trackingBody);
 
   // Set active class for navigation
   html = html
@@ -727,6 +741,23 @@ fs.writeFileSync(
   path.join(contactDir, 'index.html'),
   compilePage(contactTemplate, 'Contact Us', 'Get in touch with the PVA Marketplace sales and support team. Available on WhatsApp and Telegram.', '../', 'contact', '', { url: 'https://pvamarketplace.com/contact/', schemas: [{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pvamarketplace.com/" }, { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://pvamarketplace.com/contact/" }] }, { "@context": "https://schema.org", "@type": "ContactPage", "name": "Contact PVA Marketplace", "url": "https://pvamarketplace.com/contact/" }] })
 );
+
+const privacyTemplate = fs.existsSync(path.join(templatesDir, 'privacy.html')) ? readTemplate('privacy.html') : '<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6"><h1 class="text-3xl font-bold font-serif text-brand-600 mb-8">Privacy Policy</h1><div class="prose max-w-none text-slate-600 font-sans leading-relaxed">{{CONTENT}}</div></div>';
+const termsTemplate = fs.existsSync(path.join(templatesDir, 'terms.html')) ? readTemplate('terms.html') : '<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6"><h1 class="text-3xl font-bold font-serif text-brand-600 mb-8">Terms of Service</h1><div class="prose max-w-none text-slate-600 font-sans leading-relaxed">{{CONTENT}}</div></div>';
+const refundTemplate = fs.existsSync(path.join(templatesDir, 'refund.html')) ? readTemplate('refund.html') : '<div class="max-w-4xl mx-auto py-12 px-4 sm:px-6"><h1 class="text-3xl font-bold font-serif text-brand-600 mb-8">Refund Policy</h1><div class="prose max-w-none text-slate-600 font-sans leading-relaxed">{{CONTENT}}</div></div>';
+
+const privacyDir = path.join(__dirname, 'privacy');
+if (!fs.existsSync(privacyDir)) fs.mkdirSync(privacyDir, { recursive: true });
+fs.writeFileSync(path.join(privacyDir, 'index.html'), compilePage(privacyTemplate.replace('{{CONTENT}}', siteData.policies && siteData.policies.privacy ? siteData.policies.privacy : '<p>Privacy policy content goes here.</p>'), 'Privacy Policy', 'Read the PVA Marketplace Privacy Policy to understand how we collect, use, and protect your data.', '../', '', '', { url: 'https://pvamarketplace.com/privacy/' }));
+
+const termsDir = path.join(__dirname, 'terms');
+if (!fs.existsSync(termsDir)) fs.mkdirSync(termsDir, { recursive: true });
+fs.writeFileSync(path.join(termsDir, 'index.html'), compilePage(termsTemplate.replace('{{CONTENT}}', siteData.policies && siteData.policies.terms ? siteData.policies.terms : '<p>Terms of service content goes here.</p>'), 'Terms of Service', 'Read the terms and conditions for using PVA Marketplace services and purchasing verified accounts.', '../', '', '', { url: 'https://pvamarketplace.com/terms/' }));
+
+const refundDir = path.join(__dirname, 'refund');
+if (!fs.existsSync(refundDir)) fs.mkdirSync(refundDir, { recursive: true });
+fs.writeFileSync(path.join(refundDir, 'index.html'), compilePage(refundTemplate.replace('{{CONTENT}}', siteData.policies && siteData.policies.refund ? siteData.policies.refund : '<p>Refund policy content goes here.</p>'), 'Refund Policy', 'Learn about our 100% replacement guarantee and refund policies for all verified accounts.', '../', '', '', { url: 'https://pvamarketplace.com/refund/' }));
+
 fs.writeFileSync(
   path.join(__dirname, '404.html'),
   compilePage(
@@ -913,7 +944,7 @@ const generateSitemaps = () => {
   
   // Static pages
   const buildDate = new Date().toISOString().split('T')[0];
-  const staticPages = ['index.html', 'shop.html', 'about.html', 'contact.html', 'blog.html'];
+  const staticPages = ['index.html', 'shop.html', 'about.html', 'contact.html', 'blog.html', 'privacy.html', 'terms.html', 'refund.html'];
   staticPages.forEach(p => {
     let locPath = p.replace('.html', '');
     if (locPath === 'index') locPath = '';

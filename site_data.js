@@ -14,7 +14,14 @@ const siteData = {
     "insideChapaiDeliveryFee": 0,
     "outsideChapaiDeliveryFee": 0,
     "logoImage": "images/logo/logo.webp",
-    "faviconImage": "images/logo/favicon.webp"
+    "faviconImage": "images/logo/favicon.webp",
+    "ga4Id": "G-XXXXXXXXXX",
+    "gtmId": "GTM-XXXXXXX"
+  },
+  "policies": {
+    "privacy": "<p>We take your privacy seriously. This policy describes what personal information we collect and how we use it. We do not sell your personal information to third parties.</p><p>We collect information such as your name, email address, and order details to provide our services and communicate with you regarding your purchases.</p><p>We implement industry-standard security measures to protect your personal data from unauthorized access or disclosure.</p>",
+    "terms": "<p>By using our website, you agree to be bound by these Terms of Service. All products are provided 'as is' without warranty of any kind, except for our first-login replacement guarantee.</p><p>You must not use our accounts for any illegal activities or in violation of the respective platform's terms of service.</p><p>We reserve the right to refuse service, terminate accounts, or cancel orders at our discretion.</p>",
+    "refund": "<p>We offer a 100% replacement guarantee if your account encounters a checkpoint or access issue on your first login. Please contact support within 24 hours of delivery.</p><p>Because digital products are delivered instantly and the credentials cannot be revoked, we do not offer standard refunds once an order is delivered.</p><p>Refunds to the original payment method are evaluated on a strict case-by-case basis only if we are unable to provide a working replacement.</p>"
   },
   "categories": [
     {
