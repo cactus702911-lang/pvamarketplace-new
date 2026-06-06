@@ -75,7 +75,7 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
     pageDesc += ' Trusted by professionals worldwide. Instant delivery and 100% replacement guarantee.';
   }
   if (pageDesc.length > 160) {
-    pageDesc = pageDesc.substring(0, 157) + '...';
+    pageDesc = pageDesc.substring(0, 160).replace(/\s+\S*$/, '');
   }
 
   // 2. Generate SEO Tags (Canonical, Robots, OG, Twitter, Keywords)
@@ -85,7 +85,7 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
   
   let seoHeadHTML = `
   <link rel="canonical" href="${canonicalUrl}" />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="${seoOptions.noindex ? 'noindex, nofollow' : 'index, follow'}" />
   <meta property="og:title" content="${pageTitle}" />
   <meta property="og:description" content="${pageDesc}" />
   <meta property="og:url" content="${canonicalUrl}" />
@@ -94,7 +94,15 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${pageTitle}" />
   <meta name="twitter:description" content="${pageDesc}" />
-  <meta name="twitter:image" content="${ogImage}" />`;
+  <meta name="twitter:image" content="${ogImage}" />
+  <meta property="og:site_name" content="PVA Marketplace" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="twitter:site" content="@pvamarketplace" />`;
+
+  if (seoOptions.productPrice) {
+    seoHeadHTML += `\n  <meta property="product:price:amount" content="${seoOptions.productPrice}" />`;
+    seoHeadHTML += `\n  <meta property="product:price:currency" content="${seoOptions.productCurrency || 'USD'}" />`;
+  }
 
   if (seoOptions.keywords) {
     seoHeadHTML += `\n  <meta name="keywords" content="${seoOptions.keywords}" />`;
@@ -111,7 +119,20 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
     "@type": "Organization",
     "name": "PVA Marketplace",
     "url": "https://pvamarketplace.com/",
-    "logo": `https://pvamarketplace.com/${siteData.settings.logoImage || 'images/logo/logo.webp'}`
+    "logo": `https://pvamarketplace.com/${siteData.settings.logoImage || 'images/logo/logo.webp'}`,
+    "description": "Premium verified accounts marketplace for digital professionals.",
+    "email": siteData.settings.contactEmail || "support@pvamarketplace.com",
+    "telephone": siteData.settings.contactPhone || "",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": siteData.settings.address || ""
+    },
+    "sameAs": [
+      siteData.settings.facebookUrl || "",
+      siteData.settings.instagramUrl || "",
+      siteData.settings.tiktokUrl || "",
+      siteData.settings.telegramUrl || ""
+    ].filter(u => u && u !== 'https://instagram.com')
   };
   schemas.push(orgSchema);
 
@@ -123,7 +144,7 @@ function compilePage(contentHTML, pageTitle, rawPageDesc, pathPrefix = '', activ
 
   let html = layoutTemplate
     .replace(/\{\{CONTENT\}\}/g, () => contentHTML)
-    .replace(/\{\{PATH_PREFIX\}\}index/g, () => homeURL)
+    .replace(/\{\{HOME_URL\}\}/g, () => homeURL)
     .replace(/\{\{PAGE_TITLE\}\}/g, () => pageTitle)
     .replace(/\{\{PAGE_DESCRIPTION\}\}/g, () => pageDesc)
     .replace(/\{\{SITE_NAME\}\}/g, () => siteData.settings.siteName)
@@ -426,7 +447,7 @@ const shopDir = path.join(__dirname, 'shop');
 if (!fs.existsSync(shopDir)) fs.mkdirSync(shopDir, { recursive: true });
 fs.writeFileSync(
   path.join(shopDir, 'index.html'),
-  compilePage(shopContent, 'Shop PVA Accounts', 'Explore our selection of premium verified accounts, including email, social, and payment gateway profiles.', '../', 'shop', '', { url: 'https://pvamarketplace.com/shop/' })
+  compilePage(shopContent, 'Shop PVA Accounts', 'Explore our selection of premium verified accounts, including email, social, and payment gateway profiles.', '../', 'shop', '', { url: 'https://pvamarketplace.com/shop/', schemas: [{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pvamarketplace.com/" }, { "@type": "ListItem", "position": 2, "name": "Shop", "item": "https://pvamarketplace.com/shop/" }] }, { "@context": "https://schema.org", "@type": "CollectionPage", "name": "Shop PVA Accounts", "url": "https://pvamarketplace.com/shop/", "description": "Explore our selection of premium verified accounts." }] })
 );
 
 // ----------------------------------------------------
@@ -556,16 +577,8 @@ siteData.products.forEach(prod => {
         "worstRating": "1"
       }
     }));
-  } else {
-    // Default aggregate rating if none
-    schemaObj.aggregateRating = {
-      "@type": "AggregateRating",
-      "ratingValue": 5,
-      "reviewCount": 1,
-      "bestRating": "5",
-      "worstRating": "1"
-    };
   }
+  // Note: No fake aggregateRating added when reviewsCount === 0 to comply with Google guidelines
   
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -636,7 +649,7 @@ siteData.products.forEach(prod => {
     .replace(/\{\{PRODUCT_HAS_FEATURES\}\}/g, () => prod.features && prod.features.length > 0 ? 'true' : 'false');
 
   const cleanMetaDesc = prod.seo_description || prod.description.replace(/[\r\n]+/g, ' ').replace(/"/g, '&quot;').substring(0, 150) + '...';
-  const finalTitle = prod.seo_title || `${prod.name} – Verified & Fast | ${siteData.settings.siteName || "PVA Marketplace"}`;
+  const finalTitle = prod.seo_title || `Buy ${prod.name} – Verified & Fast`;
 
   const prodDir = path.join(__dirname, 'product', prod.id);
   if (!fs.existsSync(prodDir)) fs.mkdirSync(prodDir, { recursive: true });
@@ -647,6 +660,8 @@ siteData.products.forEach(prod => {
       image: prod.image,
       keywords: prod.seo_tags || 'pva accounts, buy pva',
       type: 'product',
+      productPrice: prod.price,
+      productCurrency: 'USD',
       schemas: [schemaObj, breadcrumbSchema]
     })
   );
@@ -698,13 +713,13 @@ const aboutDir = path.join(__dirname, 'about');
 if (!fs.existsSync(aboutDir)) fs.mkdirSync(aboutDir, { recursive: true });
 fs.writeFileSync(
   path.join(aboutDir, 'index.html'),
-  compilePage(aboutTemplate, 'About Us', 'Learn about PVA Marketplace, our verification processes, security standards, and support channels.', '../', 'about', '', { url: 'https://pvamarketplace.com/about/' })
+  compilePage(aboutTemplate, 'About Us', 'Learn about PVA Marketplace, our verification processes, security standards, and support channels.', '../', 'about', '', { url: 'https://pvamarketplace.com/about/', schemas: [{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pvamarketplace.com/" }, { "@type": "ListItem", "position": 2, "name": "About Us", "item": "https://pvamarketplace.com/about/" }] }, { "@context": "https://schema.org", "@type": "AboutPage", "name": "About PVA Marketplace", "url": "https://pvamarketplace.com/about/" }] })
 );
 const contactDir = path.join(__dirname, 'contact');
 if (!fs.existsSync(contactDir)) fs.mkdirSync(contactDir, { recursive: true });
 fs.writeFileSync(
   path.join(contactDir, 'index.html'),
-  compilePage(contactTemplate, 'Contact Us', 'Get in touch with the PVA Marketplace sales and support team. Available on WhatsApp and Telegram.', '../', 'contact', '', { url: 'https://pvamarketplace.com/contact/' })
+  compilePage(contactTemplate, 'Contact Us', 'Get in touch with the PVA Marketplace sales and support team. Available on WhatsApp and Telegram.', '../', 'contact', '', { url: 'https://pvamarketplace.com/contact/', schemas: [{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pvamarketplace.com/" }, { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://pvamarketplace.com/contact/" }] }, { "@context": "https://schema.org", "@type": "ContactPage", "name": "Contact PVA Marketplace", "url": "https://pvamarketplace.com/contact/" }] })
 );
 fs.writeFileSync(
   path.join(__dirname, '404.html'),
@@ -726,7 +741,7 @@ fs.writeFileSync(
         document.head.insertBefore(base, document.head.firstChild);
       })();
     </script>`,
-    { url: 'https://pvamarketplace.com/404.html' }
+    { url: 'https://pvamarketplace.com/404.html', noindex: true }
   )
 );
 
@@ -746,7 +761,7 @@ const blogDir = path.join(__dirname, 'blog');
 if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir, { recursive: true });
 fs.writeFileSync(
   path.join(blogDir, 'index.html'),
-  compilePage(blogContent, 'Blog & News', 'Read the latest guides, tips, and tutorials about PVA accounts, proxy setups, and digital marketing.', '../', 'blog', '', { url: 'https://pvamarketplace.com/blog/' })
+  compilePage(blogContent, 'Blog & News', 'Read the latest guides, tips, and tutorials about PVA accounts, proxy setups, and digital marketing.', '../', 'blog', '', { url: 'https://pvamarketplace.com/blog/', schemas: [{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pvamarketplace.com/" }, { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pvamarketplace.com/blog/" }] }, { "@context": "https://schema.org", "@type": "Blog", "name": "PVA Marketplace Blog", "url": "https://pvamarketplace.com/blog/" }] })
 );
 
 (siteData.blogs || []).forEach(blog => {
@@ -804,6 +819,8 @@ fs.writeFileSync(
   } catch (e) {
     blogPostingSchema.datePublished = new Date().toISOString().split('T')[0];
   }
+  blogPostingSchema.dateModified = blogPostingSchema.datePublished;
+  blogPostingSchema.mainEntityOfPage = { "@type": "WebPage", "@id": `https://pvamarketplace.com/blog/${blog.id}/` };
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -838,6 +855,7 @@ fs.writeFileSync(
       url: `https://pvamarketplace.com/blog/${blog.id}/`, 
       image: blog.image,
       keywords: blog.seo_tags || 'pva accounts, blog, guide',
+      type: 'article',
       schemas: [blogPostingSchema, breadcrumbSchema]
     })
   );
@@ -888,37 +906,41 @@ const generateSitemaps = () => {
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n`;
   
   // Static pages
+  const buildDate = new Date().toISOString().split('T')[0];
   const staticPages = ['index.html', 'shop.html', 'about.html', 'contact.html', 'blog.html'];
   staticPages.forEach(p => {
     let locPath = p.replace('.html', '');
     if (locPath === 'index') locPath = '';
     else locPath = locPath + '/';
-    xml += `  <url>\n    <loc>https://pvamarketplace.com/${locPath}</loc>\n    <changefreq>daily</changefreq>\n    <priority>${p === 'index.html' ? '1.0' : '0.8'}</priority>\n  </url>\n`;
+    xml += `  <url>\n    <loc>https://pvamarketplace.com/${locPath}</loc>\n    <lastmod>${buildDate}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>${p === 'index.html' ? '1.0' : '0.8'}</priority>\n  </url>\n`;
   });
 
   // Category pages
   siteData.categories.forEach(cat => {
-    xml += `  <url>\n    <loc>https://pvamarketplace.com/category/${cat.id}/</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
+    xml += `  <url>\n    <loc>https://pvamarketplace.com/category/${cat.id}/</loc>\n    <lastmod>${buildDate}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
   });
 
   // Product pages with images
   siteData.products.forEach(prod => {
-    xml += `  <url>\n    <loc>https://pvamarketplace.com/product/${prod.id}/</loc>\n    <image:image>\n      <image:loc>https://pvamarketplace.com/${escapeXML(prod.image)}</image:loc>\n      <image:title>${escapeXML(prod.seo_title || prod.name)}</image:title>\n    </image:image>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
+    xml += `  <url>\n    <loc>https://pvamarketplace.com/product/${prod.id}/</loc>\n    <lastmod>${buildDate}</lastmod>\n    <image:image>\n      <image:loc>https://pvamarketplace.com/${escapeXML(prod.image)}</image:loc>\n      <image:title>${escapeXML(prod.seo_title || prod.name)}</image:title>\n    </image:image>\n    <changefreq>daily</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
   });
 
   // Blog pages
   (siteData.blogs || []).forEach(blog => {
-    xml += `  <url>\n    <loc>https://pvamarketplace.com/blog/${blog.id}/</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
+    xml += `  <url>\n    <loc>https://pvamarketplace.com/blog/${blog.id}/</loc>\n    <lastmod>${buildDate}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
   });
 
   xml += `</urlset>`;
   fs.writeFileSync(path.join(__dirname, 'sitemap.xml'), xml);
 
   // RSS Feed
-  let rss = `<?xml version="1.0" encoding="UTF-8" ?>\n<rss version="2.0">\n<channel>\n  <title>PVA Marketplace Blog</title>\n  <link>https://pvamarketplace.com/blog/</link>\n  <description>Latest guides and updates on PVA accounts and marketing.</description>\n`;
+  const rssBuildDate = new Date().toUTCString();
+  let rss = `<?xml version="1.0" encoding="UTF-8" ?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n<channel>\n  <title>PVA Marketplace Blog</title>\n  <link>https://pvamarketplace.com/blog/</link>\n  <description>Latest guides and updates on PVA accounts and marketing.</description>\n  <language>en-us</language>\n  <lastBuildDate>${rssBuildDate}</lastBuildDate>\n  <atom:link href="https://pvamarketplace.com/feed.xml" rel="self" type="application/rss+xml" />\n`;
   
   (siteData.blogs || []).forEach(blog => {
-    rss += `  <item>\n    <title>${escapeXML(blog.title)}</title>\n    <link>https://pvamarketplace.com/blog/${blog.id}/</link>\n    <description><![CDATA[${blog.excerpt || ''}]]></description>\n  </item>\n`;
+    let pubDate = rssBuildDate;
+    try { const d = new Date(blog.date); if (!isNaN(d.getTime())) pubDate = d.toUTCString(); } catch(e) {}
+    rss += `  <item>\n    <title>${escapeXML(blog.title)}</title>\n    <link>https://pvamarketplace.com/blog/${blog.id}/</link>\n    <guid isPermaLink="true">https://pvamarketplace.com/blog/${blog.id}/</guid>\n    <pubDate>${pubDate}</pubDate>\n    <description><![CDATA[${blog.excerpt || ''}]]></description>\n  </item>\n`;
   });
   
   rss += `</channel>\n</rss>`;
